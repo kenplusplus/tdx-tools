@@ -1,0 +1,4 @@
+*.log
+*.qcow2
+vmlinuz
+*.fd
