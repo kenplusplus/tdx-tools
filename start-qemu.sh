@@ -132,12 +132,6 @@ process_args() {
         error "Guest image file ${GUEST_IMG} not exist. Please specify via option \"-i\""
     fi
 
-    KERNEL="${KERNEL:-${DEFAULT_KERNEL}}"
-    if [[ ! -f ${CURR_DIR}/vmlinuz ]]; then
-        usage
-        error "Kernel image file ${KERNEL} not exist. Please specify via option \"-k\""
-    fi
-
     # Create Variable firmware device file from template
     if [[ ${OVMF_VARS} == "/usr/share/qemu/OVMF_VARS.fd" ]]; then
         OVMF_VARS="${CURR_DIR}/OVMF_VARS.fd"
@@ -156,28 +150,6 @@ process_args() {
             error "Invalid MAC address: ${MAC_ADDR}"
         fi
     fi
-
-    echo "========================================="
-    echo "Guest Image       : ${GUEST_IMG}"
-    echo "Kernel binary     : ${KERNEL}"
-    echo "OVMF_CODE         : ${OVMF_CODE}"
-    echo "OVMF_VARS         : ${OVMF_VARS}"
-    echo "VM Type           : ${VM_TYPE}"
-    echo "Boot type         : ${BOOT_TYPE}"
-    echo "Monitor port      : ${MONITOR_PORT}"
-    echo "Enable vsock      : ${USE_VSOCK}"
-    echo "Enable debug      : ${DEBUG}"
-    if [[ -n ${MAC_ADDR} ]]; then
-        echo "MAC Address       : ${MAC_ADDR}"
-    fi
-    if [[ ${USE_SERIAL_CONSOLE} == true ]]; then
-        QEMU_CMD+=" ${SERIAL_CONSOLE} "
-        echo "Console           : Serial"
-    else
-        QEMU_CMD+=" ${HVC_CONSOLE} "
-        echo "Console           : HVC"
-    fi
-    echo "========================================="
 
     QEMU_CMD+=" -drive file=$(readlink -f "${GUEST_IMG}"),if=virtio,format=qcow2 "
     QEMU_CMD+=" -monitor telnet:127.0.0.1:${MONITOR_PORT},server,nowait "
@@ -236,6 +208,12 @@ process_args() {
 
     case ${BOOT_TYPE} in
         "direct")
+            KERNEL="${KERNEL:-${DEFAULT_KERNEL}}"
+            if [[ ! -f ${KERNEL} ]]; then
+                usage
+                error "Kernel image file ${KERNEL} not exist. Please specify via option \"-k\""
+            fi
+
             QEMU_CMD+=" -kernel $(readlink -f "${KERNEL}") "
             if [[ ${VM_TYPE} == "td" ]]; then
                 # shellcheck disable=SC2089
@@ -255,6 +233,28 @@ process_args() {
             exit 1
             ;;
     esac
+
+    echo "========================================="
+    echo "Guest Image       : ${GUEST_IMG}"
+    echo "Kernel binary     : ${KERNEL}"
+    echo "OVMF_CODE         : ${OVMF_CODE}"
+    echo "OVMF_VARS         : ${OVMF_VARS}"
+    echo "VM Type           : ${VM_TYPE}"
+    echo "Boot type         : ${BOOT_TYPE}"
+    echo "Monitor port      : ${MONITOR_PORT}"
+    echo "Enable vsock      : ${USE_VSOCK}"
+    echo "Enable debug      : ${DEBUG}"
+    if [[ -n ${MAC_ADDR} ]]; then
+        echo "MAC Address       : ${MAC_ADDR}"
+    fi
+    if [[ ${USE_SERIAL_CONSOLE} == true ]]; then
+        QEMU_CMD+=" ${SERIAL_CONSOLE} "
+        echo "Console           : Serial"
+    else
+        QEMU_CMD+=" ${HVC_CONSOLE} "
+        echo "Console           : HVC"
+    fi
+    echo "========================================="
 }
 
 launch_vm() {
