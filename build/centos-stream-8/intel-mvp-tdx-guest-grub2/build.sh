@@ -3,9 +3,9 @@
 set -e
 
 UPSTREAM_GIT_URI="https://github.com/rhboot/grub2.git"
-UPSTREAM_BRANCH="rhel-8.5"
+UPSTREAM_BRANCH="rhel-8.4"
 DOWNSTREAM_GIT_URI="https://github.com/intel/grub-tdx.git"
-DOWNSTREAM_TAG="tdx-guest-rhel-8.5-2021.11.22"
+DOWNSTREAM_BRANCH="2.02-rhel-8.4"
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 RPMBUILD_DIR=$CURR_DIR/rpmbuild
@@ -24,10 +24,10 @@ generate() {
 
     echo "**** Generate tdx patchset and upstream tarball ****"
     rm -rf grub-2.02
-    git clone -b $DOWNSTREAM_TAG --single-branch $DOWNSTREAM_GIT_URI grub-2.02
+    git clone -b $DOWNSTREAM_BRANCH --single-branch $DOWNSTREAM_GIT_URI grub-2.02
     cd grub-2.02
     upstream_base=$(git ls-remote $UPSTREAM_GIT_URI refs/heads/$UPSTREAM_BRANCH | cut -f 1)
-    git format-patch "$upstream_base"..$DOWNSTREAM_TAG
+    git format-patch "$upstream_base"..$DOWNSTREAM_BRANCH
     git checkout "$upstream_base"
     cd ..
     mv grub-2.02/*.patch $PATCH_SET/
