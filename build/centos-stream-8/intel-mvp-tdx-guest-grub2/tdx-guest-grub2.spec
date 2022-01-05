@@ -1,4 +1,4 @@
-# # This spec file began as CentOS's grub spec file, then cut down and modified.
+# # This file began as a copy of CentOS's grub2.spec, then modified.
 
 %undefine _hardened_build
 

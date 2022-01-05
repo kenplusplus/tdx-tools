@@ -1,4 +1,4 @@
-# # This file began as CentOS's grub.macros, then cut down and modified.
+# # This file began as a copy of CentOS's grub.macros, then modified.
 
 # vim:filetype=spec
 # Modules always contain just 32-bit code
