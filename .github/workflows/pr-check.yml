@@ -9,3 +9,16 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
+
+  build-packages-for-centos-stream-8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Build grub
+        uses: ./build/centos-stream-8/pkg-builder
+        with:
+          package: intel-mvp-tdx-guest-grub2
+      - name: Build shim package
+        uses: ./build/centos-stream-8/pkg-builder
+        with:
+          package: intel-mvp-tdx-guest-shim
