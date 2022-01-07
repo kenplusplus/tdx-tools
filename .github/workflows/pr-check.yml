@@ -1,4 +1,4 @@
-name: PR Checking
+name: PR General Checking
 
 on: [pull_request]
 
