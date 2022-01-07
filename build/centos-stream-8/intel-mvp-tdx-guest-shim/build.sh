@@ -17,6 +17,7 @@ pushd "$CURR_DIR"
 mkdir -p $PATCH_SET
 mkdir -p "$RPMBUILD_DIR"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
 
+
 generate() {
     # To regenerate the sources please delete SOURCES/*.tar.gz
     if [[ -f $RPMBUILD_DIR/SOURCES/$REPO_DIR.tar.gz ]]; then
