@@ -18,3 +18,7 @@ jobs:
         uses: ./build/centos-stream-8/pkg-builder
         with:
           package: intel-mvp-tdx-guest-shim
+      - name: Build tdvf
+        uses: ./build/centos-stream-8/pkg-builder
+        with:
+          package: intel-mvp-tdx-tdvf
