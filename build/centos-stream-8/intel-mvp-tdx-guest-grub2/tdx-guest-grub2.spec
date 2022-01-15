@@ -67,12 +67,12 @@ BuildRequires:	ccache
 %endif
 
 ExcludeArch:	s390 s390x %{arm}
-Obsoletes:	%{generic_name} <= %{evr}
+Obsoletes:	%{generic_name}
 
 %if 0%{with_legacy_arch}
-Requires:	%{generic_name}-%{legacy_package_arch} = %{evr}
+Requires:	%{name}-%{legacy_package_arch} = %{evr}
 %else
-Requires:	%{generic_name}-%{package_arch} = %{evr}
+Requires:	%{name}-%{package_arch} = %{evr}
 %endif
 
 %if 0%{?centos}
@@ -94,8 +94,8 @@ Summary:	grub2 common layout
 Group:		System Environment/Base
 BuildArch:	noarch
 Conflicts:	grubby < 8.40-13
-Provides:	grub2-common
-Obsoletes:	grub2-common
+Provides:	%{generic_name}-common
+Obsoletes:	%{generic_name}-common
 
 %description common
 This package provides some directories which are required by various grub2
@@ -104,9 +104,9 @@ subpackages.
 %package tools
 Summary:	Support tools for GRUB.
 Group:		System Environment/Base
-Obsoletes:	%{generic_name}-tools < %{evr}
+Obsoletes:	%{generic_name}-tools
 Provides:	%{generic_name}-tools
-Requires:	%{generic_name}-common = %{epoch}:%{version}-%{release}
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
 Requires:	gettext os-prober which file
 Requires(pre):	dracut
 Requires(post):	dracut
@@ -120,8 +120,8 @@ This subpackage provides tools for support of all platforms.
 Summary:	Support tools for GRUB.
 Group:		System Environment/Base
 Requires:	gettext os-prober which file
-Requires:	%{generic_name}-common = %{epoch}:%{version}-%{release}
-Obsoletes:	%{generic_name}-tools < %{evr}
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Obsoletes:	%{generic_name}-efi
 
 %description tools-efi
 %{desc}
@@ -132,8 +132,9 @@ This subpackage provides tools for support of EFI platforms.
 Summary:	Support tools for GRUB.
 Group:		System Environment/Base
 Requires:	gettext
-Requires:	%{generic_name}-common = %{epoch}:%{version}-%{release}
-Obsoletes:	%{generic_name}-tools < %{evr}
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Obsoletes:	%{generic_name}-tools-minimal
+Provides:	%{generic_name}-tools-minimal
 
 %description tools-minimal
 %{desc}
@@ -143,9 +144,10 @@ This subpackage provides tools for support of all platforms.
 Summary:	Support tools for GRUB.
 Group:		System Environment/Base
 Requires:	gettext os-prober which file
-Requires:	%{generic_name}-tools-minimal = %{epoch}:%{version}-%{release}
-Requires:	%{generic_name}-common = %{epoch}:%{version}-%{release}
-Obsoletes:	%{generic_name}-tools < %{evr}
+Requires:	%{name}-tools-minimal = %{epoch}:%{version}-%{release}
+Requires:	%{name}-common = %{epoch}:%{version}-%{release}
+Obsoletes:	%{generic_name}-tools-extra
+Provides:	%{generic_name}-tools-extra
 
 %description tools-extra
 %{desc}
