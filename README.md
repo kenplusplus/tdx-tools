@@ -9,6 +9,13 @@ Domain(TD). A TD runs in a CPU mode that protects the confidentiality of its
 memory contents and its CPU state from any other software, including the hosting
 Virtual Machine Monitor (VMM). Please get more details from _[TDX White Papers and Specifications](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html)_
 
+This repository helps to:
+- Build individual component's package or install pre-build binaries on IaaS
+host or create PaaS guest image for quick evaluation
+- Generate the patchsets for deep dive in source code level
+- Test, hack and debug the TDX technology
+- Dump guest VM measurement and generate TD quote report for TDX E2E attestation
+- Measured boot and Secure boot for TDX guest VM
 
 ## Components
 
