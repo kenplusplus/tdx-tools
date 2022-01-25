@@ -1,4 +1,4 @@
-# Intel&reg; TDX(Trust Domain Extensions) MVP Stack
+# Linux Stack for Intel&reg; TDX (Trust Domain Extensions)
 
 ## Overview
 
