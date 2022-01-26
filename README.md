@@ -36,7 +36,7 @@ below diagram:
 
 ## 3. Getting Started
 
-### 3.1 Build
+### 3.1 Install TDX Linux Stack
 
 The component can be installed via pre-build distro package or built from
 scratch.
@@ -45,7 +45,7 @@ scratch.
 
 TBD
 
-#### 3.1.2 Build Packages
+#### 3.1.2 Build Packages from scratch
 
 TBD
 
@@ -54,12 +54,41 @@ TBD
 After build TDX components packages please refer to [Setup TDX Guest Image](/doc/create_guest_image.md) to install them into cloud image. It uses
 `CentOS Stream 8` as example distro.
 
-## 4. Test
+## 4. Launch TD VM Guest
+
+You can [start-qemu.sh](/start-qemu.sh) to create TD guest quickly as below.
+Please get detail grub/direct boot template for qemu-kvm and libvirt at [Launch TD Guest](/doc/launch_td_guest.md).
+
+- Launch a TDX guest via direct boot
+
+```
+./start-qemu.sh -i td-guest-rhel-8.5.qcow2 -k vmlinuz-rhel-8.5
+```
+
+- Launch a TDX guest via grub boot
+
+```
+./start-qemu.sh -i td-guest-rhel-8.5.qcow2 -k vmlinuz-rhel-8.5 -b grub
+```
+
+- Launch a debug version TDX guest with debug version OVMF
+
+```
+./start-qemu.sh -i td-guest-rhel-8.5.qcow2 -k vmlinuz-rhel-8.5 -d
+```
+
+- Launch a non-TDX guest
+
+```
+./start-qemu.sh -i td-guest-rhel-8.5.qcow2 -k vmlinuz-rhel-8.5 -t efi
+```
+
+## 5. Test
 
 After TDX guest image is created, please refer to [TDX Tests](/doc/run_tests.md) to run tests. It uses
 `CentOS Stream 8` as example distro.
 
-## 5. FAQ & BKM
+## 6. FAQ & BKM
 
 - [How to check memory encryption for TDX guest](/doc/check_memory_encryption.md)
 - [How to debug a TDX guest via Qemu GDB server](/doc/debug_td_guest.md)
