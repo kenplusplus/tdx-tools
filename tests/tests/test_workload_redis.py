@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 pytestmark = [
     pytest.mark.vm_name("bat-redis-td-centos8"),
     pytest.mark.vm_kernel("latest-guest-kernel"),
-    pytest.mark.vm_image("latest-guest-test-image"),
+    pytest.mark.vm_image("latest-guest-image"),
 ]
 
 
