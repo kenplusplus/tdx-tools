@@ -20,13 +20,6 @@ get_origin() {
         wget -O ${UPTRREAM_FILE} ${UPSTREAM_URI}
         mv ${UPTRREAM_FILE} "${RPMBUILD_DIR}"/SOURCES
     fi
-
-    if [[ ! -f qemu-kvm-2.12.0-88.module_el8.1.0+266+ba744077.2.src.rpm ]]; then
-        wget https://vault.centos.org/8.1.1911/AppStream/Source/SPackages/qemu-kvm-2.12.0-88.module_el8.1.0+266+ba744077.2.src.rpm
-    fi
-    pushd "${RPMBUILD_DIR}"/SOURCES
-    rpm2cpio "${CURR_DIR}"/qemu-kvm-2.12.0-88.module_el8.1.0+266+ba744077.2.src.rpm | cpio -idmv
-    popd
 }
 
 generate_patchset() {
@@ -50,7 +43,7 @@ prepare() {
 build() {
     echo "Build..."
     sudo -E dnf builddep -y "${SPEC_FILE}"
-    rpmbuild --define "_topdir ${RPMBUILD_DIR}" -v -ba "${SPEC_FILE}"
+    rpmbuild --define "_topdir ${RPMBUILD_DIR}" --undefine=_disable_source_fetch -v -ba "${SPEC_FILE}"
 }
 
 pushd "${CURR_DIR}"
