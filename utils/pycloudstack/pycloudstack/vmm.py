@@ -15,6 +15,8 @@ import re
 import logging
 import time
 import json
+import tempfile
+import shutil
 import libvirt
 import libvirt_qemu
 from .cmdrunner import NativeCmdRunner
@@ -156,10 +158,10 @@ class VMMLibvirt(VMMBase):
         xmlobj.cores = self.vminst.cpu_topology.cores
         xmlobj.threads = self.vminst.cpu_topology.threads
 
-        copy_dir = os.path.dirname(os.path.realpath(__file__))
-        copy_name = "OVMF_VARS." + xmlobj.uuid + ".fd"
-        ovmf_vars = os.path.join(copy_dir, copy_name)
-        os.system("cp " + BIOS_OVMF_VARS + " " + ovmf_vars)
+        var_filename = "OVMF_VARS." + xmlobj.uuid + ".fd"
+        var_fullpath = os.path.join(tempfile.gettempdir(), var_filename)
+        assert os.path.exists(BIOS_OVMF_VARS)
+        shutil.copy(BIOS_OVMF_VARS, var_fullpath)
 
         if self.vminst.hugepages:
             xmlobj.set_hugepage_params(self.vminst.hugepage_size)
@@ -172,7 +174,7 @@ class VMMLibvirt(VMMBase):
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype == VM_TYPE_EFI:
             xmlobj.loader = BIOS_OVMF_CODE
-            xmlobj.nvram = ovmf_vars
+            xmlobj.nvram = var_fullpath
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype == VM_TYPE_SGX:
             xmlobj.loader = BIOS_BINARY_LEGACY
@@ -181,7 +183,7 @@ class VMMLibvirt(VMMBase):
                 "+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc")
         elif self.vminst.vmtype == VM_TYPE_TD:
             xmlobj.loader = BIOS_OVMF_CODE
-            xmlobj.nvram = ovmf_vars
+            xmlobj.nvram = var_fullpath
             if DUT.get_cpu_base_freq() < 1000000:
                 xmlobj.set_cpu_params(
                     "host,-kvm-steal-time,pmu=off,tsc-freq=1000000000")
@@ -239,16 +241,22 @@ class VMMLibvirt(VMMBase):
         Table of Contents:https://libvirt.org/html/libvirt-libvirt-domain.html
         """
 
-        # Destroy the domain.
-        # If the domain has any nvram specified, the undefine process will fail
-        # unless VIR_DOMAIN_UNDEFINE_KEEP_NVRAM is specified,
-        # or if VIR_DOMAIN_UNDEFINE_NVRAM is specified to remove the nvram file.
         try:
             dom = self._get_domain()
-            dom.destroy()
-            dom.undefineFlags(libvirt.VIR_DOMAIN_UNDEFINE_NVRAM)
         except libvirt.libvirtError:
-            LOG.warning("Fail to delete domain %s", self._xml.name)
+            LOG.warning("Unable to find the domain %s", self.vminst.vmid)
+        else:
+            if dom is not None:
+                try:
+                    if dom.isActive():
+                        dom.destroy()
+                except libvirt.libvirtError:
+                    LOG.warning("Fail to delete the domain %s", self._xml.name)
+
+                try:
+                    dom.undefineFlags(libvirt.VIR_DOMAIN_UNDEFINE_NVRAM)
+                except libvirt.libvirtError:
+                    LOG.warning("Unable to undefine the domain %s", self._xml.name)
 
         # Delete XML file
         if os.path.exists(self._xml.filepath):
