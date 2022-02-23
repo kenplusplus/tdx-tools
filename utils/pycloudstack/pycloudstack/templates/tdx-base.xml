@@ -9,7 +9,7 @@
     <nvram template='/usr/share/qemu/OVMF_VARS.fd'>REPLACEME_OVMF_VARS</nvram>
     <boot dev='hd'/>
     <kernel>REPLACEME_KERNEL</kernel>
-    <cmdline>root=/dev/vda3 selinux=0 rw console=hvc0 tdx_disable_filter</cmdline>
+    <cmdline>root=/dev/vda3 selinux=0 rw console=hvc0</cmdline>
   </os>
   <features>
     <acpi/>

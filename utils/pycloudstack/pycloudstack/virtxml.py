@@ -526,7 +526,10 @@ class VirtXml:
             allow_multi_same_leaf=True)
         self._add_new_element(
             [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
-            {"value": "virtio-net-pci,netdev=mynet0,mac=00:16:3E:68:00:10,romfile="},
+            {"value":
+                {"driver": "virtio-net-pci", "netdev": "mynet0", "mac":
+                "00:16:3E:68:00:10", "romfile": ""}
+            },
             allow_multi_same_leaf=True)
         self._add_new_element(
             [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
