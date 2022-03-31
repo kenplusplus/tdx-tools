@@ -101,7 +101,7 @@ and [grub boot](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_gru
       </launchSecurity>
       <qemu:commandline>
         <qemu:arg value='-cpu'/>
-        <qemu:arg value='host,-kvm-steal-time,pmu=off'/>
+        <qemu:arg value='host,-shstk,-kvm-steal-time'/>
       </qemu:commandline>
     </domain>
     ```
