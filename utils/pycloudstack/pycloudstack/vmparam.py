@@ -169,3 +169,24 @@ class VMSpec:
         Generate numa model
         """
         return VMSpec(sockets=2, cores=4, threads=1, memsize=32*1024*1024)
+
+
+class SGXVMSpec(VMSpec):
+    """
+    SGX specific configurations
+    """
+
+    def __init__(self, sockets=1, cores=4, threads=1, memsize=None, epc=None):
+        """
+        The EPC configuration should be like:
+            -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+            -object memory-backend-epc,id=mem2,size=28M \
+            -M sgx-epc.0.memdev=mem1,sgx-epc.0.node=0, \
+               sgx-epc.1.memdev=mem2,sgx-epc.1.node=1
+        so define epc parameter as a list, like:
+            epc = [{'size': '64M', 'prealloc': True, 'node': 0},
+                   {'size': '28M', 'prealloc': False, 'node': 1}]
+        """
+        super().__init__(sockets, cores, threads, memsize)
+        assert epc is not None and len(epc) > 0
+        self.epc = epc

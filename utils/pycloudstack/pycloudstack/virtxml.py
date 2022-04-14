@@ -567,6 +567,40 @@ class VirtXml:
             allow_multi_same_leaf=True)
         self.save()
 
+    def set_epc_params(self, epc_param):
+        """
+        Set SGX EPC parameters, for example:
+            -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+            -object memory-backend-epc,id=mem2,size=28M \
+            -M sgx-epc.0.memdev=mem1,sgx-epc.0.node=0, \
+               sgx-epc.1.memdev=mem2,sgx-epc.1.node=1
+        """
+        sgx_epc = ""
+        num = 0
+        for section in epc_param:
+            num += 1
+            prealloc = ",prealloc=on" if section['prealloc'] else ""
+            self._add_new_element(
+                [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
+                {"value": "-object"},
+                allow_multi_same_leaf=True)
+            self._add_new_element(
+                [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
+                {"value": f"memory-backend-epc,id=mem{num},size={section['size']}"
+                f"{prealloc}"}, allow_multi_same_leaf=True)
+            sgx_epc += f"sgx-epc.{num - 1}.memdev=mem{num}"
+            sgx_epc += f",sgx-epc.{num - 1}.node={section['node']},"
+
+        self._add_new_element(
+                [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
+                {"value": "-M"},
+                allow_multi_same_leaf=True)
+        self._add_new_element(
+                [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
+                {"value": f"{sgx_epc[:-1]}"},
+                allow_multi_same_leaf=True)
+        self.save()
+
     def set_vsock(self, cid):
         """
         Enable and set cid for vsock

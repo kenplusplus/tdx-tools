@@ -175,6 +175,7 @@ class VMMLibvirt(VMMBase):
             xmlobj.set_cpu_params(
                 "host,host-phys-bits,+sgx,+sgx-debug,+sgx-exinfo,"
                 "+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc")
+            xmlobj.set_epc_params(self.vminst.vmspec.epc)
         elif self.vminst.vmtype == VM_TYPE_TD:
             xmlobj.loader = BIOS_OVMF_CODE
             xmlobj.nvram = var_fullpath
