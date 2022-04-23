@@ -257,7 +257,7 @@ class VMGuest:
         else:
             self.vmm.shutdown(mode)
 
-    def destroy(self, delete_image=False):
+    def destroy(self, delete_image=False, delete_log=False):
         """
         Destroy VM Guest
         """
@@ -265,6 +265,8 @@ class VMGuest:
         self.vmm.destroy()
         if delete_image:
             self.image.destroy()
+        if delete_log:
+            self.vmm.delete_log()
 
     def reboot(self):
         """
@@ -377,6 +379,7 @@ class VMGuestFactory:
         if not self._keep_issue_vm:
             inst.image.destroy()
             inst.destroy()
+            inst.delete_log()
             if inst.name in self.vms:
                 del self.vms[inst.name]
         else:
@@ -393,12 +396,12 @@ class VMGuestFactory:
         destroyed_vms = []
         if not self._keep_issue_vm:
             for item in self.vms.values():
-                item.destroy(True)
+                item.destroy(delete_image=True, delete_log=True)
             self.vms.clear()
         else:
             for item in self.vms.values():
                 if item.state() is VM_STATE_RUNNING and not item.keep:
-                    item.destroy(True)
+                    item.destroy(delete_image=True, delete_log=True)
                     destroyed_vms.append(item.name)
             for vm_name in destroyed_vms:
                 del self.vms[vm_name]
