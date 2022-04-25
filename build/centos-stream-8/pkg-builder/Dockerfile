@@ -1,4 +1,4 @@
-from quay.io/centos/centos:stream8
+FROM quay.io/centos/centos:stream8
 
 ARG buildreqs="bzip2 coreutils cpio diffutils \
                gcc gcc-c++ make patch python3 python3-pyyaml \
