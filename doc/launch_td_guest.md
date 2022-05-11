@@ -12,7 +12,7 @@ rm -rf usr/ lib/
 
 ### Launch via qemu-kvm
 
-Make use of the provided [start_qemu.sh](https://github.com/intel/tdx-tools/main/start-qemu.sh) script to start a TD
+Make use of the provided [start_qemu.sh](https://github.com/intel/tdx-tools/blob/main/start-qemu.sh) script to start a TD
 via QEMU.
 
 A simple usage of the script would be as follows:
