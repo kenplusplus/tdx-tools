@@ -2,15 +2,6 @@
 
 ### Create EFI Cloud Image
 
-The cloud image could be MBR based legacy image like [CentOS Cloud Image](https://cloud.centos.org/centos/8-stream/),
-or EFI GPT based cloud image like [Ubuntu Cloud Image](https://cloud-images.ubuntu.com/).
-For direct boot, any type of cloud image
-
-| Guest Image Type | Example | Description |
-| -- | -- | -- |
-| MBR based Legacy | [CentOS Cloud Image](https://cloud.centos.org/centos/8-stream/) | Support direct boot for TDX guest |
-| GPT based EFI | [Ubuntu Cloud Image](https://cloud-images.ubuntu.com/) | Support both direct and EFI grub boot for TDX guest |
-
 The default cloud image for CentOS Stream does not support EFI schema, so it needs
 to create customized EFI based CentOS image via [TDX Guest Image Tool](https://github.com/intel/tdx-tools/tree/main/build/centos-stream-8/guest-image).
 
@@ -44,7 +35,8 @@ cd tdx-tools/build/rhel-8/guest-image/
 
 _NOTE:_
 
-- For RHEL-8 image, please prepare RHEL 8.5 base ISO image and put it under the same directory as `create-efi-img.sh`.
+- For RHEL-8 image, please prepare RHEL 8.5 base ISO image and put it under the same directory as `create-efi-img.sh`. You can download RHEL 8.5 base ISO image from
+<https://access.redhat.com/downloads>
 Modify `create-efi-img.sh` and set the ISO variable to the image name as below.
 Then run `create-efi-img.sh` to create the RHEL 8.5 guest image.
 
