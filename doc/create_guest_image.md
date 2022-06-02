@@ -7,6 +7,8 @@ to create customized EFI based CentOS image via [TDX Guest Image Tool](https://g
 
 The tool provides scripts to generate guest image for both RHEL and CentOS Stream. In this section, it takes RHEL 8.5 as an example. If you want to generate CentOS Stream guest image, the steps are the same as following. The scripts for CentOS Stream is at https://github.com/intel/tdx-tools/tree/main/build/centos-stream-8/guest-image
 
+For Ubuntu 22.04 guest image, please refer to https://github.com/intel/tdx-tools/blob/main/build/ubuntu-22.04/README.md
+
 ### Prerequisite
 
 - Install required packages:
