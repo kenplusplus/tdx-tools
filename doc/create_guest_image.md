@@ -5,7 +5,7 @@
 The default cloud image for CentOS Stream does not support EFI schema, so it needs
 to create customized EFI based CentOS image via [TDX Guest Image Tool](https://github.com/intel/tdx-tools/tree/main/build/centos-stream-8/guest-image).
 
-The tool provides scripts to generate guest image for both RHEL and CentOS Stream. In this section, it takes RHEL 8.5 as an example. If you want to generate CentOS Stream guest image, the steps are the same as following. The scripts for CentOS Stream is at https://github.com/intel/tdx-tools/tree/main/build/centos-stream-8/guest-image
+The tool provides scripts to generate guest image for RHEL, CentOS Stream and Ubuntu. In this section, it takes RHEL 8.5 as an example. If you want to generate CentOS Stream guest image, the steps are the same as following. The scripts for CentOS Stream is at https://github.com/intel/tdx-tools/tree/main/build/centos-stream-8/guest-image
 
 For Ubuntu 22.04 guest image, please refer to https://github.com/intel/tdx-tools/blob/main/build/ubuntu-22.04/README.md
 
