@@ -13,8 +13,8 @@ from .cmdrunner import SSHCmdRunner, NativeCmdRunner
 from .dut import DUT
 from .vmimg import VMImage
 from .vmm import VMMLibvirt
-from .vmparam import VM_TYPE_TD, VM_TYPE_SGX, VM_STATE_RUNNING, BOOT_TYPE_DIRECT, BOOT_TYPE_GRUB, \
-    HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec
+from .vmparam import VM_TYPE_TD, VM_TYPE_SGX, BOOT_TYPE_DIRECT,\
+BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec
 
 __author__ = 'cpio'
 
@@ -377,34 +377,21 @@ class VMGuestFactory:
         Remove the VM instance from factory. If self._keep_issue_vm=True, keep unhealthy VM
         """
         if not self._keep_issue_vm:
-            inst.image.destroy()
-            inst.destroy()
-            inst.delete_log()
+            inst.destroy(delete_image=True, delete_log=True)
             if inst.name in self.vms:
                 del self.vms[inst.name]
         else:
-            if inst.state() is VM_STATE_RUNNING and not inst.keep:
-                inst.image.destroy()
-                inst.destroy()
+            if not inst.keep:
+                inst.destroy(delete_image=True, delete_log=True)
                 if inst.name in self.vms:
                     del self.vms[inst.name]
 
     def removeall(self):
         """
-        Remove all VM instance. If self._keep_issue_vm=True, keep unhealthy VM
+        Remove all VM instance.
         """
-        destroyed_vms = []
-        if not self._keep_issue_vm:
-            for item in self.vms.values():
-                item.destroy(delete_image=True, delete_log=True)
-            self.vms.clear()
-        else:
-            for item in self.vms.values():
-                if item.state() is VM_STATE_RUNNING and not item.keep:
-                    item.destroy(delete_image=True, delete_log=True)
-                    destroyed_vms.append(item.name)
-            for vm_name in destroyed_vms:
-                del self.vms[vm_name]
+        for inst in list(self.vms.values()):
+            self.remove(inst)
 
     def set_keep_issue_vm(self, keep_issue_vm):
         """
