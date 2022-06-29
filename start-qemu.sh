@@ -1,18 +1,12 @@
 #!/bin/bash
 #
 # Launch QEMU-KVM to create Guest VM in following types:
-# - Legacy VM: non-TDX VM boot with legacy(non-EFI) SEABIOS at /usr/share/qemu-kvm/bios.bin
+# - Legacy VM: non-TDX VM boot with legacy(non-EFI) SEABIOS at /usr/share/qemu-kvm/bios.bin (CentOS Stream) at /usr/share/qemu/bios-microvm.bin (Ubuntu)
 # - EFI VM: non-TDX VM boot with EFI BIOS OVMF(Open Virtual Machine Firmware)
 # - TD VM: TDX VM boot with OVMF via qemu-kvm launch parameter "kvm-type=tdx,confidential-guest-support=tdx"
 #
 # Prerequisite:
-# 1. On Intel 4th Gen Xeon Server (Sapphire Rapids) or later platform
-#   - Enable TDX in platform BIOS
-#   - Install and boot TDX host kernel
-#   - Install TDVF(Trust Domain Virtual Firmware) at /usr/share/qemu
-#   - Install Qemu with TDX support at /usr/libexec/qemu-kvm (It might be
-#     different path for Ubuntu and Debian)
-# 2. Create TDX guest image with
+# 1. Create TDX guest image with
 #   - TDX guest kernel
 #   - (optional)Modified Grub and Shim for TDX measurement to RTMR
 #
@@ -29,6 +23,18 @@
 
 CURR_DIR=$(readlink -f "$(dirname "$0")")
 
+# Set distro related parameters according to distro
+DISTRO=$(grep -w 'NAME' /etc/os-release)
+if [[ "$DISTRO" =~ .*"Ubuntu".* ]]; then
+    ROOT_PARTITION="/dev/vda1"
+    QEMU_EXEC="/usr/bin/qemu-system-x86_64"
+    LEGACY_BIOS="/usr/share/qemu/bios-microvm.bin"
+else
+    ROOT_PARTITION="/dev/vda3"
+    QEMU_EXEC="/usr/libexec/qemu-kvm"
+    LEGACY_BIOS="/usr/share/qemu-kvm/bios.bin"
+fi
+
 # VM configurations
 CPUS=1
 MEM=2G
@@ -36,8 +42,6 @@ MEM=2G
 # Installed from the package of intel-mvp-tdx-tdvf
 OVMF_CODE="/usr/share/qemu/OVMF_CODE.fd"
 OVMF_VARS="/usr/share/qemu/OVMF_VARS.fd"
-# Installed from the package of intel-mvp-tdx-qemu-kvm
-LEGACY_BIOS="/usr/share/qemu-kvm/bios.bin"
 GUEST_IMG=""
 DEFAULT_GUEST_IMG="${CURR_DIR}/td-guest.qcow2"
 KERNEL=""
@@ -49,8 +53,7 @@ USE_VSOCK=false
 USE_SERIAL_CONSOLE=false
 FORWARD_PORT=10026
 MONITOR_PORT=9001
-ROOT_PARTITION="/dev/vda3"
-KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} rw console=hvc0"
+KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} console=hvc0"
 KERNEL_CMD_TD="${KERNEL_CMD_NON_TD}"
 MAC_ADDR=""
 QUOTE_TYPE=""
@@ -59,7 +62,7 @@ QUOTE_TYPE=""
 HVC_CONSOLE="-chardev stdio,id=mux,mux=on,logfile=$CURR_DIR/vm_log_$(date +"%FT%H%M").log \
              -device virtio-serial,romfile= \
              -device virtconsole,chardev=mux -monitor chardev:mux \
-             -serial chardev:mux "
+             -serial chardev:mux -nographic"
 #
 # In grub boot, serial consle need input to select grub menu instead of HVC
 # Please make sure console=ttyS0 is added in grub.cfg since no virtconsole
@@ -67,7 +70,7 @@ HVC_CONSOLE="-chardev stdio,id=mux,mux=on,logfile=$CURR_DIR/vm_log_$(date +"%FT%
 SERIAL_CONSOLE="-serial stdio"
 
 # Default template for QEMU command line
-QEMU_CMD="/usr/libexec/qemu-kvm -accel kvm \
+QEMU_CMD="${QEMU_EXEC} -accel kvm \
           -name process=tdxvm,debug-threads=on \
           -m $MEM -vga none \
           -monitor pty \
@@ -135,8 +138,8 @@ process_args() {
         esac
     done
 
-    if [[ ! -f /usr/libexec/qemu-kvm ]]; then
-        error "Please install qemu-kvm which supports TDX."
+    if [[ ! -f ${QEMU_EXEC} ]]; then
+        error "Please install QEMU which supports TDX."
     fi
 
     # Validate the number of CPUs
