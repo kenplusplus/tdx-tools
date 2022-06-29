@@ -13,7 +13,7 @@
   </cpu>
   <os>
     <type arch='x86_64' machine='q35'>hvm</type>
-    <loader>/usr/share/qemu-kvm/bios.bin</loader>
+    <loader>REPLACEME_LOADER</loader>
     <boot dev='hd'/>
   </os>
   <features>
@@ -35,7 +35,7 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/libexec/qemu-kvm</emulator>
+    <emulator>REPLACEME_QEMU</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
       <source file='REPLACEME_IMAGE' />

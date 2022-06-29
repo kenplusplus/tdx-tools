@@ -24,7 +24,7 @@ from .dut import DUT
 from .virtxml import VirtXml
 from .vmparam import VM_TYPE_LEGACY, VM_TYPE_EFI, VM_TYPE_TD, VM_TYPE_SGX, \
     VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, VM_STATE_SHUTDOWN_IN_PROGRESS, \
-    BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY, BIOS_OVMF_CODE, BIOS_OVMF_VARS
+    BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY, QEMU_EXEC, BIOS_OVMF_CODE, BIOS_OVMF_VARS
 
 __author__ = 'cpio'
 
@@ -152,6 +152,7 @@ class VMMLibvirt(VMMBase):
         xmlobj.sockets = self.vminst.vmspec.sockets
         xmlobj.cores = self.vminst.vmspec.cores
         xmlobj.threads = self.vminst.vmspec.threads
+        xmlobj.qemu_exec = QEMU_EXEC
 
         var_filename = "OVMF_VARS." + xmlobj.uuid + ".fd"
         var_fullpath = os.path.join(tempfile.gettempdir(), var_filename)
