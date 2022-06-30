@@ -23,8 +23,10 @@ from .cmdrunner import NativeCmdRunner
 from .dut import DUT
 from .virtxml import VirtXml
 from .vmparam import VM_TYPE_LEGACY, VM_TYPE_EFI, VM_TYPE_TD, VM_TYPE_SGX, \
-    VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, VM_STATE_SHUTDOWN_IN_PROGRESS, \
-    BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY, QEMU_EXEC, BIOS_OVMF_CODE, BIOS_OVMF_VARS
+    VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
+    VM_STATE_SHUTDOWN_IN_PROGRESS, BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY_CENTOS, \
+    BIOS_BINARY_LEGACY_UBUNTU, QEMU_EXEC_CENTOS, QEMU_EXEC_UBUNTU, \
+    BIOS_OVMF_CODE, BIOS_OVMF_VARS
 
 __author__ = 'cpio'
 
@@ -152,7 +154,14 @@ class VMMLibvirt(VMMBase):
         xmlobj.sockets = self.vminst.vmspec.sockets
         xmlobj.cores = self.vminst.vmspec.cores
         xmlobj.threads = self.vminst.vmspec.threads
-        xmlobj.qemu_exec = QEMU_EXEC
+
+        distro = DUT.get_distro()
+        if "ubuntu" in distro:
+            bios_legacy = BIOS_BINARY_LEGACY_UBUNTU
+            xmlobj.qemu_exec = QEMU_EXEC_UBUNTU
+        else:
+            bios_legacy = BIOS_BINARY_LEGACY_CENTOS
+            xmlobj.qemu_exec = QEMU_EXEC_CENTOS
 
         var_filename = "OVMF_VARS." + xmlobj.uuid + ".fd"
         var_fullpath = os.path.join(tempfile.gettempdir(), var_filename)
@@ -166,14 +175,14 @@ class VMMLibvirt(VMMBase):
             xmlobj.set_vsock(self.vminst.vsock_cid)
 
         if self.vminst.vmtype == VM_TYPE_LEGACY:
-            xmlobj.loader = BIOS_BINARY_LEGACY
+            xmlobj.loader = bios_legacy
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype == VM_TYPE_EFI:
             xmlobj.loader = BIOS_OVMF_CODE
             xmlobj.nvram = var_fullpath
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype == VM_TYPE_SGX:
-            xmlobj.loader = BIOS_BINARY_LEGACY
+            xmlobj.loader = bios_legacy
             xmlobj.set_cpu_params(
                 "host,host-phys-bits,+sgx,+sgx-debug,+sgx-exinfo,"
                 "+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc")

@@ -10,22 +10,16 @@ BOOT_TYPE_DIRECT = "direct"
 BOOT_TYPE_GRUB = "grub"
 
 #
-# Set distro related parameters according to host distro
-# The rootfs is at partition /dev/vda3 in guest image for RHEL and CentOS Stream
-# The rootfs is at partition /dev/vda1 in guest image for Ubuntu
-# Also, hvc0 is the default console for TD VM, ttyS0 will be filtered
+# hvc0 is the default console for TD VM, ttyS0 will be filtered
 # due to security concern.
-#
-with open("/etc/os-release", 'r', encoding="utf8") as f:
-    distro = f.read().lower().split()[0]
-if "ubuntu" not in distro:
-    BIOS_BINARY_LEGACY = "/usr/share/qemu-kvm/bios.bin"
-    QEMU_EXEC = "/usr/libexec/qemu-kvm"
-else:
-    BIOS_BINARY_LEGACY = "/usr/share/seabios/bios.bin"
-    QEMU_EXEC = "/usr/bin/qemu-system-x86_64"
 
-DEFAULT_CMDLINE = "root=/dev/vda3 rw selinux=0 console=hvc0 earlyprintk console=tty0"
+DEFAULT_CMDLINE = "rw selinux=0 console=hvc0 earlyprintk console=tty0"
+
+QEMU_EXEC_CENTOS = "/usr/libexec/qemu-kvm"
+QEMU_EXEC_UBUNTU = "/usr/bin/qemu-system-x86_64"
+
+BIOS_BINARY_LEGACY_CENTOS = "/usr/share/qemu-kvm/bios.bin"
+BIOS_BINARY_LEGACY_UBUNTU = "/usr/share/seabios/bios.bin"
 
 # Installed from the package of intel-mvp-qemu-kvm
 BIOS_OVMF_CODE = "/usr/share/qemu/OVMF_CODE.fd"
