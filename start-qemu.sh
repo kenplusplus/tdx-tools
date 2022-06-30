@@ -1,12 +1,13 @@
 #!/bin/bash
 #
 # Launch QEMU-KVM to create Guest VM in following types:
-# - Legacy VM: non-TDX VM boot with legacy(non-EFI) SEABIOS at /usr/share/qemu-kvm/bios.bin (CentOS Stream) at /usr/share/qemu/bios-microvm.bin (Ubuntu)
+# - Legacy VM: non-TDX VM boot with legacy(non-EFI) SEABIOS
 # - EFI VM: non-TDX VM boot with EFI BIOS OVMF(Open Virtual Machine Firmware)
 # - TD VM: TDX VM boot with OVMF via qemu-kvm launch parameter "kvm-type=tdx,confidential-guest-support=tdx"
 #
 # Prerequisite:
-# 1. Create TDX guest image with
+# 1. Build and Install TDX stack. Please refer to README.md in build/<your_distro>
+# 2. Create TDX guest image with
 #   - TDX guest kernel
 #   - (optional)Modified Grub and Shim for TDX measurement to RTMR
 #
@@ -26,11 +27,9 @@ CURR_DIR=$(readlink -f "$(dirname "$0")")
 # Set distro related parameters according to distro
 DISTRO=$(grep -w 'NAME' /etc/os-release)
 if [[ "$DISTRO" =~ .*"Ubuntu".* ]]; then
-    ROOT_PARTITION="/dev/vda1"
     QEMU_EXEC="/usr/bin/qemu-system-x86_64"
-    LEGACY_BIOS="/usr/share/qemu/bios-microvm.bin"
+    LEGACY_BIOS="/usr/share/seabios/bios.bin"
 else
-    ROOT_PARTITION="/dev/vda3"
     QEMU_EXEC="/usr/libexec/qemu-kvm"
     LEGACY_BIOS="/usr/share/qemu-kvm/bios.bin"
 fi
@@ -53,7 +52,8 @@ USE_VSOCK=false
 USE_SERIAL_CONSOLE=false
 FORWARD_PORT=10026
 MONITOR_PORT=9001
-KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} console=hvc0"
+ROOT_PARTITION="/dev/vda3"
+KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} rw console=hvc0"
 KERNEL_CMD_TD="${KERNEL_CMD_NON_TD}"
 MAC_ADDR=""
 QUOTE_TYPE=""
@@ -180,7 +180,7 @@ process_args() {
 
     # Change kernel cmdline if ROOT_PARTITION is not the default /dev/vda3
     if [[ ${ROOT_PARTITION} != "/dev/vda3" ]]; then
-	KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} rw console=hvc0"
+        KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} rw console=hvc0"
         KERNEL_CMD_TD="${KERNEL_CMD_NON_TD}"
     fi
 
