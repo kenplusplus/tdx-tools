@@ -4,6 +4,7 @@ Manage the DUT(Device Under Test)
 import logging
 import socket
 from contextlib import closing
+import os
 import cpuinfo
 
 __author__ = 'cpio'
@@ -87,3 +88,18 @@ class DUT:
             assert value is not None
             return int(value.strip())
         return None
+
+    @staticmethod
+    def get_distro():
+        """
+        Get host distro information
+        """
+        if os.path.exists("/etc/os-release"):
+            with open("/etc/os-release", "r", encoding="utf8") as fobj:
+                distro = fobj.read().lower().split()[0]
+        else:
+            LOG.error("/etc/os-release doesn't exist. Fall back to /usr/lib/os-release")
+            with open("/usr/lib/os-release", "r", encoding="utf8") as fobj:
+                distro = fobj.read().lower().split()[0]
+        assert distro is not None
+        return distro

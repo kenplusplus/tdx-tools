@@ -58,6 +58,7 @@ class VirtXml:
         self._sockets = None
         self._cores = None
         self._threads = None
+        self._qemu_exec = None
 
     @property
     def name(self):
@@ -292,6 +293,21 @@ class VirtXml:
         _, log_dom = self._find_single_element(["devices", "console", "log"])
         log_dom.set("file", new_file)
         self._logfile = new_file
+        self.save()
+
+    @property
+    def qemu_exec(self):
+        """
+        <domain>/<devices>/<emulator> - emulator field in xml
+        """
+        return self._qemu_exec
+
+    @qemu_exec.setter
+    def qemu_exec(self, qemu_exec):
+        if self._qemu_exec == qemu_exec:
+            return
+        if self._set_single_element_value(["devices", "emulator"], qemu_exec):
+            self._qemu_exec = qemu_exec
         self.save()
 
     @property

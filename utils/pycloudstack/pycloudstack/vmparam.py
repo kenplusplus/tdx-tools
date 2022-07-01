@@ -10,16 +10,20 @@ BOOT_TYPE_DIRECT = "direct"
 BOOT_TYPE_GRUB = "grub"
 
 #
-# Please make sure the rootfs at partition /dev/vda3 in guest image
-# Also, hvc0 is the default console for TD VM, ttyS0 will be filtered
+# hvc0 is the default console for TD VM, ttyS0 will be filtered
 # due to security concern.
-#
-DEFAULT_CMDLINE = "root=/dev/vda3 rw selinux=0 console=hvc0 earlyprintk console=tty0"
+
+DEFAULT_CMDLINE = "rw selinux=0 console=hvc0 earlyprintk console=tty0"
+
+QEMU_EXEC_CENTOS = "/usr/libexec/qemu-kvm"
+QEMU_EXEC_UBUNTU = "/usr/bin/qemu-system-x86_64"
+
+BIOS_BINARY_LEGACY_CENTOS = "/usr/share/qemu-kvm/bios.bin"
+BIOS_BINARY_LEGACY_UBUNTU = "/usr/share/seabios/bios.bin"
 
 # Installed from the package of intel-mvp-qemu-kvm
 BIOS_OVMF_CODE = "/usr/share/qemu/OVMF_CODE.fd"
 BIOS_OVMF_VARS = "/usr/share/qemu/OVMF_VARS.fd"
-BIOS_BINARY_LEGACY = "/usr/share/qemu-kvm/bios.bin"
 
 VM_STATE_RUNNING = "running"
 VM_STATE_PAUSE = "paused"

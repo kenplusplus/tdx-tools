@@ -43,7 +43,7 @@ class VMGuest:
 
     """
 
-    def __init__(self, image, name, vmid,
+    def __init__(self, image, guest_distro, name, vmid,
                  vmtype=VM_TYPE_TD, vmspec=VMSpec.model_base(),
                  boot=BOOT_TYPE_DIRECT, kernel=None,
                  cmdline=KernelCmdline(),
@@ -54,6 +54,7 @@ class VMGuest:
         self.vmid = vmid
         self.name = name
         self.image = image
+        self.guest_distro = guest_distro
         self.vmspec = vmspec
         self.vmtype = vmtype
         self.boot = boot
@@ -64,6 +65,12 @@ class VMGuest:
         self.vsock = vsock
         self.vsock_cid = vsock_cid
         self.keep = False
+
+        # Update rootfs in kernel command line depending on distro
+        if guest_distro == "ubuntu":
+            self.cmdline.add_field_from_string("root=/dev/vda1")
+        else:
+            self.cmdline.add_field_from_string("root=/dev/vda3")
 
         self.ssh_forward_port = DUT.find_free_port()
         LOG.info("VM SSH forward: %d", self.ssh_forward_port)
@@ -359,9 +366,16 @@ class VMGuestFactory:
         if vmtype == VM_TYPE_SGX:
             boot = BOOT_TYPE_GRUB
 
-        inst = VMGuest(self._mother_image.clone(vm_name + ".qcow2"), name=vm_name, vmid=vm_id,
-                       kernel=self._vm_kernel, vmtype=vmtype, boot=boot, vmspec=vmspec,
-                       cmdline=cmdline, vmm_class=vm_class,
+        # Get guest image distro
+        if "ubuntu" in self._mother_image.filepath:
+            guest_distro = "ubuntu"
+        else:
+            guest_distro = "centos"
+
+        inst = VMGuest(self._mother_image.clone(vm_name + ".qcow2"),
+                       guest_distro=guest_distro, name=vm_name, vmid=vm_id,
+                       kernel=self._vm_kernel, vmtype=vmtype, boot=boot,
+                       vmspec=vmspec, cmdline=cmdline, vmm_class=vm_class,
                        hugepages=hugepages, hugepage_size=hugepage_size,
                        vsock=vsock, vsock_cid=vsock_cid)
         self.vms[vm_name] = inst

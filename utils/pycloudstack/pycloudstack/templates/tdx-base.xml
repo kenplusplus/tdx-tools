@@ -35,7 +35,7 @@
     <iothread id='1'/>
   </iothreadids>
   <devices>
-    <emulator>/usr/libexec/qemu-kvm</emulator>
+    <emulator>REPLACEME_QEMU</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2' io='native' cache='none' iothread='1'/>
       <source file='REPLACEME_IMAGE'/>
