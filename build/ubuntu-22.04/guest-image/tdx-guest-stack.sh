@@ -18,7 +18,7 @@ if ! readlink -f ${REPO_LOCAL} ; then
 fi
 
 if ! command -v "virt-customize" ; then
-    echo "virt-customize not found, please install libguestfs-tools-c"
+    echo "virt-customize not found, please install libguestfs-tools"
     exit 1
 fi
 
