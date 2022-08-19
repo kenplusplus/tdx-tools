@@ -23,6 +23,7 @@ build_shim () {
 
 build_grub () {
     cd intel-mvp-tdx-guest-grub2
+    sudo apt remove libzfslinux-dev -y || true
     ./build.sh
     cp grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb ../$GUEST_REPO/
     cd ..
