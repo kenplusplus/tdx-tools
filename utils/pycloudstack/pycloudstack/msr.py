@@ -32,8 +32,11 @@ class MSR:
 
     For more information about the MSR, please read https://man7.org/linux/man-pages/man4/msr.4.html
     """
-
+    SGX_MCU_ERRORCODE = 0xa0
+    SGX_DEBUG = 0x503
     IA32_FEATURE_CONTROL = 0x3a
+    IA32_MKTME_PARTITIONING = 0x87
+    IA32_TME_CAPABILITY = 0x981
     IA32_TME_ACTIVATE = 0x982
 
     def __init__(self):

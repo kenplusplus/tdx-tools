@@ -89,20 +89,56 @@ def test_tdx_supported_in_cpuinfo():
     assert dut.DUT.support_tdx()
 
 
-def test_check_mktme_keys():
+def test_check_mktme_keyid_bits():
     """
-    check Keys number of MK-TME
+    check Keys bits of MK-TME
     https://software.intel.com/sites/default/files/managed/a5/16/Multi-Key-Total-Memory-Encryption-Spec.pdf
-
-    Test Steps
-    ----------
-    1. Read the bits MK_TME_KEYID_BITS ( 35:32 ) of the value of MSR 0x982
-    2. calculte the value of 2 ^ MK_TME_KEYID_BITS -2
-    3. If the result greater than 0, TDX key is ready
     """
     msrobj = msr.MSR()
-    mktme_val = msrobj.readmsr(msr.MSR.IA32_TME_ACTIVATE, 35, 32)
-    assert (pow(2, int(mktme_val)) - 2) > 0
+    mktme_keyid_bits = msrobj.readmsr(msr.MSR.IA32_TME_ACTIVATE, 35, 32)
+    mktme_max_keys = msrobj.readmsr(msr.MSR.IA32_TME_CAPABILITY, 50, 36)
+    LOG.info("MK-TME max keys=%d, MK-TME key bits=%d",
+        mktme_max_keys, mktme_keyid_bits)
+    assert (2 ^ mktme_keyid_bits) < mktme_max_keys
+
+def test_check_tdx_keyid_bits():
+    """
+    check Keys bits of TDX
+    """
+    msrobj = msr.MSR()
+    tdx_keyid_bits = msrobj.readmsr(msr.MSR.IA32_TME_ACTIVATE, 39, 36)
+    mktme_max_keys = msrobj.readmsr(msr.MSR.IA32_TME_CAPABILITY, 50, 36)
+    LOG.info("MK-TME max keys=%d, TDX key bits=%d",
+        mktme_max_keys, tdx_keyid_bits)
+    assert (2 ^ tdx_keyid_bits) < mktme_max_keys
+
+def test_check_tdx_key_numbers():
+    """
+    check Keys bits of TDX
+    """
+    msrobj = msr.MSR()
+    tdx_key_num = msrobj.readmsr(msr.MSR.IA32_MKTME_PARTITIONING, 63, 32)
+    LOG.info("TDX key number=%d", tdx_key_num)
+    assert tdx_key_num > 0
+
+
+def test_check_sgx_mcheck_error():
+    """
+    check whether SGX mcheck error is 0
+    """
+    msrobj = msr.MSR()
+    sgx_mcheck_error = msrobj.readmsr(msr.MSR.SGX_MCU_ERRORCODE)
+    LOG.info("SGX MCHECK error=%d", sgx_mcheck_error)
+    assert sgx_mcheck_error == 0
+
+def test_check_sgx_debug_status():
+    """
+    check whether SGX debug is enabled, it should be disabled for attestation
+    validation.
+    """
+    msrobj = msr.MSR()
+    sgx_debug_status = msrobj.readmsr(msr.MSR.SGX_DEBUG)
+    LOG.info("SGX Debug =%d", sgx_debug_status)
 
 
 def test_check_sgx_dev_node_exist():
