@@ -24,7 +24,7 @@ def load_requirements():
 
 setup(
     name='pytdxmeasure',
-    version='0.0.3',
+    version='0.0.5',
     packages=['pytdxmeasure'],
     package_data={
         '': ['tdx_eventlogs', 'tdx_tdreport', 'tdx_verify_rtmr']
@@ -34,5 +34,6 @@ setup(
     license='Apache License 2.0',
     scripts=['tdx_eventlogs', 'tdx_tdreport', 'tdx_verify_rtmr'],
     long_description=load_readme(),
+    long_description_content_type='text/markdown',
     install_requires=load_requirements()
 )

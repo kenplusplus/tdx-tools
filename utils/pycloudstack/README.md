@@ -6,6 +6,8 @@
 PyCloudStack provides common operator, logging, metrics class for hypervisor and
 Kubernetes stacks. It is used to support microops, automation testing and release.
 
+![](https://github.com/intel/tdx-tools/blob/main/doc/pycloudstack.png)
+
 ## 2. Getting Start
 
 ```

@@ -7,7 +7,7 @@ authors = [
 ]
 description = "Python package to manage hypervisor/docker/kubernetes stacks"
 readme = "README.md"
-license = { file="LICENSE" }
+license = { text="Apache Software License" }
 requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
