@@ -280,6 +280,38 @@ class VirtXml:
         self.save()
 
     @property
+    def iomode(self):
+        """
+        <domain>/<devices>/<disk>/<driver>/<io> - io field in xml
+        """
+        return self._io
+
+    @iomode.setter
+    def iomode(self, iomode):
+        if self._io == iomode:
+            return
+        _, driver_dom = self._find_single_element(["devices", "disk", "driver"])
+        driver_dom.set("io", iomode)
+        self._io = iomode
+        self.save()
+
+    @property
+    def cache(self):
+        """
+        <domain>/<devices>/<disk>/<driver>/<cache> - cache field in xml
+        """
+        return self._cache
+
+    @cache.setter
+    def cache(self, cache):
+        if self._cache == cache:
+            return
+        _, driver_dom = self._find_single_element(["devices", "disk", "driver"])
+        driver_dom.set("cache", cache)
+        self._cache = cache
+        self.save()
+
+    @property
     def logfile(self):
         """
         <domain>/<devices>/<console>/<log> - log file field in xml
@@ -352,6 +384,9 @@ class VirtXml:
         self._vcpu = self._get_single_element_value(["vcpu", ])
         self._memory = self._get_single_element_value(["memory", ])
         self._loader = self._get_single_element_value(["os", "loader"])
+        _, driver = self._find_single_element(["devices", "disk", "driver"])
+        self._io = driver.get("io")
+        self._cache = driver.get("cache")
         _, image = self._find_single_element(["devices", "disk", "source"])
         self._imagefile = image.get("file")
 
