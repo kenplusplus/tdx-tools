@@ -1,0 +1,85 @@
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <name>REPLACEME_NAME</name>
+  <uuid>REPLACEME_UUID</uuid>
+  <memory unit='KiB'>REPLACEME_MEMORY</memory>
+  <vcpu placement='static' cpuset='35-46'>1</vcpu>
+  <cputune>
+    <vcpupin vcpu='0' cpuset='39'/>
+    <vcpupin vcpu='1' cpuset='40'/>
+    <vcpupin vcpu='2' cpuset='41'/>
+    <vcpupin vcpu='3' cpuset='42'/>
+    <vcpupin vcpu='4' cpuset='43'/>
+    <vcpupin vcpu='5' cpuset='44'/>
+    <vcpupin vcpu='6' cpuset='45'/>
+    <vcpupin vcpu='7' cpuset='46'/>
+    <iothreadpin iothread='1' cpuset='37'/>
+    <iothreadpin iothread='2' cpuset='38'/>
+  </cputune>
+  <numatune>
+    <memory mode='strict' nodeset='0'/>
+  </numatune>
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <loader type='generic'>REPLACEME_OVMF_CODE</loader>
+    <nvram template='/usr/share/qemu/OVMF_VARS.fd'>REPLACEME_OVMF_VARS</nvram>
+    <boot dev='hd'/>
+    <kernel>REPLACEME_KERNEL</kernel>
+    <cmdline>root=/dev/vda3 selinux=0 rw console=hvc0</cmdline>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <ioapic driver='qemu'/>
+    <pic state='off' />
+  </features>
+  <clock offset='utc'>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <pm>
+    <suspend-to-mem enable='no'/>
+    <suspend-to-disk enable='no'/>
+  </pm>
+  <cpu mode='host-passthrough'>
+    <topology sockets='1' cores='1' threads='1'/>
+  </cpu>
+  <iothreads>2</iothreads>
+  <iothreadids>
+    <iothread id='1'/>
+    <iothread id='2'/>
+  </iothreadids>
+  <devices>
+    <emulator>REPLACEME_QEMU</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' io='REPLACEME_IO' cache='REPLACEME_CACHE' iothread='1'/>
+      <source file='REPLACEME_IMAGE'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+    <console type='pty'>
+      <log file='REPLACEME_LOG'/>
+      <target type='virtio' port='0'/>
+    </console>
+    <interface type='bridge'>
+      <source bridge='virbr0'/>
+      <model type='virtio'/>
+    </interface>
+    <interface type="user">
+      <model type="virtio"/>
+    </interface>
+    <channel type='unix'>
+      <source mode='bind'/>
+      <target type='virtio' name='org.qemu.guest_agent.0'/>
+    </channel>
+    <memballoon model='none'/>
+  </devices>
+  <allowReboot value='no'/>
+  <launchSecurity type='tdx'>
+    <policy>0x1</policy>
+  </launchSecurity>
+  <qemu:commandline>
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='host'/>
+  </qemu:commandline>
+</domain>

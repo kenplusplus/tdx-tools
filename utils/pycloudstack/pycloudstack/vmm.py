@@ -26,7 +26,7 @@ from .vmparam import VM_TYPE_LEGACY, VM_TYPE_EFI, VM_TYPE_TD, VM_TYPE_SGX, \
     VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
     VM_STATE_SHUTDOWN_IN_PROGRESS, BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY_CENTOS, \
     BIOS_BINARY_LEGACY_UBUNTU, QEMU_EXEC_CENTOS, QEMU_EXEC_UBUNTU, \
-    BIOS_OVMF_CODE, BIOS_OVMF_VARS
+    BIOS_OVMF_CODE, BIOS_OVMF_VARS, VM_TYPE_TD_PERF, VM_TYPE_EFI_PERF, VM_TYPE_LEGACY_PERF
 
 __author__ = 'cpio'
 
@@ -131,7 +131,10 @@ class VMMLibvirt(VMMBase):
         VM_TYPE_LEGACY: "legacy-base",
         VM_TYPE_EFI: "ovmf-base",
         VM_TYPE_TD: "tdx-base",
-        VM_TYPE_SGX: "sgx-base"
+        VM_TYPE_SGX: "sgx-base",
+        VM_TYPE_TD_PERF: "tdx-base-perf",
+        VM_TYPE_EFI_PERF: "ovmf-base-perf",
+        VM_TYPE_LEGACY_PERF: "legacy-base-perf"
     }
 
     def __init__(self, vminst):
@@ -150,6 +153,8 @@ class VMMLibvirt(VMMBase):
         xmlobj.memory = self.vminst.vmspec.memsize
         xmlobj.uuid = self.vminst.vmid
         xmlobj.imagefile = self.vminst.image.filepath
+        xmlobj.iomode = self.vminst.io_mode
+        xmlobj.cache = self.vminst.cache
         xmlobj.logfile = "/tmp/" + self.vminst.name + ".log"
         xmlobj.vcpu = self.vminst.vmspec.vcpus
         xmlobj.sockets = self.vminst.vmspec.sockets
@@ -194,10 +199,10 @@ class VMMLibvirt(VMMBase):
         assert os.path.exists(BIOS_OVMF_VARS)
         shutil.copy(BIOS_OVMF_VARS, var_fullpath)
 
-        if self.vminst.vmtype == VM_TYPE_LEGACY:
+        if self.vminst.vmtype in [VM_TYPE_LEGACY, VM_TYPE_LEGACY_PERF]:
             xmlobj.loader = bios_legacy
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
-        elif self.vminst.vmtype == VM_TYPE_EFI:
+        elif self.vminst.vmtype in [VM_TYPE_EFI, VM_TYPE_EFI_PERF]:
             xmlobj.loader = BIOS_OVMF_CODE
             xmlobj.nvram = var_fullpath
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
@@ -207,7 +212,7 @@ class VMMLibvirt(VMMBase):
                 "host,host-phys-bits,+sgx,+sgx-debug,+sgx-exinfo,"
                 "+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc")
             xmlobj.set_epc_params(self.vminst.vmspec.epc)
-        elif self.vminst.vmtype == VM_TYPE_TD:
+        elif self.vminst.vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
             xmlobj.loader = BIOS_OVMF_CODE
             xmlobj.nvram = var_fullpath
             if DUT.get_cpu_base_freq() < 1000000:
@@ -219,8 +224,8 @@ class VMMLibvirt(VMMBase):
     def _connect_virt(self):
         LOG.debug("Create libvirt connection")
         try:
-            conn = libvirt.open("qemu:///system")
-            return conn
+            self._virt_conn = libvirt.open("qemu:///system")
+            return self._virt_conn
         except libvirt.libvirtError:
             LOG.error(
                 "Fail to connect libvirt, please make sure current user in libvirt group")

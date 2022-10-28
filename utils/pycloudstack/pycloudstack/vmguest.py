@@ -49,7 +49,7 @@ class VMGuest:
                  cmdline=KernelCmdline(),
                  hugepages=False, hugepage_size=HUGEPAGES_2M,
                  vsock=False, vsock_cid=0,
-                 vmm_class=None, cpu_ids=None, mem_numa=True):
+                 vmm_class=None, cpu_ids=None, mem_numa=True, io_mode=None, cache=None):
 
         self.vmid = vmid
         self.name = name
@@ -67,6 +67,8 @@ class VMGuest:
         self.keep = False
         self.cpu_ids = cpu_ids
         self.mem_numa = mem_numa
+        self.io_mode = io_mode
+        self.cache = cache
 
         # Update rootfs in kernel command line depending on distro
         rootfs_ubuntu = "root=/dev/vda1"
@@ -353,13 +355,21 @@ class VMGuestFactory:
     def new_vm(self, vmtype, vmspec=VMSpec.model_base(), vm_class=VMMLibvirt,
                cmdline=KernelCmdline(),auto_start=False, hugepages=False,
                hugepage_size=None, boot=BOOT_TYPE_DIRECT,
-               vsock=False, vsock_cid=3):
+               vsock=False, vsock_cid=3, io_mode=None, cache=None):
         """
         Creat a VM.
         """
 
         if hugepage_size is None:
             hugepage_size = HUGEPAGES_2M
+
+        # default io mode is native
+        if io_mode is None:
+            io_mode = "native"
+
+        # default cache is none
+        if cache is None:
+            cache = "none"
 
         vm_id = str(uuid.uuid4())
         user_name = getpass.getuser()
@@ -381,7 +391,7 @@ class VMGuestFactory:
                        kernel=self._vm_kernel, vmtype=vmtype, boot=boot,
                        vmspec=vmspec, cmdline=cmdline, vmm_class=vm_class,
                        hugepages=hugepages, hugepage_size=hugepage_size,
-                       vsock=vsock, vsock_cid=vsock_cid)
+                       vsock=vsock, vsock_cid=vsock_cid, io_mode=io_mode, cache=cache)
         self.vms[vm_name] = inst
 
         if auto_start:
