@@ -171,6 +171,9 @@ class VMMLibvirt(VMMBase):
         if self.vminst.vsock:
             xmlobj.set_vsock(self.vminst.vsock_cid)
 
+        if self.vminst.diskfile_path:
+            xmlobj.set_disk(self.vminst.diskfile_path)
+
         self.set_cpu_params_xml(xmlobj)
 
         if self.vminst.boot == BOOT_TYPE_GRUB:
