@@ -349,6 +349,27 @@ class VirtXml:
         """
         return self._filepath
 
+    @classmethod
+    def _add_new_element_by_parent(cls, parent_leaf, tag_arr, attribs=None):
+        """
+        Add a new element with new parant under given parant item.
+
+        For example: add ["memoryBacking", "hugepages", "page"]
+        """
+        assert len(tag_arr) >= 1
+        parent = parent_leaf
+
+        while len(tag_arr) > 0:
+            new_tag = tag_arr.pop(0)
+            item = ET.SubElement(parent, new_tag)
+            parent = item
+
+        if attribs is not None:
+            for attrib, value in attribs.items():
+                parent.set(attrib, value)
+
+        return True
+
     def dump(self, dump_xml=False):
         """
         Dump the debug information
@@ -563,7 +584,7 @@ class VirtXml:
             for attrib, value in attribs.items():
                 leaf_item.set(attrib, value)
 
-        return True
+        return leaf_item
 
     def _delete_element(self, tag_arr):
         assert len(tag_arr) >= 1
@@ -706,6 +727,19 @@ class VirtXml:
             {"auto": "no", "address": str(cid)}
         )
         self._set_single_element_attrib(["devices", "vsock"], "model", "virtio")
+        self.save()
+
+    def set_disk(self, diskfile_path):
+        """
+        Set data disk
+        """
+        new_disk_leaf = self._add_new_element(["devices", "disk"],
+        {"type": "file", "device": "disk"}, allow_multi_same_leaf=True)
+        self._add_new_element_by_parent(new_disk_leaf, ["driver"],
+        {"name": "qemu", "type": "qcow2", "io": f"{self._io}", "cache":
+            f"{self._cache}", "iothread": "2"})
+        self._add_new_element_by_parent(new_disk_leaf, ["source"], {"file": f"{diskfile_path}"})
+        self._add_new_element_by_parent(new_disk_leaf, ["target"], {"dev": "vdb", "bus": "virtio"})
         self.save()
 
     @staticmethod
