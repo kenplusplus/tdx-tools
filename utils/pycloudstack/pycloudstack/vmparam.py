@@ -25,8 +25,7 @@ BIOS_BINARY_LEGACY_CENTOS = "/usr/share/qemu-kvm/bios.bin"
 BIOS_BINARY_LEGACY_UBUNTU = "/usr/share/seabios/bios.bin"
 
 # Installed from the package of intel-mvp-qemu-kvm
-BIOS_OVMF_CODE = "/usr/share/qemu/OVMF_CODE.fd"
-BIOS_OVMF_VARS = "/usr/share/qemu/OVMF_VARS.fd"
+BIOS_OVMF = "/usr/share/qemu/OVMF.debug.fd"
 
 VM_STATE_RUNNING = "running"
 VM_STATE_PAUSE = "paused"
