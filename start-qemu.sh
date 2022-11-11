@@ -39,8 +39,7 @@ CPUS=1
 MEM=2G
 
 # Installed from the package of intel-mvp-tdx-tdvf
-OVMF_CODE="/usr/share/qemu/OVMF_CODE.fd"
-OVMF_VARS="/usr/share/qemu/OVMF_VARS.fd"
+OVMF="/usr/share/qemu/OVMF.fd"
 GUEST_IMG=""
 DEFAULT_GUEST_IMG="${CURR_DIR}/td-guest.qcow2"
 KERNEL=""
@@ -87,8 +86,7 @@ Usage: $(basename "$0") [OPTION]...
   -b [direct|grub]          Boot type, default is "direct" which requires kernel binary specified via "-k"
   -p <Monitor port>         Monitor via telnet
   -f <SSH Forward port>     Host port for forwarding guest SSH
-  -o <OVMF_CODE file>       BIOS CODE firmware device file, for "td" and "efi" VM only
-  -a <OVMF_VARS file>       BIOS VARS template, for "td" and "efi" VM only
+  -o <OVMF file>            BIOS firmware device file, for "td" and "efi" VM only
   -m <11:22:33:44:55:66>    MAC address, impact TDX measurement RTMR
   -q [tdvmcall|vsock]       Support for TD quote using tdvmcall or vsock
   -c <number>               Number of CPUs, default is 1
@@ -118,8 +116,7 @@ process_args() {
             b) BOOT_TYPE=$OPTARG;;
             p) MONITOR_PORT=$OPTARG;;
             f) FORWARD_PORT=$OPTARG;;
-            o) OVMF_CODE=$OPTARG;;
-            a) OVMF_VARS=$OPTARG;;
+            o) OVMF=$OPTARG;;
             m) MAC_ADDR=$OPTARG;;
             v) USE_VSOCK=true;;
             d) DEBUG=true;;
@@ -153,16 +150,14 @@ process_args() {
         error "Guest image file ${GUEST_IMG} not exist. Please specify via option \"-i\""
     fi
 
-    # Create Variable firmware device file from template
-    if [[ ${OVMF_VARS} == "/usr/share/qemu/OVMF_VARS.fd" ]]; then
-        OVMF_VARS="${CURR_DIR}/OVMF_VARS.fd"
-        if [[ ! -f ${OVMF_VARS} ]]; then
-            if [[ ! -f /usr/share/qemu/OVMF_CODE.fd ]]; then
-                error "Could not find /usr/share/qemu/OVMF_CODE.fd. Please install TDVF(Trusted Domain Virtual Firmware)."
-            fi
-            echo "Create ${OVMF_VARS} from template /usr/share/qemu/OVMF_VARS.fd"
-            cp /usr/share/qemu/OVMF_VARS.fd "${OVMF_VARS}"
+    # Create temparory firmware device file from OVMF.fd
+    if [[ ${OVMF} == "/usr/share/qemu/OVMF.fd" ]]; then
+        OVMF="${CURR_DIR}/OVMF_VARS.fd"
+        if [[ ! -f /usr/share/qemu/OVMF.fd ]]; then
+            error "Could not find /usr/share/qemu/OVMF.fd. Please install TDVF(Trusted Domain Virtual Firmware)."
         fi
+        echo "Create ${OVMF} from template /usr/share/qemu/OVMF.fd"
+        cp /usr/share/qemu/OVMF.fd "${OVMF}"
     fi
 
     # Check parameter MAC address
@@ -188,7 +183,7 @@ process_args() {
     QEMU_CMD+=" -monitor telnet:127.0.0.1:${MONITOR_PORT},server,nowait "
 
     if [[ ${DEBUG} == true ]]; then
-        OVMF_CODE="/usr/share/qemu/OVMF_CODE.debug.fd"
+        OVMF="/usr/share/qemu/OVMF.debug.fd"
     fi
 
     if [[ -n ${QUOTE_TYPE} ]]; then
@@ -210,10 +205,9 @@ process_args() {
                 PARAM_CPU+=",tsc-freq=1000000000"
             fi
             # Note: "pic=no" could only be used in TD mode but not for non-TD mode
-            PARAM_MACHINE+=",pic=no,kernel_irqchip=split,kvm-type=tdx,confidential-guest-support=tdx"
-            QEMU_CMD+=" -device loader,file=${OVMF_CODE},id=fd0"
-            QEMU_CMD+=",config-firmware-volume=${OVMF_VARS}"
-            QEMU_CMD+=" -object tdx-guest,id=tdx"
+            PARAM_MACHINE+=",kernel_irqchip=split,confidential-guest-support=tdx"
+            QEMU_CMD+=" -bios ${OVMF}"
+            QEMU_CMD+=" -object tdx-guest,sept-ve-disable,id=tdx"
             if [[ ${QUOTE_TYPE} == "tdvmcall" ]]; then
                 QEMU_CMD+=",quote-generation-service=vsock:2:4050"
             fi
@@ -223,8 +217,7 @@ process_args() {
             ;;
         "efi")
             PARAM_MACHINE+=",kernel_irqchip=split"
-            QEMU_CMD+=" -drive if=pflash,format=raw,readonly=on,file=${OVMF_CODE}"
-            QEMU_CMD+=" -drive if=pflash,format=raw,file=${OVMF_VARS}"
+            QEMU_CMD+=" -bios ${OVMF}"
             ;;
         "legacy")
             if [[ ! -f ${LEGACY_BIOS} ]]; then
@@ -288,8 +281,7 @@ process_args() {
     echo "========================================="
     echo "Guest Image       : ${GUEST_IMG}"
     echo "Kernel binary     : ${KERNEL}"
-    echo "OVMF_CODE         : ${OVMF_CODE}"
-    echo "OVMF_VARS         : ${OVMF_VARS}"
+    echo "OVMF              : ${OVMF}"
     echo "VM Type           : ${VM_TYPE}"
     echo "CPUS              : ${CPUS}"
     echo "Boot type         : ${BOOT_TYPE}"
