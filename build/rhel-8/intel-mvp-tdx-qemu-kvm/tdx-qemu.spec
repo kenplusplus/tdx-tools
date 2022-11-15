@@ -124,9 +124,10 @@ Obsoletes: qemu-kvm-block-iscsi <= %{epoch}:%{version}           \
 
 Summary: QEMU is a machine emulator and virtualizer
 Name: intel-mvp-tdx-qemu-kvm
-Version: 6.2.0
-%define downstream_version v3.1
-%define patch_number mvp18
+Version: 7.0.50
+%define source_tag MVP-QEMU-7.0-v1.1
+%define downstream_version v1.1
+%define patch_number mvp3
 Release: %{downstream_version}.%{patch_number}%{?dist}
 
 Provides: qemu-kvm
@@ -433,15 +434,6 @@ Obsoletes: qemu-kvm-audio-pa
 %description audio-pa
 This package provides the additional PulseAudio audio driver for QEMU.
 
-
-%package  audio-oss
-Summary: QEMU oss audio driver
-Requires: %{name}-common%{?_isa} = %{epoch}:%{version}-%{release}
-
-%description audio-oss
-This package provides the additional oss audio driver for QEMU.
-
-
 %if %{have_opengl}
 %package  ui-opengl
 Summary: QEMU opengl support
@@ -543,7 +535,6 @@ mkdir -p %{qemu_kvm_build}
   --disable-libssh                 \\\
   --disable-libudev                \\\
   --disable-libusb                 \\\
-  --disable-libxml2                \\\
   --disable-linux-aio              \\\
   --disable-linux-io-uring         \\\
   --disable-linux-user             \\\
@@ -599,17 +590,14 @@ mkdir -p %{qemu_kvm_build}
   --disable-vhost-crypto           \\\
   --disable-vhost-kernel           \\\
   --disable-vhost-net              \\\
-  --disable-vhost-scsi             \\\
   --disable-vhost-user             \\\
   --disable-vhost-user-blk-server  \\\
   --disable-vhost-vdpa             \\\
-  --disable-vhost-vsock            \\\
   --disable-virglrenderer          \\\
   --disable-virtfs                 \\\
   --disable-virtiofsd              \\\
   --disable-vnc                    \\\
   --disable-vnc-jpeg               \\\
-  --disable-vnc-png                \\\
   --disable-vnc-sasl               \\\
   --disable-vte                    \\\
   --disable-vvfat                  \\\
@@ -617,7 +605,6 @@ mkdir -p %{qemu_kvm_build}
   --disable-whpx                   \\\
   --disable-xen                    \\\
   --disable-xen-pci-passthrough    \\\
-  --disable-xfsctl                 \\\
   --disable-xkbcommon              \\\
   --disable-zstd                   \\\
   --with-git-submodules=ignore     \\\
@@ -671,7 +658,6 @@ run_configure \
   --enable-avx2 \
 %endif
   --enable-cap-ng \
-  --enable-capstone=internal \
   --enable-coroutine-pool \
   --enable-curl \
   --enable-debug-info \
@@ -730,9 +716,7 @@ run_configure \
   --enable-vhost-user \
   --enable-vhost-user-blk-server \
   --enable-vhost-vdpa \
-  --enable-vhost-vsock \
   --enable-vnc \
-  --enable-vnc-png \
   --enable-vnc-sasl \
 %if %{enable_werror}
   --enable-werror \
@@ -741,6 +725,7 @@ run_configure \
 %if %{have_safe_stack}
   --enable-safe-stack \
 %endif
+  --enable-virtfs \
 
 %if %{tools_only}
 %make_build qemu-img
@@ -1042,6 +1027,7 @@ rom_link() {
 
 pushd %{qemu_kvm_build}
 echo "Testing %{name}-build"
+echo "skipped"
 #%make_build check
 popd
 
@@ -1154,8 +1140,11 @@ useradd -r -u 107 -g qemu -G kvm -d / -s /sbin/nologin \
 %ifarch x86_64
     %{_datadir}/qemu-kvm/linuxboot.bin
     %{_datadir}/qemu-kvm/multiboot.bin
+    %{_datadir}/qemu-kvm/multiboot_dma.bin
     %{_datadir}/qemu-kvm/kvmvapic.bin
     %{_datadir}/qemu-kvm/pvh.bin
+    %{_datadir}/qemu-kvm/vof-nvram.bin
+    %{_datadir}/qemu-kvm/vof.bin
 %endif
 %ifarch s390x
     %{_datadir}/qemu-kvm/s390-ccw.img
@@ -1233,8 +1222,6 @@ useradd -r -u 107 -g qemu -G kvm -d / -s /sbin/nologin \
 %{_libdir}/qemu-kvm/block-ssh.so
 %files audio-pa
 %{_libdir}/qemu-kvm/audio-pa.so
-%files audio-oss
-%{_libdir}/qemu-kvm/audio-oss.so
 
 %if 0%{have_spice}
 
