@@ -14,7 +14,6 @@
     <acpi/>
     <apic/>
     <ioapic driver='qemu'/>
-    <pic state='off' />
   </features>
   <clock offset='utc'>
     <timer name='hpet' present='no'/>
@@ -58,12 +57,11 @@
     <memballoon model='none'/>
   </devices>
   <allowReboot value='no'/>
+  <launchSecurity type='tdx'>
+    <policy>0x10000001</policy>
+  </launchSecurity>
   <qemu:commandline>
     <qemu:arg value='-cpu'/>
     <qemu:arg value='host'/>
-    <qemu:arg value="-object"/>
-    <qemu:arg value="tdx-guest,sept-ve-disable,id=tdx"/>
-    <qemu:arg value="-machine"/>
-    <qemu:arg value="q35,kernel_irqchip=split,confidential-guest-support=tdx"/>
   </qemu:commandline>
 </domain>
