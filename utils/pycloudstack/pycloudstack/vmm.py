@@ -205,7 +205,7 @@ class VMMLibvirt(VMMBase):
         if self.vminst.vmtype in [VM_TYPE_LEGACY, VM_TYPE_LEGACY_PERF]:
             xmlobj.loader = bios_legacy
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
-        elif self.vminst.vmtype == VM_TYPE_EFI:
+        elif self.vminst.vmtype in [VM_TYPE_EFI, VM_TYPE_EFI_PERF]:
             xmlobj.loader = loader_fullpath
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype == VM_TYPE_SGX:
