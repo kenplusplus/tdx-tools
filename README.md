@@ -46,7 +46,7 @@ below diagram:
 To build all components, run the following commands:
 
 ```
-cd build/centos-stream-8
+cd build/rhel-8
 ./build-repo.sh
 ```
 
@@ -78,18 +78,18 @@ module_hotfixes=true
 Finally, install packages as follows:
 
 ```
-sudo dnf install intel-mvp-tdx-kernel intel-mvp-tdx-tdvf intel-mvp-tdx-qemu-kvm intel-mvp-tdx-libvirt
+sudo dnf install intel-mvp-tdx-kernel intel-mvp-ovmf intel-mvp-tdx-qemu-kvm intel-mvp-tdx-libvirt
 ```
 
 _NOTE_: Please get separated RPM for signed build `TDX SEAM Module` and install via
 `sudo dnf install intel-mvp-tdx-module`. After installation, please reboot
-machine with `tdx_host=on` in host kernel command via grub menu. Finally, please
+machine with `tdx_host=on numa_balancing=disable` in host kernel command via grub menu. Finally, please
 [verify TDX host](./doc/verify_tdx_host.md).
 
 ### 3.2 Prepare TDX Guest Image
 
 After building TDX components packages please refer to [Setup TDX Guest Image](/doc/create_guest_image.md) to install
-them into a cloud image. It uses `CentOS Stream 8` as example distro.
+them into a cloud image. It uses `RHEL 8.6` as an example distro.
 
 ## 4. Launch TD VM Guest
 
