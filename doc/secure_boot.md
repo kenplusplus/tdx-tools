@@ -112,8 +112,8 @@ mkdir -p rootfs
 sudo modprobe nbd max_part=8
 sudo qemu-nbd --connect=/dev/nbd0 $IMG
 if [[ "$DISTRO" == "redhat" ]] ;then
-   sudo mount /dev/nbd0p2 efi
-   sudo mount /dev/nbd0p3 rootfs
+    sudo mount /dev/nbd0p2 efi
+    sudo mount /dev/nbd0p3 rootfs
 elif [[ "$DISTRO" == "ubuntu" ]] ;then
     sudo mount /dev/nbd0p15 efi
     sudo mount /dev/nbd0p1 rootfs
