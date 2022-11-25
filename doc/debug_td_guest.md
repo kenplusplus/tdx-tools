@@ -5,15 +5,15 @@
 You can install debug info from the yum repository that provides the guest kernel debuginfo
 
 ```
-sudo dnf install intel-mvp-tdx-guest-kernel-debuginfo
+sudo dnf install intel-mvp-tdx-kernel-debuginfo
 ```
 
 or install the RPMs directly
 
 ```
 cd <path to guest-kernel packages>
-sudo dnf install intel-mvp-tdx-guest-kernel-debuginfo-common-x86_64-<guest-kernel-version>.el8.x86_64.rpm \
-intel-mvp-tdx-guest-kernel-debuginfo-<guest-kernel-version>.el8.x86_64.rpm
+sudo dnf install intel-mvp-tdx-kernel-debuginfo-common-x86_64-<guest-kernel-version>.el8.x86_64.rpm \
+intel-mvp-tdx-kernel-debuginfo-<guest-kernel-version>.el8.x86_64.rpm
 ```
 
 After debug info installed, you can find debuggable modules in `/usr/lib/debug/usr/lib/modules/` and sources in `/usr/src/debug/`
@@ -71,17 +71,38 @@ Type "show configuration" for configuration details.
 For bug reporting instructions, please see:
 <http://www.gnu.org/software/gdb/bugs/>.
 Find the GDB manual and other documentation resources online at:
-<http://www.gnu.org/software/gdb/documentation/>.
+    <http://www.gnu.org/software/gdb/documentation/>.
 
 For help, type "help".
 Type "apropos word" to search for commands related to "word".
-BFD: warning: /home/keping/auto-build/src-tdx_guest_v5.15/vmlinux: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0010001
-BFD: warning: /home/keping/auto-build/src-tdx_guest_v5.15/vmlinux: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0010002
-Reading symbols from vmlinux...done.
+Reading symbols from /usr/lib/debug/lib/modules/5.19.0-tdx.v1.9.mvp9.el8.x86_64/vmlinux...done.
 The target architecture is assumed to be i386:x86-64:intel
 Remote debugging using 127.0.0.1:1234
-0x00000000fffffff0 in ?? ()
+0x0000000000000000 in fixed_percpu_data ()
+(gdb) hb start_kernel
+Hardware assisted breakpoint 1 at 0xffffffff83d32d88: file init/main.c, line 929.
+(gdb) hb rest_init
+Hardware assisted breakpoint 2 at 0xffffffff8209d4b0: file init/main.c, line 681.
+(gdb) continue
+Continuing.
+
+Breakpoint 1, start_kernel () at init/main.c:929
+929     {
 (gdb)
+Continuing.
+
+Breakpoint 2, rest_init () at init/main.c:681
+681     {
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 1] will be detached.
+
+Quit anyway? (y or n) y
+Detaching from program: /usr/lib/debug/usr/lib/modules/5.19.0-tdx.v1.9.mvp9.el8.x86_64/vmlinux, process 1
+Ending remote debugging.
+[Inferior 1 (process 1) detached]
+
 ```
 
 Please use `hb` command in GDB to set the first breakpoint, e.g. `hb start_kernel`.
@@ -89,11 +110,18 @@ Please note the software breakpoint is available after the kernel is loaded into
 
 ```
 (gdb) hb start_kernel
-Hardware assisted breakpoint 1 at 0xffffffff8351c050: file init/main.c, line 938.
+Hardware assisted breakpoint 1 at 0xffffffff83d32d88: file init/main.c, line 929.
+(gdb) hb rest_init
+Hardware assisted breakpoint 2 at 0xffffffff8209d4b0: file init/main.c, line 681.
 (gdb) continue
 Continuing.
 
-Breakpoint 1, start_kernel () at init/main.c:938
-938             set_task_stack_end_magic(&init_task);
+Breakpoint 1, start_kernel () at init/main.c:929
+929     {
+(gdb)
+Continuing.
+
+Breakpoint 2, rest_init () at init/main.c:681
+681     {
 (gdb)
 ```
