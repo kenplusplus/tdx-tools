@@ -3,7 +3,7 @@
 This directory provides the build’s spec and script to generate Grub2 RPMs for TDX guest.
 The downstream patches are held at <https://github.com/intel/grub-tdx>.
 
-This build is for the RHEL 8.5 distro. Please setup a build environment with RHEL 8.5
+This build is for the RHEL 8.6 distro. Please setup a build environment with RHEL 8.6
 on a development machine or container.
 
 The some build sources are based on the following:

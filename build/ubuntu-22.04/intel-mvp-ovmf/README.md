@@ -1,7 +1,7 @@
 # Build TDVF (Trust Domain Virtual Firmware)
 
 This directory provides the neccessary scripts to generate TDVF Debian package.
-The downstream patches are held at <https://github.com/tianocore/edk2-staging/tree/TDVF>.
+Use the upstream edk2 https://github.com/tianocore/edk2/tree/0be81a4d83810cdb018d293bc264f489e7664043/.
 
 The build is based on Ubuntu 22.04 distro, so please setup build environment
 with Ubuntu 22.04 in a development machine or container.
