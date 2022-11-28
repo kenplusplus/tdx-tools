@@ -71,7 +71,7 @@ Encryption Technologies](https://software.intel.com/sites/default/files/managed/
   ```
   dmesg | grep tdx
 
-  [    0.000000] x86/tdx: Guest initialized
+  [    0.000000] x86/tdx: Guest detected
   ```
 
 - Check `/proc/cpuinfo` attributes:
