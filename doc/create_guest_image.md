@@ -5,9 +5,9 @@
 The default cloud image for RHEL 8.6  does not support EFI schema, so it needs
 to create customized EFI based RHEL 8.6 image via [TDX Guest Image Tool](https://github.com/intel/tdx-tools/tree/2022ww49/build/rhel-8/guest-image).
 
-The tool provides scripts to generate guest image for RHEL and Ubuntu. In this section, it takes RHEL 8.6 as an example.
+The tool provides scripts to generate guest image for RHEL. In this section, it takes RHEL 8.6 as an example.
 
-For Ubuntu 22.04 guest image, please refer to https://github.com/intel/tdx-tools/blob/main/build/ubuntu-22.04/README.md
+For Ubuntu 22.04 guest image, please refer to https://github.com/intel/tdx-tools/blob/2022ww49/build/ubuntu-22.04/README.md
 
 ### Prerequisite
 
