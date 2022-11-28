@@ -5,14 +5,14 @@ TDX tests are used to validate basic functionality of TDX software stack. The te
 
 ### Create Cloud Image
 
-Please refer [Setup TDX Guest Image](/doc/create_guest_image.md) to create guest image, which will be used in tests
-running. It uses `CentOS Stream 8` as example distro.
+Please refer to [Setup TDX Guest Image](/doc/create_guest_image.md) to create guest image, which will be used in tests
+running. It uses `RHEL 8.6` as an example distro.
 
 ### Prerequisite
 
 - Install required packages:
 
-  If your host distro is RHEL 8.6 or CentOS Stream 8:
+  If your host distro is RHEL 8.6:
 
     ```
     sudo dnf install python3-virtualenv python3-libvirt libguestfs-devel libvirt-devel python3-devel gcc gcc-c++
@@ -85,9 +85,8 @@ running. It uses `CentOS Stream 8` as example distro.
   - The guest image has docker/podman installed.
   - The guest image contains docker image redis:latest.
 
-- User can specify guest image OS with `-g`. Currently it supports `rhel`, `centosstream`
-and `ubuntu`. RHEL guest image is used by default if `-g` is not specified:
+- User can specify guest image OS with `-g`. Currently it supports `rhel`, and `ubuntu`. RHEL guest image is used by default if `-g` is not specified:
 
     ```
-    sudo ./run.sh -g centosstream -s all
+    sudo ./run.sh -g ubuntu -s all
     ```
