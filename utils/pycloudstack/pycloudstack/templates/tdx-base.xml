@@ -5,8 +5,7 @@
   <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='q35'>hvm</type>
-    <loader type='generic'>REPLACEME_OVMF_CODE</loader>
-    <nvram template='/usr/share/qemu/OVMF_VARS.fd'>REPLACEME_OVMF_VARS</nvram>
+    <loader>REPLACEME_OVMF_CODE</loader>
     <boot dev='hd'/>
     <kernel>REPLACEME_KERNEL</kernel>
     <cmdline>root=/dev/vda3 selinux=0 rw console=hvc0</cmdline>
@@ -15,7 +14,6 @@
     <acpi/>
     <apic/>
     <ioapic driver='qemu'/>
-    <pic state='off' />
   </features>
   <clock offset='utc'>
     <timer name='hpet' present='no'/>
@@ -60,7 +58,7 @@
   </devices>
   <allowReboot value='no'/>
   <launchSecurity type='tdx'>
-    <policy>0x1</policy>
+    <policy>0x10000001</policy>
   </launchSecurity>
   <qemu:commandline>
     <qemu:arg value='-cpu'/>

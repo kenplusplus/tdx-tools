@@ -1,20 +1,18 @@
-<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
-  <name>td-guest</name>
-  <memory unit='KiB'>2097152</memory>
-  <vcpu placement='static'>1</vcpu>
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+  <name>td-guest-ubuntu</name>
+  <memory unit="KiB">2097152</memory>
+  <vcpu placement="static">1</vcpu>
   <os>
     <type arch='x86_64' machine='q35'>hvm</type>
-    <loader type='generic'>/usr/share/qemu/OVMF_CODE.fd</loader>
-    <nvram template='/usr/share/qemu/OVMF_VARS.fd'>/path/to/OVMF_VARS.fd</nvram>
+    <loader>/path/to/OVMF.fd</loader>
     <boot dev='hd'/>
-    <kernel>/path/to/vmlinuz</kernel>
-    <cmdline>root=/dev/vda3 selinux=0 rw console=hvc0</cmdline>
+    <kernel>/path/to/vmlinuz-jammy</kernel>
+    <cmdline>root=/dev/vda1 rw console=hvc0 ignore_loglevel rw</cmdline>
   </os>
   <features>
     <acpi/>
     <apic/>
     <ioapic driver='qemu'/>
-    <pic state='off'/>
   </features>
   <clock offset='utc'>
     <timer name='hpet' present='no'/>
@@ -31,29 +29,30 @@
   </cpu>
   <devices>
     <emulator>/usr/libexec/qemu-kvm</emulator>
-    <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2'/>
-      <source file='/path/to/td-guest.qcow2'/>
-      <target dev='vda' bus='virtio'/>
+    <disk type="file" device="disk">
+      <driver name="qemu" type="qcow2"/>
+      <source file="/path/to/td-guest-ubuntu-22.04.qcow2"/>
+      <target dev="vda" bus="virtio"/>
     </disk>
-    <interface type="user">
+    <interface type="network">
+      <mac address="52:54:00:4a:57:5a"/>
+      <source network="default"/>
       <model type="virtio"/>
     </interface>
     <console type='pty'>
-      <target type='virtio' port='0'/>
+      <target type='virtio' port='1'/>
     </console>
-    <channel type='unix'>
+      <channel type='unix'>
       <source mode='bind'/>
       <target type='virtio' name='org.qemu.guest_agent.0'/>
     </channel>
   </devices>
   <allowReboot value='no'/>
   <launchSecurity type='tdx'>
-    <policy>0x1</policy>
+    <policy>0x10000001</policy>
   </launchSecurity>
   <qemu:commandline>
     <qemu:arg value='-cpu'/>
     <qemu:arg value='host,-kvm-steal-time'/>
   </qemu:commandline>
 </domain>
-

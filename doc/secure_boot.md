@@ -63,7 +63,7 @@ python3 -m pip install ovmfkeyenroll
 Then execute the following command. Please replace `guid` with content of `myGUID.txt` generated above.
 
 ```
-ovmfkeyenroll -fd <absolute-path-to-OVMF_VARS.fd> \
+ovmfkeyenroll -fd <absolute-path-to-OVMF.fd> \
 -pk <pk-key-guid> <absolute-path-to-PK.cer> \
 -kek <kek-guid> <absolute-path-to-KEK.cer> \
 -db <db-key-guid> <absolute-path-to-DB.cer>
@@ -72,7 +72,7 @@ ovmfkeyenroll -fd <absolute-path-to-OVMF_VARS.fd> \
 When the following log is displayed, the key enrolling is successful:
 
 ```
-[Success] Enroll All Variables to /path/to/OVMF_VARS.sb.fd
+[Success] Enroll All Variables to /path/to/OVMF.sb.fd
 ```
 
 ### Sign Shim / Grub / Kernel
@@ -92,9 +92,9 @@ sudo rpm -ihvf sbsigntools-0.9.4-2.fc33.x86_64.rpm
 Next, run the following script to sign shim and grub efi files and kernel vmlinuz file in a guest image.
 Please assign the correct values at the beginning of the script if needed:
 
-+ IMG: guest image that have shim, grub and kernel 5.1* installed
++ IMG: guest image that have shim, grub and kernel 5.19.0* installed
 + KEY_DIR: directory that contains DB.key and DB.crt generated above
-+ DISTRO: redhat for rhel, centos for centos/centos stream 8
++ DISTRO: redhat for RHEL 8.6, ubuntu for Ubuntu 22.04
 
 ```sh
 #!/bin/bash
@@ -111,20 +111,28 @@ mkdir -p efi
 mkdir -p rootfs
 sudo modprobe nbd max_part=8
 sudo qemu-nbd --connect=/dev/nbd0 $IMG
-sudo mount /dev/nbd0p2 efi
-sudo mount /dev/nbd0p3 rootfs
+if [[ "$DISTRO" == "redhat" ]] ;then
+    sudo mount /dev/nbd0p2 efi
+    sudo mount /dev/nbd0p3 rootfs
+elif [[ "$DISTRO" == "ubuntu" ]] ;then
+    sudo mount /dev/nbd0p15 efi
+    sudo mount /dev/nbd0p1 rootfs
+else
+    echo "Do not support Distro: $DISTRO"
+    exit 1
+fi
 
 sign_db efi/EFI/$DISTRO/shimx64.efi
 sign_db efi/EFI/$DISTRO/grubx64.efi
 sign_db efi/EFI/$DISTRO/mmx64.efi
 sign_db efi/EFI/BOOT/BOOTX64.efi
 sign_db efi/EFI/BOOT/fbx64.efi
-sign_db rootfs/boot/vmlinuz-5.1*
+sign_db rootfs/boot/vmlinuz-5.19.0*
 sudo cp efi/EFI/$DISTRO/mmx64.efi efi/EFI/BOOT/
-cp rootfs/boot/vmlinuz-5.1* ./
+cp rootfs/boot/vmlinuz-5.19.0* ./
 
-sudo umount /dev/nbd0p2
-sudo umount /dev/nbd0p3
+sudo umount efi
+sudo umount rootfs
 sudo qemu-nbd --disconnect /dev/nbd0
 ```
 
@@ -134,22 +142,21 @@ Now we have successfully edited the QCOW2 image.
 
 In this step, we will use these files:
 
-+ OVMF_VARS.sb.fd (key-enrolled)
++ OVMF.sb.fd (key-enrolled)
 + td-guest.qcow2 (edited)
 
 Next we can start the TD virtual machine. We have two ways: QEMU and Libvirt.
 
-By QEMU, we can use [start-qemu.sh](https://github.com/intel/tdx-tools/blob/main/start-qemu.sh):
+By QEMU, we can use [start-qemu.sh](https://github.com/intel/tdx-tools/blob/2022ww49/start-qemu.sh):
 
 ```sh
-./start-qemu.sh -i /path/to/td-guest.qcow2 -b grub -a /path/to/OVMF_VARS.sb.fd
+./start-qemu.sh -i /path/to/td-guest.qcow2 -b grub -a /path/to/OVMF.sb.fd
 ```
 
-To boot via libvirt, please update the [xml template](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_grub.xml.template)
+To boot via libvirt, please update the [xml template](https://github.com/intel/tdx-tools/blob/2022ww49/doc/tdx_libvirt_grub.xml.template)
 as follows before running the usual virsh commands.
 
-+ Add secure='yes': `<loader type='generic' secure='yes'>/usr/share/qemu/OVMF_CODE.fd</loader>`
-+ Use OVMF_VARS.sb.fd: `<nvram>/path/to/OVMF_VARS.sb.fd</nvram>`
++ Use OVMF.sb.fd: `<loader>/path/to/OVMF.sb.fd</loader>`
 + Use the signed image: `<source file='/path/to/td-guest.qcow2'/>`
 
 ### Verification

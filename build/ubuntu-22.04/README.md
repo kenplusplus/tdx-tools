@@ -6,8 +6,8 @@
 ### Build requirements
 
 ```
-apt install --no-install-recommends --yes build-essential \
-        fakeroot devscripts wget git equivs liblz4-tool sudo python-is-python3 pkg-config unzip
+apt install --no-install-recommends --yes build-essential fakeroot \
+        devscripts wget git equivs liblz4-tool sudo python-is-python3 python3-dev pkg-config unzip
 ```
 
 ### Build all

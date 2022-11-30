@@ -76,19 +76,6 @@ def test_sgx_supported_in_cpuinfo():
     assert dut.DUT.support_sgx()
 
 
-def test_tdx_supported_in_cpuinfo():
-    """
-    Check whether TDX is enabled in /proc/cpuinfo
-    No MSR can be used to check whether tdx is supported, check /proc/cpuinfo
-
-    Test Steps
-    ----------
-    1. Read /proc/cpuinfo
-    2. Check whether 'tdx' is in flags field
-    """
-    assert dut.DUT.support_tdx()
-
-
 def test_check_mktme_keyid_bits():
     """
     check Keys bits of MK-TME

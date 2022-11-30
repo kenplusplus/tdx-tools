@@ -1,11 +1,13 @@
-<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
-  <name>td-guest-grub</name>
-  <memory unit="KiB">2097152</memory>
-  <vcpu placement="static">4</vcpu>
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <name>td-guest-ubuntu-22.04</name>
+  <memory unit='KiB'>2097152</memory>
+  <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='q35'>hvm</type>
     <loader>/path/to/OVMF.fd</loader>
     <boot dev='hd'/>
+    <kernel>/path/to/vmlinuz</kernel>
+    <cmdline>root=/dev/vda1 rw console=hvc0</cmdline>
   </os>
   <features>
     <acpi/>
@@ -23,18 +25,16 @@
     <suspend-to-disk enable='no'/>
   </pm>
   <cpu mode='host-passthrough'>
-    <topology sockets='1' cores='4' threads='1'/>
+    <topology sockets='1' cores='1' threads='1'/>
   </cpu>
   <devices>
-    <emulator>/usr/libexec/qemu-kvm</emulator>
-    <disk type="file" device="disk">
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
-      <source file="/path/to/td-guest-ubuntu-22.04.qcow2"/>
-      <target dev="vda" bus="virtio"/>
+      <source file='/path/to/td-guest-ubuntu-22.04.qcow2'/>
+      <target dev='vda' bus='virtio'/>
     </disk>
-    <interface type="network">
-      <mac address="52:54:00:4a:57:5a"/>
-      <source network="default"/>
+    <interface type="user">
       <model type="virtio"/>
     </interface>
     <console type='pty'>
@@ -54,3 +54,4 @@
     <qemu:arg value='host,-kvm-steal-time'/>
   </qemu:commandline>
 </domain>
+

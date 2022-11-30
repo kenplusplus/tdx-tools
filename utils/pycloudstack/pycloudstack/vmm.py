@@ -26,7 +26,7 @@ from .vmparam import VM_TYPE_LEGACY, VM_TYPE_EFI, VM_TYPE_TD, VM_TYPE_SGX, \
     VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
     VM_STATE_SHUTDOWN_IN_PROGRESS, BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY_CENTOS, \
     BIOS_BINARY_LEGACY_UBUNTU, QEMU_EXEC_CENTOS, QEMU_EXEC_UBUNTU, \
-    BIOS_OVMF_CODE, BIOS_OVMF_VARS, VM_TYPE_TD_PERF, VM_TYPE_EFI_PERF, VM_TYPE_LEGACY_PERF
+    BIOS_OVMF, VM_TYPE_TD_PERF, VM_TYPE_EFI_PERF, VM_TYPE_LEGACY_PERF
 
 __author__ = 'cpio'
 
@@ -197,17 +197,16 @@ class VMMLibvirt(VMMBase):
             bios_legacy = BIOS_BINARY_LEGACY_CENTOS
             xmlobj.qemu_exec = QEMU_EXEC_CENTOS
 
-        var_filename = "OVMF_VARS." + xmlobj.uuid + ".fd"
-        var_fullpath = os.path.join(tempfile.gettempdir(), var_filename)
-        assert os.path.exists(BIOS_OVMF_VARS)
-        shutil.copy(BIOS_OVMF_VARS, var_fullpath)
+        loader_filename = "OVMF-" + xmlobj.uuid + ".fd"
+        loader_fullpath = os.path.join(tempfile.gettempdir(), loader_filename)
+        assert os.path.exists(BIOS_OVMF)
+        shutil.copy(BIOS_OVMF, loader_fullpath)
 
         if self.vminst.vmtype in [VM_TYPE_LEGACY, VM_TYPE_LEGACY_PERF]:
             xmlobj.loader = bios_legacy
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype in [VM_TYPE_EFI, VM_TYPE_EFI_PERF]:
-            xmlobj.loader = BIOS_OVMF_CODE
-            xmlobj.nvram = var_fullpath
+            xmlobj.loader = loader_fullpath
             xmlobj.set_cpu_params("host,-kvm-steal-time,pmu=off")
         elif self.vminst.vmtype == VM_TYPE_SGX:
             xmlobj.loader = bios_legacy
@@ -216,8 +215,8 @@ class VMMLibvirt(VMMBase):
                 "+sgx-kss,+sgx-mode64,+sgx-provisionkey,+sgx-tokenkey,+sgx1,+sgx2,+sgxlc")
             xmlobj.set_epc_params(self.vminst.vmspec.epc)
         elif self.vminst.vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
-            xmlobj.loader = BIOS_OVMF_CODE
-            xmlobj.nvram = var_fullpath
+            xmlobj.loader = loader_fullpath
+
             if DUT.get_cpu_base_freq() < 1000000:
                 xmlobj.set_cpu_params(
                     "host,-shstk,-kvm-steal-time,pmu=off,tsc-freq=1000000000")

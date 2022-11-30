@@ -6,7 +6,7 @@
   - [TDX kernel](./intel-mvp-tdx-kernel/): TDX kernel for both host and guest
   - [TDX qemu](./intel-mvp-tdx-qemu-kvm/): QEMU KVM for TDX
   - [TDX Libvirt](./intel-mvp-tdx-libvirt/): Libvirt with TDX modification
-  - [TDX TDVF](./intel-mvp-tdx-tdvf/): TDVF firmware for TD guest
+  - [TDX TDVF](./intel-mvp-ovmf/): TDVF firmware for TD guest
   - [TDX Guest Grub2](./intel-mvp-tdx-guest-grub2/): Grub2 for TD guest
   - [TDX Guest Shim](./intel-mvp-tdx-guest-shim/): SHIM for TD guest
 
@@ -23,6 +23,3 @@
   cd build/rhel-8
   ./build-repo.sh
   ```
-
-  There is no [package builder docker](../centos-stream-8/README.md) provided
-  like CentOS Stream 8.

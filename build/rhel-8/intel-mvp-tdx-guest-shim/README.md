@@ -3,7 +3,7 @@
 This directory provides the build’s spec and script to generate shim RPMs for TDX guest.
 The downstream patches are held at <https://github.com/intel/shim-tdx>.
 
-This build is for the RHEL 8.5 distro. Please setup a build environment with RHEL 8.5
+This build is for the RHEL 8.6 distro. Please setup a build environment with RHEL 8.6
 on a development machine or container.
 
 The spec file is based from <https://git.centos.org/rpms/shim-unsigned-x64/blob/c8s/f/SPECS/shim-unsigned-x64.spec>

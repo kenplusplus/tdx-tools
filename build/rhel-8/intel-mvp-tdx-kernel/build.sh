@@ -5,9 +5,9 @@ set -ex
 CURR_DIR="$(dirname "$(readlink -f "$0")")"
 
 UPSTREAM_GIT_URI="https://github.com/torvalds/linux.git"
-UPSTREAM_TAG="v5.15"
+UPSTREAM_TAG="v5.19"
 
-PATCHSET="${CURR_DIR}/../../common/patches-tdx-kernel-MVP-5.15-v11.0.tar.gz"
+PATCHSET="${CURR_DIR}/../../common/patches-tdx-kernel-5.19-MVP-TDX-v1.11.tar.gz"
 SPEC_FILE="${CURR_DIR}/tdx-kernel.spec"
 RPMBUILD_DIR="${CURR_DIR}/rpmbuild"
 
@@ -52,7 +52,7 @@ prepare() {
 build() {
     echo "Build..."
     sudo -E dnf builddep -y "${SPEC_FILE}"
-    rpmbuild --define "_topdir ${RPMBUILD_DIR}" --undefine=_disable_source_fetch -v -ba "${SPEC_FILE}"
+    rpmbuild --define "_topdir ${RPMBUILD_DIR}" --undefine=_disable_source_fetch -v -ba "${SPEC_FILE}" --without guest
 }
 
 pushd "${CURR_DIR}"

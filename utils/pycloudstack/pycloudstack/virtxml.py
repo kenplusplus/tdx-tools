@@ -49,7 +49,6 @@ class VirtXml:
         self._kernel = None
         self._cmdline = None
         self._loader = None
-        self._nvram = None
         self._memory = None
         self._vcpu = None
         self._imagefile = None
@@ -122,21 +121,6 @@ class VirtXml:
             return
         if self._set_single_element_value(["os", "loader"], new_loader):
             self._loader = new_loader
-        self.save()
-
-    @property
-    def nvram(self):
-        """
-        <domain>/<os>/<nvram> field in xml
-        """
-        return self._nvram
-
-    @nvram.setter
-    def nvram(self, new_nvram):
-        if self._nvram == new_nvram:
-            return
-        if self._set_single_element_value(["os", "nvram"], new_nvram):
-            self._nvram = new_nvram
         self.save()
 
     @property
@@ -385,7 +369,6 @@ class VirtXml:
         LOG.debug("|  * image   : %s", self._imagefile)
         LOG.debug("|  * cmdline : %s", self._cmdline)
         LOG.debug("|  * loader  : %s", self._loader)
-        LOG.debug("|  * nvram   : %s", self._nvram)
         LOG.debug("|  * log     : %s", self._logfile)
         LOG.debug("-----------------------------------------------------------")
 
@@ -446,8 +429,8 @@ class VirtXml:
         """
         return ET.tostring(self._tree.getroot(), encoding='unicode')
 
-    def customize(self, imagefile, vmid=None, name=None, kernel=None, loader=None,
-                  nvram=None, memory=2097152, cmdline=None):
+    def customize(self, imagefile, vmid=None, name=None, kernel=None,
+    loader=None, memory=2097152, cmdline=None):
         """
         Customize the XML object for name, uuid, memory, kernel, imagefile, loader.
 
@@ -479,9 +462,6 @@ class VirtXml:
 
         if loader is not None:
             self.loader = loader
-
-        if nvram is not None:
-            self.nvram = nvram
 
         if cmdline is not None:
             self.cmdline = cmdline

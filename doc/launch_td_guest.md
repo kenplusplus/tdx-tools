@@ -17,7 +17,7 @@ rm -rf usr/ lib/
 
 ### Launch via qemu-kvm
 
-Make use of the provided [start-qemu.sh](https://github.com/intel/tdx-tools/blob/main/start-qemu.sh) script to start a TD
+Make use of the provided [start-qemu.sh](https://github.com/intel/tdx-tools/blob/2022ww49/start-qemu.sh) script to start a TD
 via QEMU.
 
 A simple usage of the script to launch Red Hat RHEL8.5 VM would be as follows:
@@ -50,9 +50,9 @@ For more advanced configurations, please check the help menu:
 
 ### Launch via Libvirt
 
-**NOTE:** For Red Hat Host OS please choose libvirt template for [direct boot](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_direct.xml.template)
-or [grub boot](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_grub.xml.template).
-If running Ubuntu as the host OS, use Ubuntu use templates [direct boot_ubuntu](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_direct.ubuntu.xml.template) or [grub boot_ubuntu](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_grub.ubuntu.xml.template)
+**NOTE:** For Red Hat Host OS please choose libvirt template for [direct boot](https://github.com/intel/tdx-tools/blob/2022ww49/doc/tdx_libvirt_direct.xml.template)
+or [grub boot](https://github.com/intel/tdx-tools/blob/2022ww49/doc/tdx_libvirt_grub.xml.template).
+If running Ubuntu as the host OS, use Ubuntu use templates [direct boot_ubuntu](https://github.com/intel/tdx-tools/blob/2022ww49/doc/tdx_libvirt_direct.ubuntu.xml.template) or [grub boot_ubuntu](https://github.com/intel/tdx-tools/blob/2022ww49/doc/tdx_libvirt_grub.ubuntu.xml.template)
 
 
 1. Configure libvirt
@@ -75,7 +75,7 @@ If running Ubuntu as the host OS, use Ubuntu use templates [direct boot_ubuntu](
     replacing all occurences of the '/path/to' with absolute paths.
     
     **NOTE:**
-    - '/path/to/OVMF_VARS.fd' is the desired destination of OVMF_VARS.fd.
+    - '/path/to/OVMF.fd' is the desired destination of OVMF.fd.
     - If you are using Ubuntu guest image, modify `root=/dev/vda3` to `root=/dev/vda1`
 
 3. Launch TD guest

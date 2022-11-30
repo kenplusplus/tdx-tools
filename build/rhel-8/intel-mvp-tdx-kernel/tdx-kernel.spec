@@ -31,8 +31,8 @@ Summary: The Linux kernel
 %global released_kernel 0
 
 %define rcver 0
-%define downstream_tag tdx.v11
-%define relver 46
+%define downstream_tag tdx.v1.11
+%define relver 11
 
 %if %{rcver}
 %global distro_build 0.rc%{rcver}.%{downstream_tag}.mvp%{relver}
@@ -75,11 +75,11 @@ Summary: The Linux kernel
 %define primary_target rhel
 %endif
 
-%define rpmversion 5.15.0
+%define rpmversion 5.19.0
 %define pkgrelease %{distro_build}
 
 # This is needed to do merge window version magic
-%define patchlevel 15
+%define patchlevel 19
 
 # allow pkg_release to have configurable %%{?dist} tag
 %define specrelease %{distro_build}%{?buildid}%{?dist}
@@ -181,7 +181,7 @@ Summary: The Linux kernel
 %define debugbuildsenabled 1
 
 # The kernel tarball/base version
-%define kversion 5.9
+%define kversion 5.19
 
 %if 0%{?fedora}
 # Kernel headers are being split out into a separate package
@@ -715,7 +715,6 @@ Source3002: %{source_url_prefix}/Patchlist
 Source4000: %{source_url_prefix}/README.rst
 
 Source9000: kernel-x86_64-guest-rhel.config
-Source9002: kernel-x86_64-nosigchk-rhel.config
 
 ## Patches needed for building this package
 
@@ -1032,7 +1031,7 @@ AutoReqProv: no\
 %description %{?1:%{1}-}debuginfo\
 This package provides debug information for package %{name}%{?1:-%{1}}.\
 This is required to use SystemTap with %{name}%{?1:-%{1}}-%{KVERREL}.\
-%{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} -p '.*\/usr\/src\/kernels/.*|XXX' -o ignored-debuginfo.list -p '/.*/%%{KVERREL_RE}%{?1:[+]%{1}}/.*|/.*%%{KVERREL_RE}%{?1:\+%{1}}(\.debug)?' -o debuginfo%{?1}.list}\
+%{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} --keep-section '.BTF' -p '.*\/usr\/src\/kernels/.*|XXX' -o ignored-debuginfo.list -p '/.*/%%{KVERREL_RE}%{?1:[+]%{1}}/.*|/.*%%{KVERREL_RE}%{?1:\+%{1}}(\.debug)?' -o debuginfo%{?1}.list}\
 %{nil}
 
 #
