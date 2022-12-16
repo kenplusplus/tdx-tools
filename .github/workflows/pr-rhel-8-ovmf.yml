@@ -20,5 +20,5 @@ jobs:
       - id: build
         name: Build the source and binary packages
         run: |
-          cd build/rhel-8/intel-mvp-tdx-ovmf/
+          cd build/rhel-8/intel-mvp-ovmf/
           ./build.sh
