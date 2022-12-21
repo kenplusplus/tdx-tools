@@ -21,10 +21,10 @@ jobs:
           pip3 install --upgrade pip
           pip3 install pylint
           pip3 install -r utils/pycloudstack/requirements.txt
-          pip3 install -r utils/pytdxmeasure/requirements.txt
+          pip3 install -r attestation/pytdxmeasure/requirements.txt
           pip3 install -r tests/requirements.txt
       - name: Analysing the code with pylint
         run: |
           set -ex
-          export PYTHONPATH=$PWD/utils/pycloudstack:$PWD/utils/pytdxmeasure:/lib/python3/dist-packages/
+          export PYTHONPATH=$PWD/utils/pycloudstack:$PWD/attestation/pytdxmeasure:/lib/python3/dist-packages/
           find . -path ./build -prune -o -name *.py -print0 | xargs -n 1 -0 python3 -m pylint
