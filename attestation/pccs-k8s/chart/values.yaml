@@ -1,0 +1,62 @@
+# Default values for dcap-pccs.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: bluewish/dcap-pccs
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.15.100.3-jammy1"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8081
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Configurations for DCAP PCCS
+PCCSConfig:
+  uri: https://api.trustedservices.intel.com/sgx/certification/v4/
+  apiKey: 829e0dc47bdb409e92a5757fc80422b6
+  userToken: 5fe006c720675b091d3cfd34e016a2f84b68d78d431260d8ce146fe53624a3ee3394bdc0596ccc6e76041f44af3514b0624098fbbe0b37a95a5143c8f6bfca31
+  adminToken: 5fe006c720675b091d3cfd34e016a2f84b68d78d431260d8ce146fe53624a3ee3394bdc0596ccc6e76041f44af3514b0624098fbbe0b37a95a5143c8f6bfca31
+  sslSecret: dcap-pccs-ssl
