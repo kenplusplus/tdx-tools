@@ -32,4 +32,4 @@ WORKDIR /opt/intel/sgx-dcap-pccs/
 
 EXPOSE 8081
 
-CMD ["node", "-r", "esm", "pccs_server.js"]
+CMD ["node", "pccs_server.js"]
