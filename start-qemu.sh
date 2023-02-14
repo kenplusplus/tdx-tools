@@ -157,8 +157,6 @@ process_args() {
         if [[ ! -f /usr/share/qemu/OVMF.fd ]]; then
             error "Could not find /usr/share/qemu/OVMF.fd. Please install TDVF(Trusted Domain Virtual Firmware)."
         fi
-        echo "Create ${OVMF} from template /usr/share/qemu/OVMF.fd"
-        cp /usr/share/qemu/OVMF.fd "${OVMF}"
     fi
 
     # Check parameter MAC address
@@ -209,7 +207,7 @@ process_args() {
                 PARAM_CPU+=",tsc-freq=1000000000"
             fi
             # Note: "pic=no" could only be used in TD mode but not for non-TD mode
-            PARAM_MACHINE+=",kernel_irqchip=split,confidential-guest-support=tdx"
+            PARAM_MACHINE+=",kernel_irqchip=split,confidential-guest-support=tdx,memory-backend=ram1"
             QEMU_CMD+=" -bios ${OVMF}"
             QEMU_CMD+=" -object tdx-guest,sept-ve-disable,id=tdx"
             if [[ ${QUOTE_TYPE} == "tdvmcall" ]]; then
@@ -218,6 +216,7 @@ process_args() {
             if [[ ${DEBUG} == true ]]; then
                 QEMU_CMD+=",debug=on"
             fi
+            QEMU_CMD+=" -object memory-backend-memfd-private,id=ram1,size=${MEM}"
             ;;
         "efi")
             PARAM_MACHINE+=",kernel_irqchip=split"
