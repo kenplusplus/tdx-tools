@@ -94,7 +94,7 @@ Please assign the correct values at the beginning of the script if needed:
 
 + IMG: guest image that have shim, grub and kernel 5.19.0* installed
 + KEY_DIR: directory that contains DB.key and DB.crt generated above
-+ DISTRO: redhat for RHEL 8.6, ubuntu for Ubuntu 22.04
++ DISTRO: redhat for RHEL 8.7, ubuntu for Ubuntu 22.04
 
 ```sh
 #!/bin/bash
