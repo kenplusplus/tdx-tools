@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-ISO="RHEL-8.6.0-20220420.3-x86_64-dvd1.iso"
+ISO="RHEL-8.7.0-20221013.1-x86_64-dvd1.iso"
 
 # Kickstart scripts
 KS_DIR="kickstart"
@@ -9,8 +9,8 @@ KS_OS="rhel-8.ks"
 
 # Guest image size(unit: GB)
 IMAGE_SIZE=8
-IMAGE_NAME="td-guest-rhel-8.6.qcow2"
-VIRT_NAME="setup-guest-rhel-8.6"
+IMAGE_NAME="td-guest-rhel-8.7.qcow2"
+VIRT_NAME="setup-guest-rhel-8.7"
 
 CURR_DIR=$(readlink -f "$(dirname "$0")")
 pushd "${CURR_DIR}" || exit 1
