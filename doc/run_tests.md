@@ -6,13 +6,13 @@ TDX tests are used to validate basic functionality of TDX software stack. The te
 ### Create Cloud Image
 
 Please refer to [Setup TDX Guest Image](/doc/create_guest_image.md) to create guest image, which will be used in tests
-running. It uses `RHEL 8.6` as an example distro.
+running. It uses `RHEL 8.7` as an example distro.
 
 ### Prerequisite
 
 - Install required packages:
 
-  If your host distro is RHEL 8.6:
+  If your host distro is RHEL 8.7:
 
     ```
     sudo dnf install python3-virtualenv python3-libvirt libguestfs-devel libvirt-devel python3-devel gcc gcc-c++

@@ -2,10 +2,10 @@
 
 ### Create EFI Cloud Image
 
-The default cloud image for RHEL 8.6  does not support EFI schema, so it needs
-to create customized EFI based RHEL 8.6 image via [TDX Guest Image Tool](https://github.com/intel/tdx-tools/tree/2022ww49/build/rhel-8/guest-image).
+The default cloud image for RHEL 8.7  does not support EFI schema, so it needs
+to create customized EFI based RHEL 8.7 image via [TDX Guest Image Tool](https://github.com/intel/tdx-tools/tree/2022ww49/build/rhel-8/guest-image).
 
-The tool provides scripts to generate guest image for RHEL. In this section, it takes RHEL 8.6 as an example.
+The tool provides scripts to generate guest image for RHEL. In this section, it takes RHEL 8.7 as an example.
 
 For Ubuntu 22.04 guest image, please refer to https://github.com/intel/tdx-tools/blob/2022ww49/build/ubuntu-22.04/README.md
 
@@ -28,7 +28,7 @@ For Ubuntu 22.04 guest image, please refer to https://github.com/intel/tdx-tools
 
 ### Install Guest Image With ISO Installer
 
-Generate guest image td-guest-rhel-8.6.qcow2:
+Generate guest image td-guest-rhel-8.7.qcow2:
 
 ```
 cd tdx-tools/build/rhel-8/guest-image/
@@ -37,13 +37,13 @@ cd tdx-tools/build/rhel-8/guest-image/
 
 _NOTE:_
 
-- For RHEL-8 image, please prepare RHEL 8.6 base ISO image and put it under the same directory as `create-efi-img.sh`. You can download RHEL 8.6 base ISO image from
+- For RHEL-8 image, please prepare RHEL 8.7 base ISO image and put it under the same directory as `create-efi-img.sh`. You can download RHEL .6 base ISO image from
 <https://access.redhat.com/downloads>
 Modify `create-efi-img.sh` and set the ISO variable to the image name as below.
-Then run `create-efi-img.sh` to create the RHEL 8.6 guest image.
+Then run `create-efi-img.sh` to create the RHEL 8.7 guest image.
 
   ```
-  ISO="RHEL-8.6.0-20220420.3-x86_64-dvd1.iso"
+  ISO="RHEL-8.7.0-20221013.1-x86_64-dvd1.iso"
   ```
 
 - For Ubuntu 22.04, default cloud image from [official portal](https://cloud-images.ubuntu.com/) already supports the EFI boot, so just download from it.
