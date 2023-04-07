@@ -92,7 +92,7 @@ sudo rpm -ihvf sbsigntools-0.9.4-2.fc33.x86_64.rpm
 Next, run the following script to sign shim and grub efi files and kernel vmlinuz file in a guest image.
 Please assign the correct values at the beginning of the script if needed:
 
-+ IMG: guest image that have shim, grub and kernel 5.19.0* installed
++ IMG: guest image that have shim, grub and kernel 6.2.0* installed
 + KEY_DIR: directory that contains DB.key and DB.crt generated above
 + DISTRO: redhat for RHEL 8.7, ubuntu for Ubuntu 22.04
 
@@ -127,9 +127,9 @@ sign_db efi/EFI/$DISTRO/grubx64.efi
 sign_db efi/EFI/$DISTRO/mmx64.efi
 sign_db efi/EFI/BOOT/BOOTX64.efi
 sign_db efi/EFI/BOOT/fbx64.efi
-sign_db rootfs/boot/vmlinuz-5.19.0*
+sign_db rootfs/boot/vmlinuz-6.2.0*
 sudo cp efi/EFI/$DISTRO/mmx64.efi efi/EFI/BOOT/
-cp rootfs/boot/vmlinuz-5.19.0* ./
+cp rootfs/boot/vmlinuz-6.2.0* ./
 
 sudo umount efi
 sudo umount rootfs

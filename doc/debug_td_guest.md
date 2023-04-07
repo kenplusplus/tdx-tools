@@ -75,7 +75,7 @@ Find the GDB manual and other documentation resources online at:
 
 For help, type "help".
 Type "apropos word" to search for commands related to "word".
-Reading symbols from /usr/lib/debug/lib/modules/5.19.0-tdx.v1.9.mvp9.el8.x86_64/vmlinux...done.
+Reading symbols from /usr/lib/debug/lib/modules/6.2.0-tdx.v1.6.mvp8.el8.x86_64/vmlinux...done.
 The target architecture is assumed to be i386:x86-64:intel
 Remote debugging using 127.0.0.1:1234
 0x0000000000000000 in fixed_percpu_data ()
@@ -99,7 +99,7 @@ A debugging session is active.
         Inferior 1 [process 1] will be detached.
 
 Quit anyway? (y or n) y
-Detaching from program: /usr/lib/debug/usr/lib/modules/5.19.0-tdx.v1.9.mvp9.el8.x86_64/vmlinux, process 1
+Detaching from program: /usr/lib/debug/usr/lib/modules/6.2.0-tdx.v1.6.mvp8.el8.x86_64/vmlinux, process 1
 Ending remote debugging.
 [Inferior 1 (process 1) detached]
 
