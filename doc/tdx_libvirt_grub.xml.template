@@ -1,6 +1,9 @@
-<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
   <name>td-guest-grub</name>
-  <memory unit="KiB">2097152</memory>
+  <memory unit='KiB'>2097152</memory>
+  <memoryBacking>
+    <source type='memfd-private'/>
+  </memoryBacking>
   <vcpu placement="static">4</vcpu>
   <os>
     <type arch='x86_64' machine='q35'>hvm</type>
@@ -29,7 +32,7 @@
     <emulator>/usr/libexec/qemu-kvm</emulator>
     <disk type="file" device="disk">
       <driver name='qemu' type='qcow2'/>
-      <source file="/path/to/td-guest-ubuntu-22.04.qcow2"/>
+      <source file="/path/to/file.img"/>
       <target dev="vda" bus="virtio"/>
     </disk>
     <interface type="network">
@@ -54,3 +57,4 @@
     <qemu:arg value='host,-kvm-steal-time'/>
   </qemu:commandline>
 </domain>
+
