@@ -52,7 +52,7 @@ USE_VSOCK=false
 USE_SERIAL_CONSOLE=false
 FORWARD_PORT=10026
 MONITOR_PORT=9001
-ROOT_PARTITION="/dev/vda3"
+ROOT_PARTITION="/dev/vda1"
 KERNEL_CMD_NON_TD="root=${ROOT_PARTITION} rw console=hvc0"
 KERNEL_CMD_TD="${KERNEL_CMD_NON_TD}"
 MAC_ADDR=""
@@ -91,7 +91,7 @@ Usage: $(basename "$0") [OPTION]...
   -m <11:22:33:44:55:66>    MAC address, impact TDX measurement RTMR
   -q [tdvmcall|vsock]       Support for TD quote using tdvmcall or vsock
   -c <number>               Number of CPUs, default is 1
-  -r <root partition>       root partition for direct boot, default is /dev/vda3
+  -r <root partition>       root partition for direct boot, default is /dev/vda1
   -v                        Flag to enable vsock
   -d                        Flag to enable "debug=on" for GDB guest
   -s                        Flag to use serial console instead of HVC console
@@ -174,8 +174,8 @@ process_args() {
     esac
 
     # Guest rootfs changes
-    if [[ ${ROOT_PARTITION} != "/dev/vda3" ]]; then
-        KERNEL_CMD_NON_TD=${KERNEL_CMD_NON_TD//"/dev/vda3"/${ROOT_PARTITION}}
+    if [[ ${ROOT_PARTITION} != "/dev/vda1" ]]; then
+        KERNEL_CMD_NON_TD=${KERNEL_CMD_NON_TD//"/dev/vda1"/${ROOT_PARTITION}}
         KERNEL_CMD_TD="${KERNEL_CMD_NON_TD}"
     fi
 
