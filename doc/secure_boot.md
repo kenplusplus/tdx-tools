@@ -154,6 +154,7 @@ By QEMU, we can use [start-qemu.sh](https://github.com/intel/tdx-tools/blob/main
 ```
 
 To boot via libvirt, please update the [xml template](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_grub.xml.template)
+
 as follows before running the usual virsh commands.
 
 + Use OVMF.sb.fd: `<loader>/path/to/OVMF.sb.fd</loader>`
