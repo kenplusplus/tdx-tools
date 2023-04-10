@@ -104,8 +104,6 @@ class DeviceNode():
                 break
 
         if self.device_node_name is None:
-            # make /dev/tdx_guest appear
-            os.system("echo 1 >/sys/devices/platform/tdx_guest/authorized")
             for dom in self.DEVICE_OPERATOR_MAPS:
                 if  os.path.exists(dom.device_node):
                     self.device_node_name = dom.device_node
