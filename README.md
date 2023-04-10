@@ -25,7 +25,7 @@ host or create PaaS guest image for quick evaluation
 Intel&reg; TDX(Trust Domain Extensions) MVP Stack includes the components in
 below diagram:
 
-![TDX Stack Architecture](doc/tdx_stack_arch.png)
+![TDX Stack Architecture](doc/tdx_stack_arch_1.5.png)
 
 | Name | Stack | Description |
 | -- | -- | -- |
