@@ -2,9 +2,12 @@
 
 ## 1. Overview
 
-This feature is to meet the CSP who may want to relocate/migrate an executing Trust Domain (TD) from a source Trust Domain Extension (TDX) platform to a destination TDX platform in the cloud environment. Currently, td-migration only works on **TDX 1.5 (kernel-v6.2/tag-2023WW15 and later)**, TDX 1.0 do not support this feature.
+This feature is to meet the CSP who may want to relocate/migrate an executing Trust Domain (TD) from a source Trust Domain Extension (TDX) platform to a destination TDX platform in the cloud environment. Currently, td-migration only works on **TDX 1.5 (kernel-v6.2/tag 2023ww15 and later)**. Tags for TDX 1.0 do not support this feature. It also requires `MigTD` which is not included in tdx-tools yet. Please contact Intel sales rep to get MigTD before performing the following TD migration steps.
 
 In this doc, the TD being migrated is called the source TD, and the TD created as a result of the migration is called the destination TD.
+
+**Prerequisite**: Please install all attestation required components on both source and destination platform because pre-migration includes mutual attestation for MigTD. If pre-migration is successful, it means MigTD attestation pass. Please refer to
+[TDX End to End Attestation](https://github.com/intel/tdx-tools/wiki/5.-TDX-End-to-End-Attestation) to setup attestation environment.
 
 ## 2. Single Host Test Steps
 
