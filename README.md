@@ -32,6 +32,7 @@ below diagram:
 | TDX Kernel | Host + Guest | Linux kernel for TDX |
 | TDX Qemu-KVM | Host | Qemu VMM for TDX |
 | TDX SEAM Module | Host | TDX Secure Arbitration Module |
+| TDX Migration | Host | Migration TD for live migration |
 | [TDX Libvirt](https://github.com/intel/libvirt-tdx) | Host | The modified libvirt to create TDX guest domain via Qemu |
 | [TDVF](https://github.com/tianocore/edk2) | Host | The modified OVMF(Open Source Virtual Firmware) to support TDX guest boot like page accept, TDX measurement |
 | [TDX Grub2](https://github.com/intel/grub-tdx) | Guest | The modified grub for guest VM to support TDX measurement |
