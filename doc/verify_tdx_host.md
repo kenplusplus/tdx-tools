@@ -36,8 +36,8 @@ After reboot into TDX host kernel,
   sudo dnf install -y msr-tools
   ```
 
-- Check TDX SEAM module version, build date should be 20220131,
-major version should be 0x1
+- Check TDX SEAM module version, build date should be 20230323,
+major version should be 0x00000001
 
   ```
   cat /sys/firmware/tdx/tdx_module/build_date

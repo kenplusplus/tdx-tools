@@ -92,9 +92,9 @@ sudo rpm -ihvf sbsigntools-0.9.4-2.fc33.x86_64.rpm
 Next, run the following script to sign shim and grub efi files and kernel vmlinuz file in a guest image.
 Please assign the correct values at the beginning of the script if needed:
 
-+ IMG: guest image that have shim, grub and kernel 5.19.0* installed
++ IMG: guest image that have shim, grub and kernel 6.2.0* installed
 + KEY_DIR: directory that contains DB.key and DB.crt generated above
-+ DISTRO: redhat for RHEL 8.6, ubuntu for Ubuntu 22.04
++ DISTRO: redhat for RHEL 8.7, ubuntu for Ubuntu 22.04
 
 ```sh
 #!/bin/bash
@@ -127,9 +127,9 @@ sign_db efi/EFI/$DISTRO/grubx64.efi
 sign_db efi/EFI/$DISTRO/mmx64.efi
 sign_db efi/EFI/BOOT/BOOTX64.efi
 sign_db efi/EFI/BOOT/fbx64.efi
-sign_db rootfs/boot/vmlinuz-5.19.0*
+sign_db rootfs/boot/vmlinuz-6.2.0*
 sudo cp efi/EFI/$DISTRO/mmx64.efi efi/EFI/BOOT/
-cp rootfs/boot/vmlinuz-5.19.0* ./
+cp rootfs/boot/vmlinuz-6.2.0* ./
 
 sudo umount efi
 sudo umount rootfs
@@ -147,13 +147,14 @@ In this step, we will use these files:
 
 Next we can start the TD virtual machine. We have two ways: QEMU and Libvirt.
 
-By QEMU, we can use [start-qemu.sh](../start-qemu.sh):
+By QEMU, we can use [start-qemu.sh](https://github.com/intel/tdx-tools/blob/main/start-qemu.sh):
 
 ```sh
-./start-qemu.sh -i /path/to/td-guest.qcow2 -b grub -a /path/to/OVMF.sb.fd
+./start-qemu.sh -i /path/to/td-guest.qcow2 -b grub -o /path/to/OVMF.sb.fd
 ```
 
-To boot via libvirt, please update the [xml template](tdx_libvirt_grub.xml.template)
+To boot via libvirt, please update the [xml template](https://github.com/intel/tdx-tools/blob/main/doc/tdx_libvirt_grub.xml.template)
+
 as follows before running the usual virsh commands.
 
 + Use OVMF.sb.fd: `<loader>/path/to/OVMF.sb.fd</loader>`

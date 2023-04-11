@@ -9,12 +9,16 @@ VM_TYPE_TD_PERF = "td_perf"
 VM_TYPE_EFI_PERF = "efi_perf"
 VM_TYPE_LEGACY_PERF = "legacy_perf"
 
+# VM params for live migration
+VM_TYPE_MIGTD = "mig_td"
+MIGTD_DISK_IMAGE = "/usr/share/td-migration/migtd.bin"
+
 BOOT_TYPE_DIRECT = "direct"
 BOOT_TYPE_GRUB = "grub"
 
-#
-# hvc0 is the default console for TD VM, ttyS0 will be filtered
-# due to security concern.
+# Note:
+#   1.  hvc0 is the default console for TD VM, ttyS0 will be filtered
+#   due to security concern.
 
 DEFAULT_CMDLINE = "rw selinux=0 console=hvc0 earlyprintk console=tty0"
 
@@ -159,6 +163,13 @@ class VMSpec:
         Is the NUMA enabled
         """
         return self.sockets > 1
+
+    @staticmethod
+    def model_migtd():
+        """
+        Generate migtd model
+        """
+        return VMSpec(sockets=1, cores = 1, threads=1, memsize=64*1024)
 
     @staticmethod
     def model_base():

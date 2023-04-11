@@ -2,6 +2,9 @@
   <name>REPLACEME_NAME</name>
   <uuid>REPLACEME_UUID</uuid>
   <memory unit='KiB'>REPLACEME_MEMORY</memory>
+  <memoryBacking>
+    <source type='memfd-private'/>
+  </memoryBacking>
   <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='q35'>hvm</type>

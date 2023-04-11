@@ -20,20 +20,19 @@ host or create PaaS guest image for quick evaluation
 - Dump guest VM measurement and generate TD quote report for TDX E2E attestation
 - Measured boot and Secure boot for TDX guest VM
 
-**NOTE**: The main branch is for TDX SW stack usage with kernel 5.19. Please switch to branch `mvp-tdx-5.15` for TDX SW stack usage with kernel 5.15.
-
 ## 2. Components
 
 Linux Stack for Intel&reg; TDX includes the components in
 below diagram:
 
-![TDX Stack Architecture](doc/tdx_stack_arch.png)
+![TDX Stack Architecture](doc/tdx_stack_arch_1.5.png)
 
 | Name | Stack | Description |
 | -- | -- | -- |
 | TDX Kernel | Host + Guest | Linux kernel for TDX |
 | TDX Qemu-KVM | Host | Qemu VMM for TDX |
 | TDX SEAM Module | Host | TDX Secure Arbitration Module |
+| TDX Migration | Host | Migration TD for live migration |
 | [TDX Libvirt](https://github.com/intel/libvirt-tdx) | Host | The modified libvirt to create TDX guest domain via Qemu |
 | [TDVF](https://github.com/tianocore/edk2) | Host | The modified OVMF(Open Source Virtual Firmware) to support TDX guest boot like page accept, TDX measurement |
 | [TDX Grub2](https://github.com/intel/grub-tdx) | Guest | The modified grub for guest VM to support TDX measurement |
@@ -91,7 +90,7 @@ machine with `tdx_host=on numa_balancing=disable` in host kernel command via gru
 ### 3.2 Prepare TDX Guest Image
 
 After building TDX components packages please refer to [Setup TDX Guest Image](/doc/create_guest_image.md) to install
-them into a cloud image. It uses `RHEL 8.6` as an example distro.
+them into a cloud image. It uses `RHEL 8.7` as an example distro.
 
 ## 4. Launch TD VM Guest
 
@@ -101,31 +100,31 @@ Please get detail grub/direct boot template for qemu-kvm and libvirt at [Launch 
 - Launch a TDX guest via direct boot
 
 ```
-./start-qemu.sh -i td-guest-rhel-8.6.qcow2 -k vmlinuz-rhel-8.6
+./start-qemu.sh -i td-guest-rhel-8.7.qcow2 -k vmlinuz-rhel-8.7
 ```
 
 - Launch a TDX guest via grub boot
 
 ```
-./start-qemu.sh -i td-guest-rhel-8.6.qcow2 -b grub
+./start-qemu.sh -i td-guest-rhel-8.7.qcow2 -b grub
 ```
 
 - Launch a debug version TDX guest with debug version OVMF
 
 ```
-./start-qemu.sh -i td-guest-rhel-8.6.qcow2 -k vmlinuz-rhel-8.6 -d
+./start-qemu.sh -i td-guest-rhel-8.7.qcow2 -k vmlinuz-rhel-8.7 -d
 ```
 
 - Launch a non-TDX guest
 
 ```
-./start-qemu.sh -i td-guest-rhel-8.6.qcow2 -k vmlinuz-rhel-8.6 -t efi
+./start-qemu.sh -i td-guest-rhel-8.7.qcow2 -k vmlinuz-rhel-8.7 -t efi
 ```
 
 ## 5. Test
 
 After TDX guest image is created, please refer to [TDX Tests](/doc/run_tests.md) to run tests. It uses
-`RHEL 8.6` as example distro.
+`RHEL 8.7` as example distro.
 
 ## 6. FAQ & BKM
 
