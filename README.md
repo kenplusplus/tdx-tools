@@ -20,6 +20,15 @@ host or create PaaS guest image for quick evaluation
 - Dump guest VM measurement and generate TD quote report for TDX E2E attestation
 - Measured boot and Secure boot for TDX guest VM
 
+tdx-tools keeps evolving along with kernel version. It supports kernel 5.15, kernel 5.19 and
+kernel 6.2. Please refer to corresponding _[tag](https://github.com/intel/tdx-tools/tags)_
+for different kernel version support. Please make sure to use the corresponding tag aligned with kernel version.
+| Tag | Kernel version | Description |
+| -- | -- | -- |
+| [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15 |TDX 1.0 |
+| [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19 |TDX 1.0 |
+| [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2 |TDX 1.5 |
+
 ## 2. Components
 
 Linux Stack for Intel&reg; TDX includes the components in
