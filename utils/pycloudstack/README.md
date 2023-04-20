@@ -5,7 +5,7 @@
 
 PyCloudStack abstracts the common objects/operations/resources for diverse cloud
 architectures like hypervisor stack based on libvirt or direct qemu command,
-container stack orchestrated by kubernetes or direct docker command, and the running
+container stack orchestrated by Kubernetes or direct docker command, and the running
 or remote IaaS host.
 
 It can be used to create advance deployment CI/CD operator via python plugin for
@@ -18,7 +18,7 @@ The architecture diagram is as follows:
 
 ## 2. Getting Start
 
-### Install from pypi
+### Install from PyPI
 
 ```
 pip3 install pycloudstack
@@ -68,7 +68,7 @@ inst = vm_factory.new_vm(vm_instance_type, vm_class=VMMQemu,
 inst.wait_for_ssh_ready()
 ```
 
-## Example 3: Operate Kubenetes Cluster
+## Example 3: Operate Kubernetes Cluster
 
 ```
 from pycloudstack.cluster import SGXCluster

@@ -1,7 +1,7 @@
 ## TDX Measurement Tool
 
 The measurement tool runs within TD guest to get `RTMR` value from TDREPORT via
-Linux attestion driver, and gets the full TD event log from CCEL ACPI table.
+Linux attestation driver, and gets the full TD event log from CCEL ACPI table.
 Then it uses the TD event log to verify the RTMR value or change.
 
 CSP or tenant developer could use it to analyze and debug the TDX measurement

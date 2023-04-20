@@ -2,7 +2,7 @@
 
 ### Install dependencies
 
-The tool `extract-vmlinux` is used to extract vmlinux from the guest kernel. The tool is from
+The tool `extract-vmlinux` is used to extract `vmlinux` from the guest kernel. The tool is from
 the host kernel devel package. Install it:
 
 ```
@@ -37,7 +37,7 @@ The result shows that the virtual address of `text` section start from `0xffffff
 
 #### 1. Launch a non-TD VM
 
-`nokaslr` should be appended to VM's kernel command line to disable kernal randomization.
+`nokaslr` should be appended to VM kernel command line to disable kernel randomization.
 And a qemu monitor shell with telnet should also be created.
 
 The `qemu-kvm` command is like:

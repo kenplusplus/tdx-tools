@@ -49,8 +49,7 @@ Please install these packages via distro's package manager.
 ### Build Qemu
 
 1. Install dependent packages
-   e.g. libglib2.0-dev libpixman-1-dev. You can check according to the build
-   error info.
+   e.g. `libglib2.0-dev libpixman-1-dev`. You can check according to the build error info.
 
 2. Download QEMU source code:
 
@@ -75,7 +74,7 @@ Please install these packages via distro's package manager.
 ### Build Libvirt
 
 1. Install dependent packages
-   e.g. meson gnutls-devel rpcgen libxml2-devel python3-docutils yajl-devel libtirpc-devel.
+   e.g. `meson gnutls-devel rpcgen libxml2-devel python3-docutils yajl-devel libtirpc-devel`.
    You can check according to the build error info.
 
 2. Download libvirt source code:
@@ -101,7 +100,7 @@ Please install these packages via distro's package manager.
 ### Build TDVF
 
 1. Install dependent packages
-   e.g. libuuid-devel nasm iasl.
+   e.g. `libuuid-devel nasm iasl`.
    You can check according to the build error info.
 
 2. Download TDVF source code:

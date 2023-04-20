@@ -11,26 +11,26 @@ Qemu, Libvirt installed.
 
 The tests can be categorized as following.
 
-| Category  |        Tests         | Prerequisite |
-| ----------| -------------------- |--------------|
-|    BAT    | test_vm_coexist      |              |
-|    BAT    | test_tdx_guest_status|              |
-|    BAT    | test_tdx_host_status |              |
-|    BAT    | test_tdvm_lifecycle  |              |
-|    BAT    | test_multiple_tdvms  |              |
-|Environment| test_tdvm_tsc        |              |
-|Environment| test_tdvm_network    |              |
-|Environment| test_max_cpu         |              |
-| Lifecycle | test_vm_shutdown_mode|              |
-| Lifecycle | test_vm_shutdown_qga |       1      |
-| Lifecycle | test_vm_reboot_qga   |       1      |
-| Lifecycle | test_acpi_reboot     |              |
-| Lifecycle | test_acpi_shutdown   |              |
-| Interop   | test_amx_docker_tf   |      2,4     |
-| Interop   | test_amx_vm_tf       |       5      |
-| Workload  | test_workload_nginx  |      2,3     |
-| Workload  | test_workload_redis  |      2,3     |
-|           |                      |              |
+| Category         |        Tests         | Prerequisite |
+|------------------|----------------------|--------------|
+|    BAT           | test_vm_coexist      |              |
+|    BAT           | test_tdx_guest_status|              |
+|    BAT           | test_tdx_host_status |              |
+|    BAT           | test_tdvm_lifecycle  |              |
+|    BAT           | test_multiple_tdvms  |              |
+| Environment      | test_tdvm_tsc        |              |
+| Environment      | test_tdvm_network    |              |
+| Environment      | test_max_cpu         |              |
+| Lifecycle        | test_vm_shutdown_mode|              |
+| Lifecycle        | test_vm_shutdown_qga |       1      |
+| Lifecycle        | test_vm_reboot_qga   |       1      |
+| Lifecycle        | test_acpi_reboot     |              |
+| Lifecycle        | test_acpi_shutdown   |              |
+| Interoperability | test_amx_docker_tf   |      2,4     |
+| Interoperability | test_amx_vm_tf       |       5      |
+| Workload         | test_workload_nginx  |      2,3     |
+| Workload         | test_workload_redis  |      2,3     |
+|                  |                      |              |
 
 - Prerequisite: Please refer to corresponding items in section `Prerequisite of tests` below.
 
@@ -70,7 +70,7 @@ running. It uses `RHEL` as an example distro.
 
 - Setup environment:
 
-    Run below command to setup the pythone environment
+    Run below command to setup the python environment
 
     ```
     cd tdx-tools/tests/
@@ -79,8 +79,8 @@ running. It uses `RHEL` as an example distro.
 
 - Generate artifacts.yaml
 
-    Please refer to tdx-tools/tests/artifacts.yaml.template and generate tdx-tools/tests/artifacts.yaml. Update "source"
-    and "sha256sum" to indicate the location of guest image and guest kernel.
+    Please refer to tdx-tools/tests/artifacts.yaml.template and generate tdx-tools/tests/artifacts.yaml. Update `source`
+    and `sha256sum` to indicate the location of guest image and guest kernel.
 
 - Generate keys
 
@@ -94,7 +94,7 @@ running. It uses `RHEL` as an example distro.
 
 ### Prerequisite of tests
 
-Basic guest image is required for all the tests. Additional requirement to guest image exsits for part of the tests.
+Basic guest image is required for all the tests. Additional requirement to guest image exists for part of the tests.
 Please check prerequisite of each test and take corresponding action as following.
 
 - Prerequisite:

@@ -54,7 +54,7 @@ Regarding the use of various digital certificates, you can refer to the followin
 
 ### Enrolling Keys to TDVF
 
-In this step, we need to enroll the generated keys into TDVF using [ovmfkeyenroll](https://pypi.org/project/ovmfkeyenroll/).
+In this step, we need to enroll the generated keys into TDVF using [`ovmfkeyenroll`](https://pypi.org/project/ovmfkeyenroll/).
 
 ```sh
 python3 -m pip install ovmfkeyenroll

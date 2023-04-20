@@ -13,15 +13,11 @@ In this doc, the TD being migrated is called the source TD, and the TD created a
 
 **NOTE**: each command needs one terminal, so please prepare 5 terminal tabs firstly or use tmux.
 
-### 2.1 Create MigTD
+### 2.1 Create Migration TDs
 
-The MigTD is designed to evaluate potential migration sources and targets for adherence to the TD Migration Policy and exchange MSK(Migration session Key) from the source platform to the destination platform. Creating MigTD is an additional workflow compared with live migration.
-
-**Prerequisite**: Please install all attestation required components in advance. (not in this readme scope) Because attestation is embedded in MigTD, if pre-mig success, it means MigTD attestation pass.
+The migration TDs are designed to evaluate potential migration source and target for adherence to the TD Migration Policy and exchange MSK(Migration session Key) from the source platform to the destination platform. Creating migration TDs is an additional workflow compared with live migration.
 
 NOTE: the default installation path of `migtd.bin` is "/usr/share/td-migration/migtd.bin" (provided by intel-mvp-tdx-migration pkg)
-
-Must use `-t` to set MigTD type src or dst.
 
 ```bash
 # create the MigTD_src to bind with src user TD 
@@ -31,7 +27,7 @@ sudo ./mig-td.sh -t src
 sudo ./mig-td.sh -t dst
 ```
 
-- Use `-m` parameter to set the alternative path of migtd.bin.
+Use `-m` parameter to set the alternative path of migtd.bin.
 
 ```bash
 sudo ./mig-td.sh -m path/to/migtd.bin -t src
@@ -44,36 +40,35 @@ MigTD Version - 0.2.1
 Loop to wait for request
 ```
 
-### 2.2 Launch user TD
+### 2.2 Launch Source and Destination TDs
 
-For live migration, it is a process that transfers source TD to dest TD. Before starting live migration, these two TDs need be prepared.
+For live migration, it is a process that transfers source TD to destination TD. 
 
-NOTE: The default ROOT_PARTITION is `/dev/vda1`, which is for ubuntu guest TD. For RHEL, please add parameter `-r /dev/vda3`
-
-Must use `-t` to set userTD type src or dst.
+Before starting live migration, you can use direct boot or grub boot to launch both types of TDs.
 
 - Direct Boot
 
+NOTE: The default ROOT_PARTITION is `/dev/vda1`, which is for ubuntu guest TD. For RHEL, please add parameter `-r /dev/vda3`
+
 ```bash
-# create the source user TD
+# create the source TD
 sudo ./user-td.sh -t src -i path/to/image -k path/to/kernel
 
-# create the destination user TD
+# create the destiation TD
 sudo ./user-td.sh -t dst -i path/to/image -k path/to/kernel
 ```
 
 - GRUB Boot
 
 ```bash
-# create the source user TD
+# create the source TD
 sudo ./user-td.sh -t src -i path/to/image -b grub
 
-# create the destination user TD
+# create the destiation TD
 sudo ./user-td.sh -t dst -i path/to/image -b grub
 ```
 
-- Attestation
-Require to install attestation related components in advance.
+For attestation, you need to enable tdvmcall or vsock for TD to connect with QGS.
 
 ```bash
 # tdvmcall
@@ -87,9 +82,9 @@ sudo ./user-td.sh -t dst -i path/to/image -b grub -q vsock
 
 ### 2.3 Pre-Migration
 
-Before starting pre-migration, need to wait a while for user TDs to be ready.
+Wait a while for source and destination TDs to be ready.
 
-1. Create a channel for MigTD_src and MigTD_dst
+Before starting pre-migration, create a channel between source and destination side migration TDs.
 
 ```bash
 sudo ./connect.sh
@@ -103,13 +98,13 @@ root      112608  0.0  0.0  27828  3072 pts/5    S    Mar22   0:00 socat TCP4-LI
 root      112609  0.0  0.0  27828  3072 pts/5    S    Mar22   0:00 socat TCP4-CONNECT:127.0.0.1:9009,reuseaddr VSOCK-LISTEN:1235,fork
 ```
 
-2. Start Pre-Migration
+Start pre-migration.
 
 ```bash
 sudo ./pre-mig.sh
 ```
 
-Check if pre-migrate success.
+Check pre-migrate status.
 
 ```console
 $ dmesg
@@ -119,13 +114,13 @@ $ dmesg
 
 ### 2.4 Live Migration
 
-Starts to transfer TD's data from source to destination.
+Start transferring TD's data from source to destination.
 
 ```bash
 sudo ./mig-flow.sh
 ```
 
-After migration is complete, you can see the following message and use destTD normally.
+After migration is complete, you will see the following message and destination TD is ready.
 
 ```console
 $ dmesg
@@ -134,13 +129,11 @@ $ dmesg
 
 ## 3.Cross Host Test Steps
 
-**NOTE:** For cross-host live migration, you have to set up NFS server or use other ways to share the image/kernel for source TD and dest TD before starting the migration. (It means srcTD and dstTD can access the shared image/kernel together)
+**NOTE:** For cross-host live migration, you have to set up NFS server or use other ways to share the image/kernel for source TD and destination TD before starting the migration. (It means source TD and destination TD can access the shared image/kernel together)
 
-### 3.1 Create MigTD
+### 3.1 Create Migration TDs
 
 NOTE: the default installation path of `migtd.bin` is "/usr/share/td-migration/migtd.bin" (provided by intel-mvp-tdx-migration pkg)
-
-Must use `-t` to set MigTD type src or dst.
 
 ```bash
 # create the MigTD_src to bind with src user TD 
@@ -150,58 +143,58 @@ sudo ./mig-td.sh -t src
 sudo ./mig-td.sh -t dst
 ```
 
-- Use `-m` parameter to set the alternative path of migtd.bin.
+Use `-m` parameter to set the alternative path of migtd.bin.
 
 ```bash
 sudo ./mig-td.sh -t src -m path/to/migtd.bin
 ```
 
-If MigTD starts successfully, the console will display the below message.
+If the migration TD starts successfully, the console will display the below message.
 
 ```console
 MigTD Version - 0.2.1
 Loop to wait for request
 ```
 
-### 3.2 Launch user TD
+### 3.2 Launch Source and Destination TDs
 
-NOTE: The default ROOT_PARTITION is `/dev/vda1`, which is for ubuntu guest TD. For RHEL, please add parameter `-r /dev/vda3`
-
-Must use `-t` to set userTD type src or dst.
+Create source and destination TDs before starting live migration.
 
 - Direct Boot
 
+NOTE: The default ROOT_PARTITION is `/dev/vda1`, which is for ubuntu guest TD. For RHEL, please add parameter `-r /dev/vda3`
+
 ```bash
-# create the source user TD on source platform
+# create the source TD on source platform
 sudo ./user-td.sh -t src -i path/to/image -k path/to/kernel
 
-# create the destination user TD on destination platform
+# create the destiation TD on destination platform
 sudo ./user-td.sh -t dst -i path/to/image -k path/to/kernel
 ```
 
 - GRUB Boot
 
 ```bash
-# create the source user TD on source platform
+# create the source TD on source platform
 sudo ./user-td.sh -t src -i path/to/image -b grub
 
-# create the destination user TD on destination platform
+# create the destiation TD on destination platform
 sudo ./user-td.sh -t dst -i path/to/image -b grub
 ```
 
-- Cross-host Attestation is same as the Single-host, so please refer Section 2.2.
+Cross-host attestation is same as the Single-host, so please refer Section 2.2.
 
 ### 3.3 Pre-Migration
 
 This step has a little difference with the single host live migration.
 
-1. Create a channel for MigTD_src and MigTD_dst
+Create a channel between source and destination side migration TDs.
 
 ```bash
 sudo ./connect.sh -t remote -i <DEST_IP>
 ```
 
-2. Start Pre-Migration
+Start Pre-Migration.
 
 ```bash
 sudo ./pre-mig.sh -t remote -i <DEST_IP>
@@ -220,7 +213,7 @@ $ dmesg
 sudo ./mig-flow.sh -i <dest-platform-ip>
 ```
 
-After migration is complete, you can see the following message and use destTD normally.
+After migration is complete, you will see the following message and destination TD is ready.
 
 ```console
 $ dmesg

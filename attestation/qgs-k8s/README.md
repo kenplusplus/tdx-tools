@@ -3,7 +3,7 @@
 QGS (Quote Generation Service) implementation comes from
 [DCAP](https://github.com/intel/SGXDataCenterAttestationPrimitives/tree/master/QuoteGeneration/quote_wrapper/qgs).
 It should run a copy in all TDX hosts to handle requests from TD VMs.
-On the local cluster of CSP, it can be deployed as a microservice (DaemonSet)
+On the local cluster of CSP, it can be deployed as a microservice via `DaemonSet`
 on Kubernetes.
 
 ![](/doc/qgs-k8s.png)
@@ -17,9 +17,9 @@ docker build -t <your registry> .
 
 ## 2. Install via Helm Chart
 
-### 2.1 Customize via myvalues.yaml
+### 2.1 Customize via `myvalues.yaml`
 
-Custimize your chart via myvalues.yaml like
+Customize your chart via `myvalues.yaml` like
 
 ```
 image:

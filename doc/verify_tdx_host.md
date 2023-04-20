@@ -54,7 +54,7 @@ the bit 1 should be 1 for MSR IA32_TME_ACTIVATE
 
 - Check `MK-TME` keys
 
-  Read the bits MK_TME_KEYID_BITS ( 35:32 ) of the value of MSR 0x982
+  Read the bits `MK_TME_KEYID_BITS` ( 35:32 ) of the value of MSR 0x982
 according [Intel&reg; Architecture Memory
 Encryption Technologies](https://software.intel.com/sites/default/files/managed/a5/16/Multi-Key-Total-Memory-Encryption-Spec.pdf)
 
