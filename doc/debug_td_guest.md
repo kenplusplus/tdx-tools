@@ -2,7 +2,7 @@
 
 ### Prepare for Debug Info
 
-You can install debug info from the yum repository that provides the guest kernel debuginfo
+You can install `debuginfo` from the yum repository that provides the guest kernel debug info
 
 ```
 sudo dnf install intel-mvp-tdx-kernel-debuginfo

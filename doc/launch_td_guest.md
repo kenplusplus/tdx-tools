@@ -72,7 +72,7 @@ If running Ubuntu as the host OS, use Ubuntu use templates [direct boot_ubuntu](
     ```
 
 2. Copy the template XML file to *tdx.xml* and edit the XML configuration file *tdx.xml* by
-    replacing all occurences of the '/path/to' with absolute paths.
+    replacing all occurrences of the '/path/to' with absolute paths.
     
     **NOTE:**
     - '/path/to/OVMF.fd' is the desired destination of OVMF.fd.
@@ -90,9 +90,9 @@ If running Ubuntu as the host OS, use Ubuntu use templates [direct boot_ubuntu](
     sudo virsh define tdx.xml
     sudo virsh start td-guest
     ```
-Once the TD guest VM is launched, you can verify it is truly TD VM by querying cpuinfo:
+Once the TD guest VM is launched, you can verify it is truly TD VM by querying `cpuinfo`:
 
-<pre>
+```
 cat /proc/cpuinfo | grep tdx_guest
 flags        : fpu vme de pse tsc msr pae cx8 apic sep pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall
 nx pdpe1gb rdtscp lm constant_tsc bts rep_good nopl xtopology tsc_reliable cpuid tsc_known_freq pni pclmulqdq dtes64 ds_cpl
@@ -102,4 +102,4 @@ avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clfl
 avx512vlxsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 
 shstk gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq la57 rdpid bus_lock_detect cldemote movdiri movdir64b
 pks fsrm md_clear serialize tsxldtrk ibt amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
-</pre>
+```

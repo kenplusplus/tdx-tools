@@ -29,7 +29,7 @@ in that length then the commit is likely better split into multiple commits.
 
 The `topic: summary of what changed` format is preferred but will not be
 enforced. As long as it includes the topic and a summary of what changed it is
-acceptible.
+acceptable.
 
 ### Body content
 
@@ -43,7 +43,7 @@ commit may be omitted.
 
 ### Body format
 
-Body text should usually not go past 72 chacters per line. This is not a hard
+Body text should usually not go past 72 characters per line. This is not a hard
 rule and can be broken where appropriate. For example, if error text is included
 in the commit body and is longer than 72 characters, it does not need to be
 broken into shorter lines.

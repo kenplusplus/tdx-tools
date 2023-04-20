@@ -16,7 +16,7 @@
 
 **NOTE:**
 
-  - Please enable EPEL repo. It provides capstone and libcapstone required for building and installing qemu-kvm.
+  - Please enable EPEL repo. It provides `capstone` and `libcapstone` required for building and installing qemu-kvm.
   For example:
 
   ```

@@ -25,9 +25,9 @@ and then create `Secret` in Kubernetes:
 kubectl create secret generic dcap-pccs-ssl --from-file=./private.pem --from-file=./file.crt -n dcap-pccs
 ```
 
-### 2.2 Customize via myvalues.yaml
+### 2.2 Customize via `myvalues.yaml`
 
-Custimize your chart via myvalues.yaml like
+Customize your chart via `myvalues.yaml` like
 
 ```
 image:
