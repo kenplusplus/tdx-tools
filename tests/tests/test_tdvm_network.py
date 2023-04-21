@@ -4,7 +4,7 @@ Test network functionality within TD guest
 
 import logging
 import pytest
-from pycloudstack.vmparam import VM_TYPE_TD, VM_TYPE_LEGACY
+from pycloudstack.vmparam import VM_TYPE_TD
 from pycloudstack.cmdrunner import NativeCmdRunner
 
 __author__ = 'cpio'
@@ -62,7 +62,7 @@ def test_tdvm_bridge_network_ip(vm_factory):
     """
 
     LOG.info("Create TD guest")
-    vm_inst = vm_factory.new_vm(VM_TYPE_LEGACY)
+    vm_inst = vm_factory.new_vm(VM_TYPE_TD)
 
     # create and start VM instance
     vm_inst.create()
