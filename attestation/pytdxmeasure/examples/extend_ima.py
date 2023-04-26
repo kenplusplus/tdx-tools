@@ -19,12 +19,15 @@ Traditionally IMA measurements are anchored in Trusted Platform Module (TPM),\
     since vTPM is not available in TD guest. This utility can be used to anchor\
     IMA measurements into RTMR registers. Note that RTMR could only accept SHA384\
     digests.
+
+User have to set 'ima_hash=sha384' in kernel command line while boot and is able to\
+    switch the index of RTMR register to either 2 or 3 by using the flag '-i'. The\
+    digests are extended into RTMR[3] by default.
 """
 
 import os
 import logging
 import argparse
-import codecs
 from pytdxmeasure.rtmr import RTMR
 
 DEFAULT_PATH_FOR_MEASUREMENT = '/sys/kernel/security/ima/ascii_runtime_measurements'
@@ -72,7 +75,7 @@ def extend_measurements_to_rtmr(contents, rtmr_index):
             LOG.info("Skip measurements not using sha384")
             continue
         content = content.split(":")
-        res = RTMR.extend_rtmr(str(codecs.decode(content[1],"hex")), rtmr_index)
+        res = RTMR.extend_rtmr("", "", content[1], rtmr_index)
         if res != RTMR.EXTEND_SUCCESS:
             LOG.error("Failed to extend %s", content[1])
 
