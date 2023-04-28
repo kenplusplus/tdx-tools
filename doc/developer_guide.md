@@ -10,8 +10,8 @@ _NOTE:_ For production build in release purpose, please refer:
 
 ### Build and Setup Kernel
 
-This [TDX kernel patchset](../build/common/patches-tdx-kernel-MVP-KERNEL-5.19-v2.2.tar.gz) includes
-all patches based on kernel [v5.19](https://github.com/torvalds/linux/releases/tag/v5.19).
+This [TDX kernel patchset](../build/common/patches-tdx-kernel-MVP-KERNEL-6.2-v1.8.tar.gz) includes
+all patches based on kernel [v6.2](https://github.com/torvalds/linux/releases/tag/v6.2).
 
 
 1. Ensure you have installed the necessary packages to build Linux kernel. e.g. `libncurses5-dev libssl-dev build-essential openssl zlibc minizip lib libidn11-dev libbidn11 bison flex`
@@ -20,9 +20,9 @@ Please install these packages via distro's package manager.
 2. Download the kernel source code:
 
    ```
-   $ wget https://github.com/intel/tdx-tools/blob/main/build/common/patches-tdx-kernel-MVP-KERNEL-5.19-v2.2.tar.gz
-   $ tar xf patches-tdx-kernel-MVP-KERNEL-5.19-v2.2.tar.gz
-   $ git clone --branch v5.19 https://github.com/torvalds/linux.git
+   $ wget https://github.com/intel/tdx-tools/blob/main/build/common/patches-tdx-kernel-MVP-KERNEL-6.2-v1.8.tar.gz
+   $ tar xf patches-tdx-kernel-MVP-KERNEL-6.2-v1.8.tar.gz
+   $ git clone --branch v6.2 https://github.com/torvalds/linux.git
    $ cd linux
    $ git am ../patches/*
    $ rm ../patches/ -fr
@@ -54,11 +54,10 @@ Please install these packages via distro's package manager.
 2. Download QEMU source code:
 
    ```
-   $ wget https://github.com/intel/tdx-tools/blob/main/build/common/patches-tdx-qemu-MVP-QEMU-7.0-v1.3.tar.gz
-   $ tar xf patches-tdx-qemu-MVP-QEMU-7.0-v1.3.tar.gz
-   $ git clone https://github.com/qemu/qemu.git
+   $ wget https://github.com/intel/tdx-tools/blob/main/build/common/patches-tdx-qemu-MVP-QEMU-7.2-v1.10.tar.gz
+   $ tar xf patches-tdx-qemu-MVP-QEMU-7.2-v1.10.tar.gz
+   $ git clone https://github.com/qemu/qemu.git -b v7.2.0
    $ cd qemu
-   $ git checkout ad4c7f529a279685da84297773b4ec8080153c2d
    $ git am ../patches/*
    $ rm ../patches/ -fr
    ```
@@ -110,10 +109,9 @@ Please install these packages via distro's package manager.
    ```
 
    Please switch to specific branch or tag for stable release.
-   Use [tdvf-2023-ww01](../build/rhel-8/intel-mvp-ovmf/build.sh) as example:
 
    ```
-   $ git checkout edk2-stable202211
+   $ git checkout edk2-stable202302
    $ git submodule update --init
    ```
 
