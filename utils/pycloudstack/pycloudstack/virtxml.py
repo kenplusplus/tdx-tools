@@ -640,6 +640,20 @@ class VirtXml:
             allow_multi_same_leaf=True)
         self.save()
 
+    def set_overcommit_params(self, overcommit_param):
+        """
+        Set overcommit parameters
+        """
+        self._add_new_element(
+            [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
+            {"value": "-overcommit"},
+            allow_multi_same_leaf=True)
+        self._add_new_element(
+            [f"{QEMUS_NS}commandline", f"{QEMUS_NS}arg"],
+            {"value": f"{overcommit_param}"},
+            allow_multi_same_leaf=True)
+        self.save()
+
     def bind_cpuids(self, cpu_ids):
         """
         bind available cpuids
