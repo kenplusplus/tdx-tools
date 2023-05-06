@@ -176,6 +176,9 @@ class VMMLibvirt(VMMBase):
 
         self.set_cpu_params_xml(xmlobj)
 
+        if self.vminst.mwait is not None:
+            xmlobj.set_overcommit_params(f"cpu-pm={self.vminst.mwait}")
+
         if self.vminst.boot == BOOT_TYPE_GRUB:
             xmlobj.kernel = None
             xmlobj.cmdline = None
@@ -217,11 +220,19 @@ class VMMLibvirt(VMMBase):
         elif self.vminst.vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
             xmlobj.loader = loader_fullpath
 
+            param_cpu = ""
             if DUT.get_cpu_base_freq() < 1000000:
-                xmlobj.set_cpu_params(
-                    "host,-shstk,-kvm-steal-time,pmu=off,tsc-freq=1000000000")
+                param_cpu = "host,-shstk,-kvm-steal-time,pmu=off,tsc-freq=1000000000"
             else:
-                xmlobj.set_cpu_params("host,-shstk,-kvm-steal-time,pmu=off")
+                param_cpu = "host,-shstk,-kvm-steal-time,pmu=off"
+
+            if self.vminst.tsx is False:
+                param_cpu += ",-hle,-rtm"
+            if self.vminst.tsc is False:
+                param_cpu += ",-tsc-deadline"
+
+            xmlobj.set_cpu_params(param_cpu)
+
 
     def _connect_virt(self):
         LOG.debug("Create libvirt connection")
