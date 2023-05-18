@@ -22,6 +22,7 @@ LOG = logging.getLogger(__name__)
 
 LOOPBACK = "127.0.0.1"
 DEFAULT_SSH_PORT = 22
+DEFAULT_CHECK_INTERVAL = 1
 
 
 class VMGuest:
@@ -151,7 +152,7 @@ class VMGuest:
         runner.runwait()
         return runner
 
-    def wait_for_ssh_ready(self, timeout=BOOT_TIMEOUT):
+    def wait_for_ssh_ready(self, timeout=BOOT_TIMEOUT, check_interval=DEFAULT_CHECK_INTERVAL):
         """
         Wait for the port of forwarded SSH ready until timeout
         @return True is ready, False is timeout
@@ -190,7 +191,7 @@ class VMGuest:
             if retcode != 0:
                 LOG.error("Fail to connect SSH for guest %s, connect error: %d", self.name, retcode)
                 sock.close()
-                time.sleep(1)
+                time.sleep(check_interval)
                 tnow = time.time()
                 continue
 
