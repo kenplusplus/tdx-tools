@@ -24,7 +24,7 @@ Virtual Machine Monitor (VMM). Please get more details from _[TDX White Papers a
 
 ### 1.3 API and Specifications
 
-Please see details at [here](https://github.com/intel/tdx-tools/wiki/0.-Intel(R)-Trust-Domain-Extensions(TDX)#2-api-and-specifications):
+Please see details at [here](https://github.com/intel/tdx-tools/wiki/API-&-Specifications):
 
 ![](./doc/tdx_specifcations.png)
 
@@ -80,4 +80,4 @@ Linux Stack for Intel&reg; TDX includes the components in below diagram:
 
 Please refer the white paper: [Linux*Stacks for Intel® Trust Domain
 Extension 1.0](https://www.intel.com/content/www/us/en/content-details/779108/whitepaper-linux-stacks-for-intel-trust-domain-extension-1-0.html) (only cover TDX 1.0)
-or [wiki](https://github.com/intel/tdx-tools/wiki) in this project.
+and [wiki](https://github.com/intel/tdx-tools/wiki) for additional informational about TDX 1.5 or developer specific.
