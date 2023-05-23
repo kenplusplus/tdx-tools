@@ -35,8 +35,8 @@ build_grub () {
 build_kernel () {
     cd intel-mvp-tdx-kernel
     ./build.sh
-    cp linux-image-unsigned-5.19.0-*.deb linux-headers-5.19.0-* linux-modules-5.19.0-* ../$GUEST_REPO/
-    cp linux-image-unsigned-5.19.0-*.deb linux-headers-5.19.0-* linux-modules-5.19.0-* linux-modules-extra-5.19.0-* ../$HOST_REPO/
+    cp linux-image-unsigned-5.19.17-*.deb linux-headers-5.19.17-* linux-modules-5.19.17-* ../$GUEST_REPO/
+    cp linux-image-unsigned-5.19.17-*.deb linux-headers-5.19.17-* linux-modules-5.19.17-* linux-modules-extra-5.19.17-* ../$HOST_REPO/
     cd ..
 }
 

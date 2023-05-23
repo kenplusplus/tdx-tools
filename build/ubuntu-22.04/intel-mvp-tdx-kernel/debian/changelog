@@ -1,3 +1,27 @@
+linux (5.19.17-mvp22v3+5.tdx) jammy; urgency=medium
+
+  * jammy/linux: fix Coverity scan issues -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 20 May 2023 21:55:00 +0800
+
+linux (5.19.17-mvp21v3+4.tdx) jammy; urgency=medium
+
+  * jammy/linux: v5.19.17 ima,cgroup,performance -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 17 May 2023 18:58:00 +0800
+
+linux (5.19.17-mvp20v3+1.tdx) jammy; urgency=medium
+
+  * jammy/linux: v5.19.17 tsx/mwait -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 10 May 2023 10:30:00 +0800
+
+linux (5.19.17-mvp19v3+0.tdx) jammy; urgency=medium
+
+  * jammy/linux: v5.19.17 rebase -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 8 May 2023 13:05:00 +0800
+
 linux (5.19.0-mvp12v2+2.tdx) jammy; urgency=medium
 
   * jammy/linux: MVP-KERNEL-5.19-v2.2 -proposed tracker (LP: #1990000)
