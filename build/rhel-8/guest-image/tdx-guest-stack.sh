@@ -9,7 +9,7 @@ IMAGE="td-guest-rhel-8.7.qcow2"
 pushd "${CURR_DIR}" || exit 1
 
 if ! readlink -f ${REPO_DIR} ; then
-    echo "${REPO_DIR} does not exist, please build it via build-repo.sh"
+    echo "${REPO_DIR} does not exist, please build it via ../build-repo.sh"
     exit 1
 fi
 

@@ -13,7 +13,7 @@ REPO_NAME="guest_repo"
 REPO_LOCAL=${THIS_DIR}/../${REPO_NAME}
 
 if [[ ! -d ${REPO_LOCAL} ]] ; then
-    echo "${REPO_LOCAL} does not exist, please build it via build-repo.sh"
+    echo "${REPO_LOCAL} does not exist, please build it via ../build-repo.sh"
     exit 1
 fi
 
