@@ -31,8 +31,8 @@ Summary: The Linux kernel
 %global released_kernel 0
 
 %define rcver 0
-%define downstream_tag tdx.v2.2
-%define relver 13
+%define downstream_tag tdx.v3.5
+%define relver 22
 
 %if %{rcver}
 %global distro_build 0.rc%{rcver}.%{downstream_tag}.mvp%{relver}
@@ -75,7 +75,7 @@ Summary: The Linux kernel
 %define primary_target rhel
 %endif
 
-%define rpmversion 5.19.0
+%define rpmversion 5.19.17
 %define pkgrelease %{distro_build}
 
 # This is needed to do merge window version magic
@@ -181,7 +181,7 @@ Summary: The Linux kernel
 %define debugbuildsenabled 1
 
 # The kernel tarball/base version
-%define kversion 5.19
+%define kversion 5.19.17
 
 %if 0%{?fedora}
 # Kernel headers are being split out into a separate package
