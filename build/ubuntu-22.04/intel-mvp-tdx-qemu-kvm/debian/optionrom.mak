@@ -7,7 +7,7 @@ CFLAGS = -O2 -m16 -Wa,-32 -march=i486 -fcf-protection=none \
 VPATH = ${SRC_PATH}/pc-bios/optionrom
 
 BINS = kvmvapic.bin linuxboot.bin linuxboot_dma.bin \
-       multiboot.bin pvh.bin
+       multiboot.bin multiboot_dma.bin pvh.bin
 all: ${BINS}
 
 %.o: %.S
