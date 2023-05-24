@@ -64,6 +64,16 @@ build_libvirt () {
     cd ..
 }
 
+build_amber-cli () {
+    pushd intel-mvp-amber-cli
+    [[ -f build.done ]] || ./build.sh
+    touch build.done
+    cp sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest-dev_*_amd64.deb \
+            sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest_*_amd64.deb \
+            amber-cli_*_amd64.deb ../$GUEST_REPO/
+    popd
+}
+
 build_check
 
 pushd "$THIS_DIR"
@@ -78,5 +88,6 @@ build_kernel
 build_qemu
 build_tdvf
 build_libvirt
+build_amber-cli
 
 popd
