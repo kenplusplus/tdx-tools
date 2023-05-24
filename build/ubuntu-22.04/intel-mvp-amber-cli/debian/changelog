@@ -1,0 +1,17 @@
+amber-cli (2023ww21-mvp3) jammy; urgency=medium
+
+  * version naming to align with release tag
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 17 May 2023 11:26:00 +0800
+
+amber-cli (20230517-mvp2) jammy; urgency=medium
+
+  * update to libtdx-attest-dev_1.16.100.2
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 17 May 2023 10:49:00 +0800
+
+amber-cli (20230511-mvp1) jammy; urgency=medium
+
+  * init build for amber client 
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 11 May 2023 14:06:00 +0800

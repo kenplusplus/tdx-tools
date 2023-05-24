@@ -1,0 +1,15 @@
+Source: amber-cli
+Section: admin
+Priority: optional
+Maintainer: Jialei Feng <jialei.feng@intel.com>
+Build-Depends: 
+ debhelper-compat (= 12),
+ golang,
+ libtdx-attest-dev (= 1.16.100.2-jammy1),
+
+Package: amber-cli
+Architecture: amd64
+Depends:
+ golang,
+ libtdx-attest-dev (= 1.16.100.2-jammy1),
+Description: Go TDX CLI for integrating with Intel Project Amber V1 API.
