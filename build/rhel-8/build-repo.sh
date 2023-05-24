@@ -7,6 +7,7 @@ CURR_DIR=$(dirname "$(readlink -f "$0")")
 PACKAGES_GUEST=( \
     intel-mvp-tdx-guest-grub2 \
     intel-mvp-tdx-guest-shim \
+    intel-mvp-amber-cli \
     )
 
 PACKAGES_HOST=( \
@@ -64,6 +65,8 @@ finalize() {
 # Check whether distro is "RHEL 8"
 [ -f /etc/redhat-release ] || { echo "Invalid OS" && exit 1; }
 [[ $(< /etc/redhat-release) == "Red Hat Enterprise Linux release 8.6 (Ootpa)" ]] || \
+[[ $(< /etc/redhat-release) == "Red Hat Enterprise Linux release 8.7 (Ootpa)" ]] || \
+[[ $(< /etc/redhat-release) == "Red Hat Enterprise Linux release 8.8 (Ootpa)" ]] || \
     { echo "Invalid OS" && exit 1; }
 
 # Check whether createrepo tool installed
