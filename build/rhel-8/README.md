@@ -1,32 +1,44 @@
 
-# Full Stack build for RHEL 8
+# Build TDX Stack on RHEL 8
 
-- Packaging project for following components
+## Build requirements
 
-  - [TDX kernel](./intel-mvp-tdx-kernel/): TDX kernel for both host and guest
-  - [TDX qemu](./intel-mvp-tdx-qemu-kvm/): QEMU KVM for TDX
-  - [TDX Libvirt](./intel-mvp-tdx-libvirt/): Libvirt with TDX modification
-  - [TDX TDVF](./intel-mvp-ovmf/): TDVF firmware for TD guest
-  - [TDX Guest Grub2](./intel-mvp-tdx-guest-grub2/): Grub2 for TD guest
-  - [TDX Guest Shim](./intel-mvp-tdx-guest-shim/): SHIM for TD guest
+RHEL is a commercial enterprise operating system. To install packages from RHEL official repositories,
+register and subscribe your system. In addition to the `BaseOS` and `Appstream` repositories, the 
+`CodeReady Linux Builder` repository is required to install dependencies when building/installing TDX packages.
 
-- Guest image tool
+```
+dnf install -y bzip2 coreutils cpio diffutils gcc gcc-c++ make patch unzip which \
+        git wget sudo python3 python3-pyyaml python3-requests redhat-rpm-config rpm-build createrepo_c
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+```
 
-  Create TD guest image via kickstart tool, refer [create guest image](../../doc/create_guest_image.md)
+## Build all
 
-**NOTE:**
+Run `build-repo.sh` to build host packages into `repo/host` and guest packages into `repo/guest/`.
 
-  - Please enable EPEL repo. It provides `capstone` and `libcapstone` required for building and installing qemu-kvm.
-  For example:
+```
+cd tdx-tools/build/rhel-8
+./build-repo.sh
+```
 
-  ```
-  dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-  ```
+If you need to build some packages separately, go into each subdirectory and run `build.sh`.
 
-  - To build packages, please setup a RHEL development machine with Red Hat
-  subscription, and run
+## Install TDX host packages
 
-  ```
-  cd build/rhel-8
-  ./build-repo.sh
-  ```
+Configure RHEL local repository to install the host packages.
+
+```
+sudo su
+mkdir -p /srv/
+mv repo/host /srv/tdx-host
+cat > /etc/yum.repos.d/tdx-host-local.repo << EOL
+[tdx-host-local]
+name=tdx-host-local
+baseurl=file:///srv/tdx-host
+enabled=1
+gpgcheck=0
+module_hotfixes=true
+EOL
+dnf install intel-mvp-tdx-kernel intel-mvp-tdx-qemu-kvm intel-mvp-ovmf intel-mvp-tdx-libvirt
+```
