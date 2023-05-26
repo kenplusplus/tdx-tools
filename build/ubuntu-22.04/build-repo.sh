@@ -3,6 +3,7 @@
 THIS_DIR=$(dirname "$(readlink -f "$0")")
 GUEST_REPO="guest_repo"
 HOST_REPO="host_repo"
+STATUS_DIR="${THIS_DIR}/build-status"
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -10,71 +11,81 @@ build_check() {
     if [[ $(id -u) -eq 0 ]]; then
         echo "Running the whole script as root is not recommended. virnetsockettest might be failed when building libvirt as root"
         echo "But mk-build-deps needs sudo to install build dependecies, we should setup passwordless sudo for automation"
-	exit 1
+        exit 1
+    fi
+
+    [[ -d $STATUS_DIR ]] || mkdir $STATUS_DIR
+    if [[ "$1" == clean-build ]]; then
+        rm -rf $STATUS_DIR/*
     fi
 }
 
 build_shim () {
-    cd intel-mvp-tdx-guest-shim
-    ./build.sh
+    pushd intel-mvp-tdx-guest-shim
+    [[ -f $STATUS_DIR/shim.done ]] || ./build.sh
+    touch $STATUS_DIR/shim.done
     cp shim_*_amd64.deb ../$GUEST_REPO/
-    cd ..
+    popd
 }
 
 build_grub () {
-    cd intel-mvp-tdx-guest-grub2
+    pushd intel-mvp-tdx-guest-grub2
     sudo apt remove libzfslinux-dev -y || true
-    ./build.sh
+    [[ -f $STATUS_DIR/grub.done ]] || ./build.sh
+    touch $STATUS_DIR/grub.done
     cp grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb ../$GUEST_REPO/
-    cd ..
+    popd
 
-    # uninstall to avoid confilcts with libnvpair-dev
+    # Uninstall to avoid confilcts with libnvpair-dev
     sudo apt remove grub2-build-deps-depends grub2-unsigned-build-deps-depends -y || true
 }
 
 build_kernel () {
-    cd intel-mvp-tdx-kernel
-    ./build.sh
+    pushd intel-mvp-tdx-kernel
+    [[ -f $STATUS_DIR/kernel.done ]] || ./build.sh
+    touch $STATUS_DIR/kernel.done
     cp linux-image-unsigned-5.19.17-*.deb linux-headers-5.19.17-* linux-modules-5.19.17-* ../$GUEST_REPO/
     cp linux-image-unsigned-5.19.17-*.deb linux-headers-5.19.17-* linux-modules-5.19.17-* linux-modules-extra-5.19.17-* ../$HOST_REPO/
-    cd ..
+    popd
 }
 
 build_qemu () {
-    cd intel-mvp-tdx-qemu-kvm
-    ./build.sh
+    pushd intel-mvp-tdx-qemu-kvm
+    [[ -f $STATUS_DIR/qemu.done ]] || ./build.sh
+    touch $STATUS_DIR/qemu.done
     cp qemu-system-x86_7.0*.deb qemu-system-common_7.0*.deb qemu-system-data_7.0*.deb ../$HOST_REPO/
-    cd ..
+    popd
 }
 
 build_tdvf () {
-    cd intel-mvp-ovmf
-    ./build.sh
+    pushd intel-mvp-ovmf
+    [[ -f $STATUS_DIR/ovmf.done ]] || ./build.sh
+    touch $STATUS_DIR/ovmf.done
     cp ovmf_*_all.deb ../$HOST_REPO/
-    cd ..
+    popd
 }
 
 build_libvirt () {
-    cd intel-mvp-tdx-libvirt
-    ./build.sh
-
+    pushd intel-mvp-tdx-libvirt
+    [[ -f $STATUS_DIR/libvirt.done ]] || ./build.sh
+    touch $STATUS_DIR/libvirt.done
     cp libvirt-clients_*.deb libvirt0_*.deb libvirt-daemon_*.deb libvirt-daemon-system_*.deb libvirt-daemon-system-systemd_*.deb \
-	    libvirt-daemon-driver-qemu_*.deb libvirt-daemon-config-network_*.deb libvirt-daemon-config-nwfilter_*.deb \
-	    libvirt-login-shell_*.deb libvirt-daemon-driver-lxc_*.deb ../$HOST_REPO/
-    cd ..
+            libvirt-daemon-driver-qemu_*.deb libvirt-daemon-config-network_*.deb libvirt-daemon-config-nwfilter_*.deb \
+            libvirt-login-shell_*.deb libvirt-daemon-driver-lxc_*.deb ../$HOST_REPO/
+    popd
 }
 
 build_amber-cli () {
     pushd intel-mvp-amber-cli
-    [[ -f build.done ]] || ./build.sh
-    touch build.done
+    [[ -f $STATUS_DIR/amber-cli.done ]] || ./build.sh
+    touch $STATUS_DIR/amber-cli.done
     cp sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest-dev_*_amd64.deb \
             sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest_*_amd64.deb \
             amber-cli_*_amd64.deb ../$GUEST_REPO/
     popd
 }
 
-build_check
+build_check $1
 
 pushd "$THIS_DIR"
 mkdir -p $GUEST_REPO
@@ -90,4 +101,6 @@ build_tdvf
 build_libvirt
 build_amber-cli
 
+# All build pass, remove build status directory
+rm -rf $STATUS_DIR/
 popd
