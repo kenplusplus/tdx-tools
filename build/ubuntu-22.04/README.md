@@ -1,23 +1,25 @@
 
-# Ubuntu 22.04 TDX Stack
+# Build TDX Stack on Ubuntu 22.04
 
-## Build TDX packages
-
-### Build requirements
+## Build requirements
 
 ```
 apt install --no-install-recommends --yes build-essential fakeroot \
         devscripts wget git equivs liblz4-tool sudo python-is-python3 python3-dev pkg-config unzip
 ```
+The local libraries `/usr/local/lib/x86_64-linux-gnu/` may cause kernel build failure.
+Consider removing it to resolve `no dependency information found for /usr/local/lib/x86_64-linux-gnu/*`. Ubuntu distro path `/usr/lib/x86_64-linux-gnu/` will be used instead.
 
-### Build all
+## Build all
 
-build-repo.sh will build host packages into host_repo/ and guest packages into guest_repo/.
+build-repo.sh will build host packages into host_repo/ and guest packages into guest_repo/ .
 
 ```
 cd tdx-tools/build/ubuntu-22.04
 ./build-repo.sh
 ```
+
+If you need to build some packages separately, go into each subdirectory and run `build.sh`.
 
 ## Install TDX host packages
 
