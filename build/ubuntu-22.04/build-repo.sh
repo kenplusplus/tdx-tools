@@ -8,12 +8,6 @@ STATUS_DIR="${THIS_DIR}/build-status"
 export DEBIAN_FRONTEND=noninteractive
 
 build_check() {
-    if [[ $(id -u) -eq 0 ]]; then
-        echo "Running the whole script as root is not recommended. virnetsockettest might be failed when building libvirt as root"
-        echo "But mk-build-deps needs sudo to install build dependecies, we should setup passwordless sudo for automation"
-        exit 1
-    fi
-
     [[ -d $STATUS_DIR ]] || mkdir $STATUS_DIR
     if [[ "$1" == clean-build ]]; then
         rm -rf $STATUS_DIR/*
