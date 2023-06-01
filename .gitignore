@@ -5,3 +5,6 @@ vmlinuz
 .vscode/
 output/
 __pycache__/
+rpmbuild/
+repo/
+*.done
