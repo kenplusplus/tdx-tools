@@ -18,8 +18,8 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install libvirt-dev python3-bpfcc aspell
+          sudo apt-get -y update
+          sudo apt-get install -y libvirt-dev python3-bpfcc aspell
           pip3 install --upgrade pip
           pip3 install pylint
           for f in $(find -type f -name "requirements.txt"); do
