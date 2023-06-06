@@ -4,8 +4,6 @@ PCCS (Provisioning Certificate Caching Service) service implementation comes fro
 [DCAP](https://github.com/intel/SGXDataCenterAttestationPrimitives/blob/master/QuoteGeneration/pccs/README.md).
 On the local cluster of CSP, it can be deployed as a microservice on Kubernetes.
 
-![](/doc/pccs-k8s.png)
-
 ## 1. Build Container
 
 ```
@@ -27,7 +25,8 @@ kubectl create secret generic dcap-pccs-ssl --from-file=./private.pem --from-fil
 
 ### 2.2 Customize via `myvalues.yaml`
 
-Customize your chart via `myvalues.yaml` like
+Create & modify `myvalues.yaml` from the file of `./chart/values.yaml` or create a new one with the following
+modifications:
 
 ```
 image:
