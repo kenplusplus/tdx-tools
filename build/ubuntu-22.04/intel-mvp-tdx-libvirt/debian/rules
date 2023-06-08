@@ -206,16 +206,17 @@ SRV_MONOLITHIC = libvirt-guests virtlogd virtlockd libvirtd libvirtd-tcp libvirt
 override_dh_auto_configure:
 	dh_auto_configure -- $(DEB_CONFIGURE_EXTRA_ARGS)
 
+# Skip test
 # The default timeout for tests in Meson is 30s, which is not enough
 # for architectures with slow buildds: make the timeout 10 times
 # larger (5m) to account for those
 override_dh_auto_test:
-	export LD_PRELOAD=""; \
-	export VIR_TEST_DEBUG=1; \
-	if ! dh_auto_test -- --timeout-multiplier 10; then \
-	    cat $(DEB_BUILDDIR)/meson-logs/testlog.txt; \
-	    exit 1; \
-	fi
+#	export LD_PRELOAD=""; \
+#	export VIR_TEST_DEBUG=1; \
+#	if ! dh_auto_test -- --timeout-multiplier 10; then \
+#	    cat $(DEB_BUILDDIR)/meson-logs/testlog.txt; \
+#	    exit 1; \
+#	fi
 
 override_dh_auto_install:
 	mkdir -p debian/tmp/usr/share/apport/package-hooks

@@ -1,7 +1,14 @@
 
 # Build TDX Stack on Ubuntu 22.04
 
+For Ubuntu it also supports building in Docker container to isolate the build environment from the linux host.
+`./pkg-builder <build-script>` will create a Docker image named `pkg-builder-ubuntu-22.04` and start a container to run the build script.
+
 ## Build requirements
+
+Follow https://docs.docker.com/engine/install/ to setup Docker.
+
+If you'd like to build on bare metal Ubuntu 22.04, install the build dependencies below.
 
 ```
 apt install --no-install-recommends --yes build-essential fakeroot \
@@ -13,13 +20,19 @@ Consider removing it to resolve `no dependency information found for /usr/local/
 ## Build all
 
 build-repo.sh will build host packages into host_repo/ and guest packages into guest_repo/ .
+Run it in docker container using `pkg-builder`.
 
 ```
 cd tdx-tools/build/ubuntu-22.04
-./build-repo.sh
+
+./pkg-builder build-repo.sh
 ```
 
-If you need to build some packages separately, go into each subdirectory and run `build.sh`.
+If you need to build some packages separately, run `build.sh` in each subdirectory.
+
+```
+./pkg-builder intel-mvp-ovmf/build.sh
+```
 
 ## Install TDX host packages
 

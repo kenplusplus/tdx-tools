@@ -1,0 +1,39 @@
+#!/usr/bin/bash
+
+THIS_DIR=$(readlink -f "$(dirname "$0")")
+BUILD_DIR="${THIS_DIR}/.."
+BUILDER=pkg-builder-ubuntu-22.04
+
+check_docker_cmd() {
+    if ! command -v docker &> /dev/null; then
+        echo "Please install docker first."
+        exit 1
+    fi
+}
+
+check_user_in_docker() {
+    if [[ "$(groups "$USER")" != *"docker"* ]]; then
+        echo "Please add the current user $USER into docker group."
+        exit 1
+    fi
+}
+
+build_docker_image() {
+    echo "Build container image..."
+    docker build -t "${BUILDER}" docker-pkg-builder
+}
+
+run_in_docker() {
+    docker run \
+        -e http_proxy -e https_proxy -e no_proxy \
+        -v "${BUILD_DIR}":/root/build \
+        -i --entrypoint "/root/build/ubuntu-22.04/$1" \
+        "${BUILDER}"
+}
+
+check_docker_cmd
+check_user_in_docker
+build_docker_image
+
+# Run build script within docker
+run_in_docker "$1"
