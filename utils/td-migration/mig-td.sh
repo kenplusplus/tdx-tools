@@ -69,7 +69,8 @@ QEMU_CMD="${QEMU_EXEC} \
 -smp 1,threads=1,sockets=1 \
 -m 1G \
 -object tdx-guest,id=tdx0,sept-ve-disable=off,debug=off,quote-generation-service=vsock:1:4050 \
--object memory-backend-memfd-private,id=ram1,size=1G \
+-object memory-backend-memfd,id=devshm,size=1G \
+-object memory-backend-memfd-private,id=ram1,size=1G,path=/dev/shm,shmemdev=devshm \
 -machine q35,memory-backend=ram1,confidential-guest-support=tdx0,kernel_irqchip=split \
 -bios ${MIGTD} \
 -device vhost-vsock-pci,id=vhost-vsock-pci1,guest-cid=${GUEST_CID},disable-legacy=on \

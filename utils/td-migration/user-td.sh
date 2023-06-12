@@ -20,6 +20,8 @@ QUOTE_TYPE=""
 GUEST_CID=3
 TELNET_PORT=9088
 INCOMING_PORT=6666
+CPU_NUM=2
+MEM_SIZE=8
 
 
 usage() {
@@ -32,12 +34,25 @@ Usage: $(basename "$0") [OPTION]...
   -q [tdvmcall|vsock]       Support for TD quote using tdvmcall or vsock
   -r <root partition>       root partition for direct boot, default is /dev/vda1
   -t <src|dst>              Must set userTD type, src or dst
+  -c [cpu number]           CPU number (should be > 0), default 2
+  -m [memory size]          Memory size (should be > 0, in giga byte), default 8G
   -h                        Show this help
 EOM
 }
 
+is_positive_int() {
+    local param=$1
+    local is_positive=false
+    if [[ $param =~ ^[0-9]+$ ]]; then
+        if [[ $param -gt 0 ]]; then
+            is_positive=true
+	fi
+    fi
+    echo $is_positive
+}
+
 process_args() {
-    while getopts "i:k:b:p:q:r:t:h" option; do
+    while getopts "i:k:b:p:q:r:t:c:m:h" option; do
         case "${option}" in
             i) GUEST_IMG=$OPTARG;;
             k) KERNEL=$OPTARG;;
@@ -46,6 +61,8 @@ process_args() {
             q) QUOTE_TYPE=$OPTARG;;
             r) ROOT_PARTITION=$OPTARG;;
             t) TD_TYPE=$OPTARG;;
+            c) CPU_NUM=$OPTARG;;
+            m) MEM_SIZE=$OPTARG;;
             h) usage
                exit 0
                ;;
@@ -60,6 +77,20 @@ process_args() {
     if [[ -z ${TD_TYPE} ]]; then
         usage
         error "Must set TD_TYPE -t [src|dst]"
+    fi
+
+    local cpu_num_valid
+    cpu_num_valid=$(is_positive_int "${CPU_NUM}")
+    if [[ $cpu_num_valid != true ]]; then
+        usage
+	error "CPU number should be positive integer"
+    fi
+
+    local mem_size_valid
+    mem_size_valid=$(is_positive_int "${MEM_SIZE}")
+    if [[ $mem_size_valid != true ]]; then
+        usage
+	error "Memory size should be positive integer"
     fi
 
     case ${TD_TYPE} in
@@ -126,9 +157,10 @@ launch_TDVM() {
 QEMU_CMD="${QEMU_EXEC} \
 -accel kvm \
 -cpu host,pmu=off,-kvm-steal-time,-shstk,tsc-freq=1000000000 \
--smp 2,threads=1,sockets=1 \
--m 8G \
--object memory-backend-memfd-private,id=ram1,size=8G \
+-smp ${CPU_NUM},threads=1,sockets=1 \
+-m ${MEM_SIZE}G \
+-object memory-backend-memfd,id=devshm,size=${MEM_SIZE}G \
+-object memory-backend-memfd-private,id=ram1,size=${MEM_SIZE}G,path=/dev/shm,shmemdev=devshm \
 -machine q35,memory-backend=ram1,confidential-guest-support=tdx0,kernel_irqchip=split \
 -bios ${OVMF} \
 -chardev stdio,id=mux,mux=on,logfile=lm-${TD_TYPE}.log \
