@@ -51,7 +51,8 @@ class VMGuest:
                  hugepages=False, hugepage_size=HUGEPAGES_2M,
                  vsock=False, vsock_cid=0,
                  vmm_class=None, cpu_ids=None, mem_numa=True,
-                 io_mode=None, cache=None, diskfile_path=None):
+                 io_mode=None, cache=None, diskfile_path=None,
+                 tsx=None, tsc=None, mwait=None):
 
         self.vmid = vmid
         self.name = name
@@ -72,6 +73,9 @@ class VMGuest:
         self.io_mode = io_mode
         self.cache = cache
         self.diskfile_path = diskfile_path
+        self.tsx = tsx
+        self.tsc = tsc
+        self.mwait = mwait
 
         # Update rootfs in kernel command line depending on distro
         rootfs_ubuntu = "root=/dev/vda1"
@@ -359,7 +363,7 @@ class VMGuestFactory:
                cmdline=KernelCmdline(),auto_start=False, hugepages=False,
                hugepage_size=None, boot=BOOT_TYPE_DIRECT,
                vsock=False, vsock_cid=3, io_mode=None, cache=None,
-               diskfile_path=None, cpu_ids=None):
+               diskfile_path=None, cpu_ids=None, tsx=None, tsc=None, mwait=None):
         """
         Creat a VM.
         """
@@ -397,7 +401,8 @@ class VMGuestFactory:
                        hugepages=hugepages, hugepage_size=hugepage_size,
                        vsock=vsock, vsock_cid=vsock_cid,
                        io_mode=io_mode, cache=cache,
-                       diskfile_path=diskfile_path, cpu_ids=cpu_ids)
+                       diskfile_path=diskfile_path, cpu_ids=cpu_ids,
+                       tsx=tsx, tsc=tsc, mwait=mwait)
 
         self.vms[vm_name] = inst
 
