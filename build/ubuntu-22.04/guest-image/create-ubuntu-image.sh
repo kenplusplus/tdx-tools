@@ -225,6 +225,12 @@ cleanup() {
     ok "Cleanup!"
 }
 
+if (( $EUID != 0 )); then
+    warn "Current user is not root, please make sure current user has correct permission by configuring /etc/libvirt/qemu.conf"
+    warn "Please refer https://libvirt.org/drvqemu.html#posix-users-groups"
+    sleep 5
+fi
+
 check_tool qemu-img
 check_tool virt-customize
 check_tool virt-install
