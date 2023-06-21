@@ -18,6 +18,9 @@ write_files:
     Created by https://github.com/intel/tdx-tools
     ===========================================================================
   path: /etc/motd
+- content: |
+    SUBSYSTEM=="misc",KERNEL=="tdx-guest",MODE="0666"
+  path: /etc/udev/rules.d/90-tdx.rules
 
 packages:
   - python3-pip

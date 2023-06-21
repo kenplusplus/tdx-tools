@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# Create a base Ubuntu EFI cloud guest image
+# Create a Ubuntu EFI cloud TDX guest image. It can run on any Linux system with
+# required tool installed like qemu-img, virt-customize, virt-install, etc. It is
+# not required to run on a TDX capable system.
 #
 
 CURR_DIR=$(dirname "$(realpath $0)")
@@ -226,12 +228,13 @@ cleanup() {
 check_tool qemu-img
 check_tool virt-customize
 check_tool virt-install
+check_tool genisoimage
 
 process_args "$@"
 create_guest_image
 config_guest_env
 resize_guest_image
 config_cloud_init
-install_tdx_guest_rpms
+install_tdx_guest_packages
 install_tdx_measure_tool
 cleanup
