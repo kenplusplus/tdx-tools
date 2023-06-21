@@ -136,19 +136,19 @@ create_guest_image() {
 
     download_image
 
-    cp ${CURR_DIR}/${CLOUD_IMG} ${CURR_DIR}/${GUEST_IMG}
-    ok "Copy the ${CLOUD_IMG} => ${GUEST_IMG}"
+    cp ${CURR_DIR}/${CLOUD_IMG} /tmp/${GUEST_IMG}
+    ok "Copy the ${CLOUD_IMG} => /tmp/${GUEST_IMG}"
 }
 
 config_guest_env() {
-    virt-customize -a ${CURR_DIR}/${GUEST_IMG} \
+    virt-customize -a /tmp/${GUEST_IMG} \
         --copy-in /etc/environment:/etc
     ok "Copy host's environment file to guest for http_proxy"
 }
 
 resize_guest_image() {
-    qemu-img resize ${CURR_DIR}/${GUEST_IMG} +${SIZE}G
-    sudo virt-customize -a ${GUEST_IMG} \
+    qemu-img resize /tmp/${GUEST_IMG} +${SIZE}G
+    virt-customize -a /tmp/${GUEST_IMG} \
         --run-command 'growpart /dev/sda 1' \
         --run-command 'resize2fs /dev/sda1' \
         --run-command 'systemctl mask pollinate.service'
@@ -157,7 +157,7 @@ resize_guest_image() {
 
 config_cloud_init() {
     pushd ${CURR_DIR}/cloud-init-data
-    [ -e ciiso.iso ] && rm ciiso.iso
+    [ -e /tmp/ciiso.iso ] && rm /tmp/ciiso.iso
     cp user-data.template user-data
     cp meta-data.template meta-data
 
@@ -176,13 +176,13 @@ local-hostname: $GUEST_HOSTNAME
 EOT
 
     ok "Generate configuration for cloud-init..."
-    genisoimage -output ciiso.iso -volid cidata -joliet -rock user-data meta-data
+    genisoimage -output /tmp/ciiso.iso -volid cidata -joliet -rock user-data meta-data
     ok "Generate the cloud-init ISO image..."
     popd
 
     virt-install --memory 4096 --vcpus 4 --name tdx-config-cloud-init \
-        --disk ${CURR_DIR}/${GUEST_IMG} \
-        --disk ${CURR_DIR}/cloud-init-data/ciiso.iso,device=cdrom \
+        --disk /tmp/${GUEST_IMG} \
+        --disk /tmp/ciiso.iso,device=cdrom \
         --os-type Linux \
         --os-variant ubuntu21.10 \
         --virt-type kvm \
@@ -201,7 +201,7 @@ install_tdx_guest_packages() {
         return
     fi
     REPO_NAME=$(basename $(realpath ${GUEST_REPO}))
-    virt-customize -a ${CURR_DIR}/${GUEST_IMG} \
+    virt-customize -a /tmp/${GUEST_IMG} \
         --copy-in ${GUEST_REPO}:/srv/ \
         --run-command "dpkg -i /srv/${REPO_NAME}/linux-*.deb" \
         --run-command "apt remove --allow-remove-essential shim-signed -y" \
@@ -209,11 +209,11 @@ install_tdx_guest_packages() {
         --run-command "dpkg -r --force-all grub-efi-amd64-signed" \
         --run-command "cd /srv/guest_repo/ && dpkg -i shim_*_amd64.deb grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb" \
         --run-command 'grub-install --target=x86_64-efi --modules "tpm"'
-    ok "Install the TDX guest RPMs into guest image..."
+    ok "Install the TDX guest packages into guest image..."
 }
 
 install_tdx_measure_tool() {
-    virt-customize -a ${CURR_DIR}/${GUEST_IMG} \
+    virt-customize -a /tmp/${GUEST_IMG} \
         --run-command "python3 -m pip install pytdxmeasure"
     ok "Install the TDX measurement tool..."
 }
