@@ -1,0 +1,23 @@
+#cloud-config
+
+write_files:
+- content: |
+    network:
+        version: 2
+        renderer: networkd
+        ethernets:
+            en:
+                match:
+                    name: "en*"
+                dhcp4: true
+                dhcp-identifier: mac
+  path: /etc/netplan/netplan.yaml
+- content: |
+    ===========================================================================
+    Welcome to TDX guest.
+    Created by https://github.com/intel/tdx-tools
+    ===========================================================================
+  path: /etc/motd
+
+packages:
+  - python3-pip
