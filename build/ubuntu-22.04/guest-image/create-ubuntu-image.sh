@@ -153,7 +153,7 @@ resize_guest_image() {
     ok "Resize the guest image to ${SIZE}G"
 }
 
-config-cloud-init() {
+config_cloud_init() {
     pushd ${CURR_DIR}/cloud-init-data
     [ -e ciiso.iso ] && rm ciiso.iso
     cp user-data.template user-data
@@ -231,7 +231,7 @@ process_args "$@"
 create_guest_image
 config_guest_env
 resize_guest_image
-config-cloud-init
+config_cloud_init
 install_tdx_guest_rpms
 install_tdx_measure_tool
 cleanup
