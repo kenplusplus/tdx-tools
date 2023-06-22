@@ -32,8 +32,8 @@ process_args() {
 }
 
 migrate() {
-    echo "migrate_set_parameter max-bandwidth 100G" | nc -U /tmp/qmp-sock-src
-    echo "migrate -d tcp:${DEST_IP}:${INCOMING_PORT}" | nc -U /tmp/qmp-sock-src
+    echo "migrate_set_parameter max-bandwidth 100G" | nc -U /tmp/qmp-sock-src -w3
+    echo "migrate -d tcp:${DEST_IP}:${INCOMING_PORT}" | nc -U /tmp/qmp-sock-src -w3
 }
 
 process_args "$@"

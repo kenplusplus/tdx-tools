@@ -50,13 +50,13 @@ error() {
 pre_mig(){
     # Asking migtd-dst to connect to the dst socat
     if [[ ${TYPE} == "local" ]]; then
-        echo "qom-set /objects/tdx0/ vsockport 1235" | nc -U /tmp/qmp-sock-dst
+        echo "qom-set /objects/tdx0/ vsockport 1235" | nc -U /tmp/qmp-sock-dst -w3
     else 
-       ssh root@"${DEST_IP}" -o ConnectTimeout=30 "echo qom-set /objects/tdx0/ vsockport 1235 | nc -U /tmp/qmp-sock-dst"
+       ssh root@"${DEST_IP}" -o ConnectTimeout=30 "echo qom-set /objects/tdx0/ vsockport 1235 | nc -U /tmp/qmp-sock-dst -w3"
     fi
 
     # Asking migtd-dst to connect to the src socat
-    echo "qom-set /objects/tdx0/ vsockport 1234" | nc -U /tmp/qmp-sock-src
+    echo "qom-set /objects/tdx0/ vsockport 1234" | nc -U /tmp/qmp-sock-src -w3
 }
 
 process_args "$@"
