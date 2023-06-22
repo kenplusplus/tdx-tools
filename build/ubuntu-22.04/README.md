@@ -11,9 +11,9 @@ Follow https://docs.docker.com/engine/install/ to setup Docker.
 If you'd like to build on bare metal Ubuntu 22.04, install the build dependencies below.
 
 ```
-apt install --no-install-recommends --yes build-essential fakeroot \
-        devscripts wget git equivs liblz4-tool sudo python-is-python3 python3-dev pkg-config unzip
+sudo apt install build-essential msr-tools devscripts debhelper-compat libelf-dev dh-buildinfo dos2unix flex bison help2man texinfo gcc-10 gcc-10-multilib xfonts-unifont libfreetype6-dev libdevmapper-dev libsdl1.2-dev xorriso qemu-system libfuse3-dev liblzma-dev liblzo2-dev mtools wamerican pkg-config libefiboot-dev libefivar-dev equivs python3-dev
 ```
+
 The local libraries `/usr/local/lib/x86_64-linux-gnu/` may cause kernel build failure.
 Consider removing it to resolve `no dependency information found for /usr/local/lib/x86_64-linux-gnu/*`. Ubuntu distro path `/usr/lib/x86_64-linux-gnu/` will be used instead.
 
