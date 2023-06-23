@@ -1,0 +1,72 @@
+# Basic setup for a TD Host
+---
+- name: "Setup Requirements"
+  become: true
+  hosts: all
+  tasks:
+    - name: "Basic Tools"
+      package:
+        name:
+          - wget
+        state: present
+    - name: "libvirt requires"
+      package:
+        name:
+          - epel-release
+        state: present
+
+- name: "Setup TDX Repo"
+  tags:
+    - tdx-repo
+  hosts: all
+  become: true
+  vars:
+    repo_name: tdx-host-basic
+  roles:
+    - setup_tdx_repo
+
+- name: "Setup TDX Packages"
+  tags:
+    - tdx-package
+  hosts: all
+  become: true
+  tasks:
+    - name: Install TDX Software Stack Packages
+      package:
+        name:
+          - intel-mvp-tdx-host-kernel-spr
+          - intel-mvp-tdx-module-spr
+          - intel-mvp-tdx-tdvf
+          - intel-mvp-tdx-qemu-kvm
+          - intel-mvp-tdx-libvirt
+        state: latest
+    - name: "Set new TDX kernel as default"
+      shell: |
+        NEW_KERNEL=$(rpm -q --last intel-mvp-tdx-host-kernel-spr | head -1 |\
+          sed -n "s/intel-mvp-tdx-host-kernel-spr-\(.*x86_64\) .*/\1/p")+spr
+        CURRENT_KERNEL=$(uname -r)
+        if [[ $NEW_KERNEL != $CURRENT_KERNEL ]]; then
+          grubby --set-default /boot/vmlinuz-$NEW_KERNEL
+          echo "reboot"
+        fi
+      register: reboot
+    - name: "Reboot"
+      reboot:
+        msg: "Reboot to new TDX stack"
+        pre_reboot_delay: 5
+        post_reboot_delay: 60
+      when: reboot.stdout is search("reboot")
+
+- name: "Verify TDX"
+  tags:
+    - tdx-verify
+  hosts: all
+  become: true
+  tasks:
+    - name: "Get TDX dmesg"
+      shell: dmesg | grep -i tdx
+      register: tdx_init
+    - name: "TDX is enabled"
+      debug:
+        msg: "TDX is enabled"
+      when: tdx_init.stdout is search("TDX initialized")

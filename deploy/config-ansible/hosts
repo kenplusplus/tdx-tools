@@ -1,0 +1,9 @@
+[all]
+
+[all:vars]
+ansible_user=
+
+# tdx remote repo
+## comment it to use local repository
+#tdx_remote_repo=
+

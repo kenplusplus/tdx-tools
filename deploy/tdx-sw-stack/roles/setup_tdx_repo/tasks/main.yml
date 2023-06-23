@@ -1,0 +1,17 @@
+- debug:
+    msg: "{{ tdx_repo }}"
+
+- include: create_repo.yml
+  when: tdx_remote_repo is not defined
+
+- name: Configure TDX Repo
+  yum_repository:
+    file: intel-tdx-stack
+    name: "{{ repo_name }}"
+    description: "{{ repo_name }}"
+    baseurl: "{{ tdx_repo }}"
+    enabled: yes
+    gpgcheck: 0
+    module_hotfixes: yes
+    metadata_expire: 0
+

@@ -1,0 +1,14 @@
+- name: Copy RPMs to Remote
+  ansible.builtin.copy:
+    src: "{{ rpms_dir }}"
+    dest: "{{ remote_dir }}"
+
+- name: Install createrepo_c
+  package:
+    name:
+      - createrepo_c
+    state: present
+
+- name: "Create Repo"
+  command: createrepo_c "{{ remote_path }}"
+

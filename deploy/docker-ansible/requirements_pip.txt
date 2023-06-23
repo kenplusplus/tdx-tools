@@ -1,0 +1,2 @@
+jmespath == 0.10.0  # required by json_query in ansbile > 2.9
+https://github.com/ansible/ansible/archive/refs/tags/v2.11.6.tar.gz
