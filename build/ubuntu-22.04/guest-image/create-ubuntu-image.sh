@@ -209,11 +209,10 @@ install_tdx_guest_packages() {
     REPO_NAME=$(basename $(realpath ${GUEST_REPO}))
     virt-customize -a /tmp/${GUEST_IMG} \
         --copy-in ${GUEST_REPO}:/srv/ \
-        --run-command "dpkg -i /srv/${REPO_NAME}/linux-*.deb" \
         --run-command "apt remove --allow-remove-essential shim-signed -y" \
         --run-command "apt remove grub-pc -y" \
         --run-command "dpkg -r --force-all grub-efi-amd64-signed" \
-        --run-command "cd /srv/guest_repo/ && dpkg -i shim_*_amd64.deb grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb" \
+        --run-command "cd /srv/guest_repo/ && dpkg -i *.deb" \
         --run-command 'grub-install --target=x86_64-efi --modules "tpm"'
     ok "Install the TDX guest packages into guest image..."
 }
@@ -242,7 +241,8 @@ process_args "$@"
 # Check user permission
 #
 if (( $EUID != 0 )); then
-    warn "Current user is not root, please make sure current user has correct permission by configuring /etc/libvirt/qemu.conf"
+    warn "Current user is not root, please use root permission via \"sudo\" or make sure current user has correct "\
+         "permission by configuring /etc/libvirt/qemu.conf"
     warn "Please refer https://libvirt.org/drvqemu.html#posix-users-groups"
     sleep 5
 fi

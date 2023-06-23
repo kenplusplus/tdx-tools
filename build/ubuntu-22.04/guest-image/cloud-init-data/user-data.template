@@ -24,3 +24,6 @@ write_files:
 
 packages:
   - python3-pip
+  - golang-go
+  - golang
+  - golang-doc
