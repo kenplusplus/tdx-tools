@@ -1,0 +1,20 @@
+# Basic setup for a TD Host
+---
+- name: "Setup Requirements"
+  become: true
+  hosts: all
+  tasks:
+    - name: "Basic Tools"
+      package:
+        name:
+          - wget
+        state: present
+
+- name: "Setup TDX Repo"
+  hosts: all
+  become: true
+  vars:
+    repo_type: build_repo
+    server_type: host
+  roles:
+    - setup_tdx_repo

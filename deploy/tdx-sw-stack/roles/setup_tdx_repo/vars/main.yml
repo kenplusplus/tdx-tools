@@ -1,4 +1,0 @@
----
-remote_path: "{{ remote_dir }}{{ rpms_dir }}/"
-tdx_repo: "{{ tdx_remote_repo if tdx_remote_repo is defined else remote_path }}"
-
