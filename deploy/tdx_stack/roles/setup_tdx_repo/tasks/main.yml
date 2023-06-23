@@ -1,0 +1,8 @@
+- debug:
+    msg: "{{ repo_type }} {{ server_type }}"
+
+- include: install_remote_repo.yml
+  when: repo_type == repo_types[1]
+
+- include: install_build_repo.yml
+  when: repo_type == repo_types[0]

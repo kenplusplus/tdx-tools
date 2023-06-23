@@ -1,0 +1,8 @@
+---
+repo_types:
+  - "build_repo"
+  - "remote_repo"
+
+server_types:
+  - "host"
+  - "guest"
