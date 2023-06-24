@@ -173,11 +173,15 @@ process_args() {
         fi
     fi
 
-    case ${GUEST_IMG##*.} in
-        qcow2) FORMAT="qcow2";;
-          img) FORMAT="raw";;
-            *) echo "Unknown disk image's format"; exit 1 ;;
-    esac
+    file_format=$(file "${GUEST_IMG}")
+    if [[ "$file_format" == *"QCOW2"* ]]; then
+        FORMAT="qcow2"
+    elif [[ "$file_format" == *": data"* ]]; then
+        FORMAT="raw"
+    else
+        echo "Unknown disk image's format: ${file_format}"
+        exit 1
+    fi
 
     # Guest rootfs changes
     if [[ ${ROOT_PARTITION} != "/dev/vda1" ]]; then
@@ -254,7 +258,7 @@ process_args() {
         QEMU_CMD+=",mac=${MAC_ADDR}"
     fi
 
-    # Set the network cidr, DHCP start address, and forward SSH port to the host 
+    # Set the network cidr, DHCP start address, and forward SSH port to the host
     QEMU_CMD+=" -netdev user,id=mynet0,net=$NET_CIDR,dhcpstart=$DHCP_START,hostfwd=tcp::$FORWARD_PORT-:22 "
 
     # Specify the number of CPUs
