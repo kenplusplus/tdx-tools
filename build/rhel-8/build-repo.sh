@@ -2,7 +2,9 @@
 
 set -e
 
-CURR_DIR=$(dirname "$(readlink -f "$0")")
+THIS_DIR=$(dirname "$(readlink -f "$0")")
+STATUS_DIR="${THIS_DIR}/build-status"
+LOG_DIR="${THIS_DIR}/build-logs"
 
 PACKAGES_GUEST=( \
     intel-mvp-tdx-guest-grub2 \
@@ -25,18 +27,15 @@ PACKAGES_SPECIAL=( \
 build_repo() {
     packages=("${@:2}")
     repo_type=$1
-    mkdir -p "${CURR_DIR}"/repo/"${repo_type}"/src
+    mkdir -p "${THIS_DIR}"/repo/"${repo_type}"/src
 
     for package in "${packages[@]}"; do
-        pushd "${CURR_DIR}"/"${package}" || exit 1
-        if [[ ! -f build.done ]]; then
-            ./build.sh
-            touch build.done
-        fi
-        if [[ ! -f rpm.done ]]; then
+        pushd "${THIS_DIR}"/"${package}" || exit 1
+        if [[ ! -f "$STATUS_DIR/build-${package}.done" ]]; then
+            ./build.sh 2>&1 | tee "$LOG_DIR/build-${package}.log"
+            touch "$STATUS_DIR/build-${package}.done"
             cp ./rpmbuild/RPMS/* ../repo/"${repo_type}"/ -fr
             cp ./rpmbuild/SRPMS/* ../repo/"${repo_type}"/src -fr
-            touch rpm.done
         fi
         popd || exit 1
     done
@@ -56,7 +55,7 @@ move_packages() {
 
 finalize() {
     repo_type=$1
-    pushd "${CURR_DIR}"/repo/"${repo_type}" || exit 1
+    pushd "${THIS_DIR}"/repo/"${repo_type}" || exit 1
     createrepo .
     popd || exit 1
 }
@@ -72,6 +71,12 @@ if ! command -v "createrepo"
 then
     echo "Did not find createrepo package, please install it by dnf install createrepo"
     exit 1
+fi
+
+[[ -d "$LOG_DIR" ]] || mkdir "$LOG_DIR"
+[[ -d "$STATUS_DIR" ]] || mkdir "$STATUS_DIR"
+if [[ "$1" == clean-build ]]; then
+    rm -rf "${STATUS_DIR:?}"/*
 fi
 
 # Build host repo
