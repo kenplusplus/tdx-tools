@@ -38,7 +38,11 @@ prepare() {
     cp "${CURR_DIR}"/linux-6.2.0/* "${SOURCE_DIR}" -fr
 
     sudo apt update
-    sudo DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai apt install tzdata -y
+    if [[ -f /etc/timezone ]]; then
+        sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
+    else
+        sudo DEBIAN_FRONTEND=noninteractive TZ=America/New_York apt install tzdata -y
+    fi
 }
 
 build() {

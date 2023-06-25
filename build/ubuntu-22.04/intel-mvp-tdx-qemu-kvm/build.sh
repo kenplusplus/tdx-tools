@@ -35,8 +35,12 @@ prepare() {
     cp "${CURR_DIR}"/debian/ "${CURR_DIR}"/"${PACKAGE}" -fr
 
     sudo apt update
-    sudo apt install systemd -y
-    sudo DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai apt install tzdata libcapstone-dev -y
+    sudo apt install systemd libcapstone-dev -y
+    if [[ -f /etc/timezone ]]; then
+        sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
+    else
+        sudo DEBIAN_FRONTEND=noninteractive TZ=America/New_York apt install tzdata -y
+    fi
 }
 
 build() {
