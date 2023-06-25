@@ -15,7 +15,9 @@ from .dut import DUT
 from .vmimg import VMImage
 from .vmm import VMMLibvirt
 from .vmparam import VM_TYPE_TD, VM_TYPE_SGX, BOOT_TYPE_DIRECT,\
-BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec, VTPM_PATH
+BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec, \
+VTPM_PATH, VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
+VM_STATE_SHUTDOWN_IN_PROGRESS
 
 __author__ = 'cpio'
 
@@ -312,6 +314,23 @@ class VMGuest:
         assert self.vmm is not None
         return self.vmm.state()
 
+    def vtpm_state(self):
+        """
+        Get vTPM TD state
+        """
+        assert self.has_vtpm is True
+        dom, _ = self.get_vtpm_td_dom()
+        state, _ = dom.state()
+        if state == libvirt.VIR_DOMAIN_RUNNING:
+            return VM_STATE_RUNNING
+        if state == libvirt.VIR_DOMAIN_PAUSED:
+            return VM_STATE_PAUSE
+        if state == libvirt.VIR_DOMAIN_SHUTDOWN:
+            return VM_STATE_SHUTDOWN_IN_PROGRESS
+        if state == libvirt.VIR_DOMAIN_SHUTOFF:
+            return VM_STATE_SHUTDOWN
+        return None
+
     def wait_for_state(self, state, timeout=20):
         """
         Wait for VM state to be given value until timeout
@@ -335,7 +354,7 @@ class VMGuest:
         try:
             dom_uuid = self.vmm.get_vtpm_id()
         except libvirt.libvirtError:
-            LOG.warning("Unable to find the domain %s", self.vminst.vmid)
+            LOG.warning("Unable to find the domain %s", self.vmid)
             return dom, dom_uuid
         dom = self.vmm.get_domain_by_uuid(dom_uuid)
         return dom, dom_uuid
@@ -388,8 +407,8 @@ class VMGuestFactory:
                hugepage_size=None, boot=BOOT_TYPE_DIRECT, disk_img=None,
                vsock=False, vsock_cid=3, io_mode=None, cache=None,
                diskfile_path=None, cpu_ids=None, migtd_pid=None, mig_hash=None,
-               incoming_port=None, tsx=None, tsc=None, mwait=None, has_vtpm=False, vtpm_path=None,
-               vtpm_log=None):
+               incoming_port=None, tsx=None, tsc=None, mwait=None,
+               has_vtpm=False, vtpm_path=None, vtpm_log=None):
         """
         Creat a VM.
         """
@@ -412,14 +431,10 @@ class VMGuestFactory:
 
         # vTPM BIOS path and vTPM TD log
         if has_vtpm is True:
-            if vtpm_path is not None:
-                vtpm_path = vtpm_path
-            else:
+            if vtpm_path is None:
                 vtpm_path = VTPM_PATH
-            if vtpm_log is not None:
-                vtpm_log = vtpm_log
-            else:
-                vtpm_log = f"/tmp/{vm_name}_vtpm_td.log"               
+            if vtpm_log is None:
+                vtpm_log = f"/tmp/{vm_name}_vtpm_td.log"
 
         # SGX VM use grub to boot
         if vmtype == VM_TYPE_SGX:

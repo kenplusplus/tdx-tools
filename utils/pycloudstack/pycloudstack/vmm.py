@@ -25,7 +25,7 @@ from .vmparam import VM_TYPE_LEGACY, VM_TYPE_EFI, VM_TYPE_TD, VM_TYPE_SGX, \
     VM_STATE_SHUTDOWN_IN_PROGRESS, BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY_CENTOS, \
     BIOS_BINARY_LEGACY_UBUNTU, QEMU_EXEC_CENTOS, QEMU_EXEC_UBUNTU, \
     BIOS_OVMF, VM_TYPE_TD_PERF, VM_TYPE_EFI_PERF, VM_TYPE_LEGACY_PERF, \
-    VTPM_PATH, BIOS_OVMF_VTPM
+    BIOS_OVMF_VTPM
 
 __author__ = 'cpio'
 
@@ -173,10 +173,10 @@ class VMMLibvirt(VMMBase):
         if self.vminst.diskfile_path:
             xmlobj.set_disk(self.vminst.diskfile_path)
 
-        self.set_cpu_params_xml(xmlobj)
+        self._set_cpu_params_xml(xmlobj)
 
         if self.vminst.has_vtpm:
-            self.set_vtpm_xml(xmlobj)
+            self._set_vtpm_xml(xmlobj)
 
         if self.vminst.mwait is not None:
             xmlobj.set_overcommit_params(f"cpu-pm={self.vminst.mwait}")
@@ -190,7 +190,7 @@ class VMMLibvirt(VMMBase):
 
         return xmlobj
 
-    def set_vtpm_xml(self, xmlobj):
+    def _set_vtpm_xml(self, xmlobj):
         """
         set vtpm TD binary path for TD instance
         """
@@ -198,7 +198,7 @@ class VMMLibvirt(VMMBase):
             xmlobj.set_vtpm_param(self.vminst.vtpm_path, self.vminst.vtpm_log)
             xmlobj.loader = BIOS_OVMF_VTPM
 
-    def set_cpu_params_xml(self, xmlobj):
+    def _set_cpu_params_xml(self, xmlobj):
         """
         set specific cpu parameters in domain xml based on different vm type
         """
@@ -402,14 +402,12 @@ class VMMLibvirt(VMMBase):
         state, _ = dom.state()
         return state == libvirt.VIR_DOMAIN_SHUTOFF
 
-    def state(self, vtpm_dom=None):
+    def state(self):
         """
         Get VM state
         """
-        if vtpm_dom is not None:
-            dom = vtpm_dom
-        else:
-            dom = self._get_domain()
+        dom = self._get_domain()
+
         state, _ = dom.state()
         if state == libvirt.VIR_DOMAIN_RUNNING:
             return VM_STATE_RUNNING
