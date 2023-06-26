@@ -1,0 +1,6 @@
+---
+
+# Default value for repo_type is build_repo
+repo_type: "{{ repo_types[0] }}"
+
+server_type: " {{ server_types[0] }} "
