@@ -739,6 +739,17 @@ class VirtXml:
         self._add_new_element_by_parent(new_disk_leaf, ["target"], {"dev": "vdb", "bus": "virtio"})
         self.save()
 
+    def set_vtpm_param(self, vtpm_path, vtpm_log):
+        """
+        Set vtpm TD binary path and vTPM TD log path
+        """
+        self._add_new_element(["launchSecurity", "vtpm", "loader"])
+        self._set_single_element_value(["launchSecurity", "vtpm", "loader"], f"{vtpm_path}")
+        self._add_new_element(["launchSecurity", "vtpm", "log"])
+        self._set_single_element_value(["launchSecurity", "vtpm", "log"], f"{vtpm_log}")
+
+        self.save()
+
     @staticmethod
     def get_templates_dir():
         """

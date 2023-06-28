@@ -24,7 +24,8 @@ from .vmparam import VM_TYPE_LEGACY, VM_TYPE_EFI, VM_TYPE_TD, VM_TYPE_SGX, \
     VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
     VM_STATE_SHUTDOWN_IN_PROGRESS, BOOT_TYPE_GRUB, BIOS_BINARY_LEGACY_CENTOS, \
     BIOS_BINARY_LEGACY_UBUNTU, QEMU_EXEC_CENTOS, QEMU_EXEC_UBUNTU, \
-    BIOS_OVMF, VM_TYPE_TD_PERF, VM_TYPE_EFI_PERF, VM_TYPE_LEGACY_PERF
+    BIOS_OVMF, VM_TYPE_TD_PERF, VM_TYPE_EFI_PERF, VM_TYPE_LEGACY_PERF, \
+    BIOS_OVMF_VTPM
 
 __author__ = 'cpio'
 
@@ -172,7 +173,10 @@ class VMMLibvirt(VMMBase):
         if self.vminst.diskfile_path:
             xmlobj.set_disk(self.vminst.diskfile_path)
 
-        self.set_cpu_params_xml(xmlobj)
+        self._set_cpu_params_xml(xmlobj)
+
+        if self.vminst.has_vtpm:
+            self._set_vtpm_xml(xmlobj)
 
         if self.vminst.mwait is not None:
             xmlobj.set_overcommit_params(f"cpu-pm={self.vminst.mwait}")
@@ -186,7 +190,15 @@ class VMMLibvirt(VMMBase):
 
         return xmlobj
 
-    def set_cpu_params_xml(self, xmlobj):
+    def _set_vtpm_xml(self, xmlobj):
+        """
+        set vtpm TD binary path for TD instance
+        """
+        if self.vminst.vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
+            xmlobj.set_vtpm_param(self.vminst.vtpm_path, self.vminst.vtpm_log)
+            xmlobj.loader = BIOS_OVMF_VTPM
+
+    def _set_cpu_params_xml(self, xmlobj):
         """
         set specific cpu parameters in domain xml based on different vm type
         """
@@ -254,6 +266,25 @@ class VMMLibvirt(VMMBase):
     def __del__(self):
         self._close_virt()
 
+    def get_domain_by_uuid(self, domain_uuid=None):
+        """
+        Get a domain from specific UUID string
+        """
+        assert self._virt_conn is not None
+        try:
+            return self._virt_conn.lookupByUUIDString(domain_uuid)
+        except libvirt.libvirtError:
+            LOG.warning("Fail to get the domain %s", domain_uuid)
+            return None
+
+    def get_vtpm_id(self):
+        """
+        Get vtpm ID
+        """
+        dom = self._get_domain()
+        vtpm_id = re.search('<vtpmid>(.*)</vtpmid>', dom.XMLDesc()).group(1)
+        return vtpm_id
+
     def create(self, stop_at_begining=True):
         """
         Create a VM.
@@ -266,7 +297,7 @@ class VMMLibvirt(VMMBase):
         domain = self._virt_conn.defineXML(self._xml.tostring())
         domain.create()
 
-    def destroy(self):
+    def destroy(self, is_undefined=True):
         """
         Destroy a VM.
         Table of Contents:https://libvirt.org/html/libvirt-libvirt-domain.html
@@ -284,10 +315,11 @@ class VMMLibvirt(VMMBase):
                 except libvirt.libvirtError:
                     LOG.warning("Fail to delete the domain %s", self._xml.name)
 
-                try:
-                    dom.undefineFlags(libvirt.VIR_DOMAIN_UNDEFINE_NVRAM)
-                except libvirt.libvirtError:
-                    LOG.warning("Unable to undefine the domain %s", self._xml.name)
+                if is_undefined:
+                    try:
+                        dom.undefineFlags(libvirt.VIR_DOMAIN_UNDEFINE_NVRAM)
+                    except libvirt.libvirtError:
+                        LOG.warning("Unable to undefine the domain %s", self._xml.name)
 
         # Delete XML file
         if os.path.exists(self._xml.filepath):
@@ -375,6 +407,7 @@ class VMMLibvirt(VMMBase):
         Get VM state
         """
         dom = self._get_domain()
+
         state, _ = dom.state()
         if state == libvirt.VIR_DOMAIN_RUNNING:
             return VM_STATE_RUNNING

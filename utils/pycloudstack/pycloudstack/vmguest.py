@@ -9,12 +9,15 @@ import socket
 import errno
 import datetime
 import getpass
+import libvirt
 from .cmdrunner import SSHCmdRunner, NativeCmdRunner
 from .dut import DUT
 from .vmimg import VMImage
 from .vmm import VMMLibvirt
 from .vmparam import VM_TYPE_TD, VM_TYPE_SGX, BOOT_TYPE_DIRECT,\
-BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec
+BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec, \
+VTPM_PATH, VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
+VM_STATE_SHUTDOWN_IN_PROGRESS
 
 __author__ = 'cpio'
 
@@ -53,7 +56,8 @@ class VMGuest:
                  vmm_class=None, cpu_ids=None, mem_numa=True,
                  io_mode=None, cache=None, diskfile_path=None,
                  migtd_pid=None, mig_hash=None, incoming_port=None,
-                 tsx=None, tsc=None, mwait=None):
+                 tsx=None, tsc=None, mwait=None,
+                 has_vtpm=False, vtpm_path=None, vtpm_log=None):
 
         self.vmid = vmid
         self.name = name
@@ -80,6 +84,9 @@ class VMGuest:
         self.tsx = tsx
         self.tsc = tsc
         self.mwait = mwait
+        self.has_vtpm = has_vtpm
+        self.vtpm_path = vtpm_path
+        self.vtpm_log = vtpm_log
 
         # Update rootfs in kernel command line depending on distro
         rootfs_ubuntu = "root=/dev/vda1"
@@ -281,12 +288,12 @@ class VMGuest:
         else:
             self.vmm.shutdown(mode)
 
-    def destroy(self, delete_image=False, delete_log=False):
+    def destroy(self, delete_image=False, delete_log=False, is_undefined=True):
         """
         Destroy VM Guest
         """
         LOG.debug("+ Destroy guest %s", self.name)
-        self.vmm.destroy()
+        self.vmm.destroy(is_undefined=is_undefined)
         if delete_image:
             self.image.destroy()
         if delete_log:
@@ -307,6 +314,23 @@ class VMGuest:
         assert self.vmm is not None
         return self.vmm.state()
 
+    def vtpm_state(self):
+        """
+        Get vTPM TD state
+        """
+        assert self.has_vtpm is True
+        dom, _ = self.get_vtpm_td_dom()
+        state, _ = dom.state()
+        if state == libvirt.VIR_DOMAIN_RUNNING:
+            return VM_STATE_RUNNING
+        if state == libvirt.VIR_DOMAIN_PAUSED:
+            return VM_STATE_PAUSE
+        if state == libvirt.VIR_DOMAIN_SHUTDOWN:
+            return VM_STATE_SHUTDOWN_IN_PROGRESS
+        if state == libvirt.VIR_DOMAIN_SHUTOFF:
+            return VM_STATE_SHUTDOWN
+        return None
+
     def wait_for_state(self, state, timeout=20):
         """
         Wait for VM state to be given value until timeout
@@ -319,6 +343,21 @@ class VMGuest:
             time.sleep(1)
             count += 1
         return False
+
+    def get_vtpm_td_dom(self):
+        """
+        Get dom of vTPM TD which is binding with user TD
+        """
+        dom = None
+        dom_uuid = None
+
+        try:
+            dom_uuid = self.vmm.get_vtpm_id()
+        except libvirt.libvirtError:
+            LOG.warning("Unable to find the domain %s", self.vmid)
+            return dom, dom_uuid
+        dom = self.vmm.get_domain_by_uuid(dom_uuid)
+        return dom, dom_uuid
 
     def get_ip(self, force_refresh=False):
         """
@@ -368,7 +407,8 @@ class VMGuestFactory:
                hugepage_size=None, boot=BOOT_TYPE_DIRECT, disk_img=None,
                vsock=False, vsock_cid=3, io_mode=None, cache=None,
                diskfile_path=None, cpu_ids=None, migtd_pid=None, mig_hash=None,
-               incoming_port=None, tsx=None, tsc=None, mwait=None):
+               incoming_port=None, tsx=None, tsc=None, mwait=None,
+               has_vtpm=False, vtpm_path=None, vtpm_log=None):
         """
         Creat a VM.
         """
@@ -388,6 +428,13 @@ class VMGuestFactory:
         user_name = getpass.getuser()
         current_time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
         vm_name = f"{vmtype}-{user_name}-{current_time}"
+
+        # vTPM BIOS path and vTPM TD log
+        if has_vtpm is True:
+            if vtpm_path is None:
+                vtpm_path = VTPM_PATH
+            if vtpm_log is None:
+                vtpm_log = f"/tmp/{vm_name}_vtpm_td.log"
 
         # SGX VM use grub to boot
         if vmtype == VM_TYPE_SGX:
@@ -410,7 +457,8 @@ class VMGuestFactory:
                        io_mode=io_mode, cache=cache,
                        diskfile_path=diskfile_path, cpu_ids=cpu_ids,
                        migtd_pid=migtd_pid, mig_hash=mig_hash, incoming_port=incoming_port,
-                       tsx=tsx, tsc=tsc, mwait=mwait)
+                       tsx=tsx, tsc=tsc, mwait=mwait, has_vtpm=has_vtpm,
+                       vtpm_path=vtpm_path, vtpm_log=vtpm_log)
 
         self.vms[vm_name] = inst
 
