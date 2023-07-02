@@ -18,10 +18,13 @@ TARGET_PID=""
 ROOT_PARTITION="/dev/vda1"
 QUOTE_TYPE=""
 GUEST_CID=3
-TELNET_PORT=9088
+TELNET_PORT=""
 INCOMING_PORT=6666
 CPU_NUM=2
 MEM_SIZE=8
+TDX_ENABLE="true"
+NETDEV_ID=mynet0
+MAC_ADDR=""
 
 
 usage() {
@@ -36,6 +39,10 @@ Usage: $(basename "$0") [OPTION]...
   -t <src|dst>              Must set userTD type, src or dst
   -c [cpu number]           CPU number (should be > 0), default 2
   -m [memory size]          Memory size (should be > 0, in giga byte), default 8G
+  -x [true|false]           Enable TDX, default true
+  -e                        Telnet port
+  -n                        netdev id
+  -a                        MAC address
   -h                        Show this help
 EOM
 }
@@ -51,8 +58,19 @@ is_positive_int() {
     echo $is_positive
 }
 
+is_valid_port() {
+    local port_number=$1
+    local is_valid=false
+    if [[ $port_number =~ ^[0-9]+$ ]]; then
+        if [[ "$port_number" -lt 65536 ]]; then
+            is_valid=true
+        fi
+    fi
+    echo $is_valid
+}
+
 process_args() {
-    while getopts "i:k:b:p:q:r:t:c:m:h" option; do
+    while getopts "i:k:b:p:q:r:t:c:m:x:e:n:a:h" option; do
         case "${option}" in
             i) GUEST_IMG=$OPTARG;;
             k) KERNEL=$OPTARG;;
@@ -63,6 +81,10 @@ process_args() {
             t) TD_TYPE=$OPTARG;;
             c) CPU_NUM=$OPTARG;;
             m) MEM_SIZE=$OPTARG;;
+            x) TDX_ENABLE=$OPTARG;;
+            e) TELNET_PORT=$OPTARG;;
+            n) NETDEV_ID=$OPTARG;;
+            a) MAC_ADDR=$OPTARG;;
             h) usage
                exit 0
                ;;
@@ -93,21 +115,48 @@ process_args() {
 	error "Memory size should be positive integer"
     fi
 
+    if [[ -z $MAC_ADDR ]]; then
+        MAC_ADDR=$(printf '00:60:2f:%02x:%02x:%02x\n' $((RANDOM%256)) $((RANDOM%256)) $((RANDOM%256)))
+    fi
+
+    case ${TDX_ENABLE} in
+        "true") ;;
+        "false") ;;
+        *)
+            error "Invalid TDX option \"$TDX_ENABLE\", must be [true|false]"
+            ;;
+    esac
+
     case ${TD_TYPE} in
         "src")
-            GUEST_CID=3
-            TELNET_PORT=9088
-            TARGET_PID=$(pgrep -n migtd-src)
+            if [[ -z ${TELNET_PORT} ]]; then
+                TELNET_PORT=9088
+            fi
+            if [[ ${TDX_ENABLE} == "true" ]]; then
+                GUEST_CID=3
+                TARGET_PID=$(pgrep -n migtd-src)
+            fi
             ;;
         "dst")
-            GUEST_CID=4
-            TELNET_PORT=9089
-            TARGET_PID=$(pgrep -n migtd-dst)
+            if [[ -z ${TELNET_PORT} ]]; then
+                TELNET_PORT=9089
+            fi
+            if [[ ${TDX_ENABLE} == "true" ]]; then
+                GUEST_CID=4
+                TARGET_PID=$(pgrep -n migtd-dst)
+            fi
             ;;
         *)
             error "Invalid ${TD_TYPE}, must be [src|dst]"
             ;;
     esac
+
+    local telnet_port_valid
+    telnet_port_valid=$(is_valid_port "${TELNET_PORT}")
+    if [[ $telnet_port_valid != true ]]; then
+        usage
+        error "Port number should be 0 ~ 65535"
+    fi
 
     case ${BOOT_TYPE} in
         "direct")
@@ -153,14 +202,19 @@ error() {
     exit 1
 }
 
-launch_TDVM() {
+launch_vm() {
+
+    PARAM_MACHINE="-machine q35,memory-backend=ram1,confidential-guest-support=tdx0,kernel_irqchip=split -object memory-backend-memfd-private,id=ram1,size=${MEM_SIZE}G "
+    if [[ ${TDX_ENABLE} != "true" ]]; then
+        PARAM_MACHINE="-machine q35,kernel_irqchip=split "
+    fi
+
 QEMU_CMD="${QEMU_EXEC} \
 -accel kvm \
 -cpu host,pmu=off,-kvm-steal-time,-shstk,tsc-freq=1000000000 \
 -smp ${CPU_NUM},threads=1,sockets=1 \
 -m ${MEM_SIZE}G \
--object memory-backend-memfd-private,id=ram1,size=${MEM_SIZE}G \
--machine q35,memory-backend=ram1,confidential-guest-support=tdx0,kernel_irqchip=split \
+${PARAM_MACHINE} \
 -bios ${OVMF} \
 -chardev stdio,id=mux,mux=on,logfile=lm-${TD_TYPE}.log \
 -drive file=$(readlink -f "${GUEST_IMG}"),if=virtio,id=virtio-disk0,format=qcow2 \
@@ -171,18 +225,20 @@ QEMU_CMD="${QEMU_EXEC} \
 -monitor telnet:127.0.0.1:${TELNET_PORT},server,nowait \
 -device virtio-serial,romfile= \
 -device virtconsole,chardev=mux -serial chardev:mux -monitor chardev:mux \
--device virtio-net-pci,netdev=mynet0,romfile= \
--netdev bridge,id=mynet0,br=virbr0"
+-device virtio-net-pci,netdev=${NETDEV_ID},mac=${MAC_ADDR},romfile= \
+-netdev bridge,id=${NETDEV_ID},br=virbr0"
 
-    if [[ -n ${QUOTE_TYPE} ]]; then
-        if [[ ${QUOTE_TYPE} == "tdvmcall" ]]; then
-		    QEMU_CMD+=" -object tdx-guest,id=tdx0,sept-ve-disable=on,debug=off,migtd-pid=${TARGET_PID},quote-generation-service=vsock:2:4050"
+    if [[ ${TDX_ENABLE} == "true" ]]; then
+        if [[ -n ${QUOTE_TYPE} ]]; then
+            if [[ ${QUOTE_TYPE} == "tdvmcall" ]]; then
+                QEMU_CMD+=" -object tdx-guest,id=tdx0,sept-ve-disable=on,debug=off,migtd-pid=${TARGET_PID},quote-generation-service=vsock:2:4050"
+            else
+                QEMU_CMD+=" -object tdx-guest,id=tdx0,sept-ve-disable=on,debug=off,migtd-pid=${TARGET_PID}"
+                QEMU_CMD+=" -device vhost-vsock-pci,guest-cid=${GUEST_CID}"
+            fi
         else
-		    QEMU_CMD+=" -object tdx-guest,id=tdx0,sept-ve-disable=on,debug=off,migtd-pid=${TARGET_PID}"
-            QEMU_CMD+=" -device vhost-vsock-pci,guest-cid=${GUEST_CID}"
+            QEMU_CMD+=" -object tdx-guest,id=tdx0,sept-ve-disable=on,debug=off,migtd-pid=${TARGET_PID}"
         fi
-    else
-		QEMU_CMD+=" -object tdx-guest,id=tdx0,sept-ve-disable=on,debug=off,migtd-pid=${TARGET_PID}"
     fi
 
     if [[ ${BOOT_TYPE} == "direct" ]]; then
@@ -198,4 +254,4 @@ QEMU_CMD="${QEMU_EXEC} \
 }
 
 process_args "$@"
-launch_TDVM
+launch_vm
