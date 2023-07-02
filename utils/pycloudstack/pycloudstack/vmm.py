@@ -53,7 +53,7 @@ class VMMBase:
         """
         raise NotImplementedError
 
-    def destroy(self):
+    def destroy(self, is_undefined=True):
         """
         Destroy a VM.
         """
