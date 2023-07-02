@@ -1,10 +1,23 @@
 # Ubuntu 22.04 TDX Guest Image Tool
 
-## 1. Prerequisites
+## 1. Overview
 
-- It can run on any Linux machine without dependency on TDX.
-- Build the all packages via `build-repo.sh`, by default the built packages (*.deb/*.rpm) will be put into directory `guest_repo` and `host_repo`. This tool need the directory path of `guest_repo` for input via `-r`
-- Install following dependencies package:
+This project is used to create a customized Ubuntu TDX guest image from an official Ubuntu cloud image:
+- Include TDX enabled packages like kernel, grub, shim etc.
+- Include TDX guest tools like `pytdxmeasure`, `amber-cli` etc.
+- Include full measured boot
+- Include secure boot (TBD)
+- Include full DCAP packages from https://download.01.org/intel-sgx/latest/dcap-latest/linux/ (TBD)
+
+It allows the customizations via the `cloud-init` script, please see [meta-data.template](cloud-init-data/meta-data.template) and [user-data.template](cloud-init-data/user-data.template).
+
+![](/doc/create-ubunt-guest-image.png)
+
+## 2. Prerequisites
+
+- It can run on any Linux machine without relying on TDX.
+- Build all packages via the script [`build-repo.sh`](../build-repo.sh), by default the built packages (`*.deb`/`*.rpm`) will be put into the directories `guest_repo` and `host_repo` under the same directory of the file `build-repo.sh`.
+- Install the following apps or tools:
   - Ubuntu:
   ```
   sudo apt install qemu-utils libguestfs-tools virtinst genisoimage
@@ -14,9 +27,9 @@
   sudo dnf install libguestfs-tools-c qemu-img virt-install genisoimage
   ```
 
-## 2. Usage
+## 3. Usage
 
-  The command usage is as follows:
+  The command usage is :
 
   ```
   Usage: create-ubuntu-image.sh [OPTION]...
@@ -37,7 +50,7 @@
   - Please refer https://cloudinit.readthedocs.io/en/latest/reference/examples.html for cloud-init configuration, then update [user-data.template](./cloud-init-data/user-data.template)
   - Please refer https://www.libguestfs.org/virt-customize.1.html for more customizations via `virt-customize`
 
-## 3. Examples
+## 4. Examples
 
 1. Specify the size of disk image
 
