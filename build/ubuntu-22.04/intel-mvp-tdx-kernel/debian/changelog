@@ -1,3 +1,69 @@
+linux (6.2.16-mvp28v3+6.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.6 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 30 Jun 2023 13:51:00 +0800
+
+linux (6.2.16-mvp27v3+5.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.5 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 29 Jun 2023 13:51:00 +0800
+
+linux (6.2.16-mvp26v3+4.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.4 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 19 Jun 2023 17:01:00 +0800
+
+linux (6.2.16-mvp25v3+3.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.3 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sun, 18 Jun 2023 13:39:00 +0800
+
+linux (6.2.16-mvp23v3+1.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.1 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 15 Jun 2023 13:34:00 +0800
+
+linux (6.2.16-mvp22v3+0.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.0 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 14 Jun 2023 15:30:00 +0800
+
+linux (6.2.16-mvp21v2+9.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v2.9 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 14 Jun 2023 12:14:00 +0800
+
+linux (6.2.16-mvp20v2+8.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v2.8 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 13 Jun 2023 19:19:00 +0800
+
+linux (6.2.16-mvp18v2+6.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v2.6 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 7 Jun 2023 18:41:00 +0800
+
+linux (6.2.16-mvp14v2+2.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v2.2 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 6 Jun 2023 15:54:00 +0800
+
+linux (6.2.16-mvp11v2+1.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v2.1 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 30 May 2023 10:00:00 +0800
+
 linux (6.2.0-mvp10v1+8.tdx) jammy; urgency=medium
 
   * jammy/linux: MVP-KERNEL-6.2-v1.8 -proposed tracker (LP: #1990000)

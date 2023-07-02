@@ -42,8 +42,8 @@ build_kernel () {
     pushd intel-mvp-tdx-kernel
     [[ -f $STATUS_DIR/kernel.done ]] || ./build.sh 2>&1 | tee "$LOG_DIR"/kernel.log
     touch "$STATUS_DIR"/kernel.done
-    cp linux-image-unsigned-6.2.0-*.deb linux-headers-6.2.0-* linux-modules-6.2.0-* ../$GUEST_REPO/
-    cp linux-image-unsigned-6.2.0-*.deb linux-headers-6.2.0-* linux-modules-6.2.0-* linux-modules-extra-6.2.0-* ../$HOST_REPO/
+    cp linux-image-unsigned-6.2.16-*.deb linux-headers-6.2.16-* linux-modules-6.2.16-* ../$GUEST_REPO/
+    cp linux-image-unsigned-6.2.16-*.deb linux-headers-6.2.16-* linux-modules-6.2.16-* linux-modules-extra-6.2.16-* ../$HOST_REPO/
     popd
 }
 

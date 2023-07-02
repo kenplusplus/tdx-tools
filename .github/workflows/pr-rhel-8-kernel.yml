@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Cleanup workspace for the job (self hosted only)
         run: |
-          sudo rm -fr *
+          sudo rm -fr * .* || true
       - id: checkout_self
         name: Check out PR
         uses: actions/checkout@v3

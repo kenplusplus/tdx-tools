@@ -4,10 +4,10 @@ set -ex
 
 CURR_DIR="$(dirname "$(readlink -f "$0")")"
 
-UPSTREAM_GIT_URI="https://github.com/torvalds/linux.git"
-UPSTREAM_TAG="v6.2"
+UPSTREAM_GIT_URI="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
+UPSTREAM_TAG="v6.2.16"
 
-PATCHSET="${CURR_DIR}/../../common/patches-tdx-kernel-MVP-KERNEL-6.2-v1.8.tar.gz"
+PATCHSET="${CURR_DIR}/../../common/patches-tdx-kernel-MVP-KERNEL-6.2.16-v3.6.tar.gz"
 SPEC_FILE="${CURR_DIR}/tdx-kernel.spec"
 RPMBUILD_DIR="${CURR_DIR}/rpmbuild"
 
