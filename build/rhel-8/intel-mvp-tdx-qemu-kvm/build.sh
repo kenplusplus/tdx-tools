@@ -7,7 +7,7 @@ CURR_DIR="$(dirname "$(readlink -f "$0")")"
 UPSTREAM_GIT_URI="https://github.com/qemu/qemu.git"
 UPSTREAM_TAG="v7.2.0"
 
-PATCHSET="${CURR_DIR}/../../common/patches-tdx-qemu-MVP-QEMU-7.2-v1.10.tar.gz"
+PATCHSET="${CURR_DIR}/../../common/patches-tdx-qemu-MVP-QEMU-7.2-v2.5.tar.gz"
 SPEC_FILE="${CURR_DIR}/tdx-qemu.spec"
 RPMBUILD_DIR="${CURR_DIR}/rpmbuild"
 DOWNSTREAM_TARBALL="${RPMBUILD_DIR}/SOURCES/tdx-qemu.tar.gz"

@@ -1,3 +1,39 @@
+qemu (9:7.2.0+mvp18+25) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v2.5
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 27 Jun 2023 16:43:00 +0800
+
+qemu (9:7.2.0+mvp17+24) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v2.4
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 20 Jun 2023 11:31:00 +0800
+
+qemu (9:7.2.0+mvp16+23) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v2.3 drop UPM 2M
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 15 Jun 2023 14:16:00 +0800
+
+qemu (9:7.2.0+mvp15+22) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v2.2
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 7 Jun 2023 18:57:00 +0800
+
+qemu (9:7.2.0+mvp14+20) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v2.0
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 6 Jun 2023 15:57:00 +0800
+
+qemu (9:7.2.0+mvp13+110) jammy; urgency=medium
+
+  * include multiboot_dma.bin
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 27 May 2023 16:39:00 +0800
+
 qemu (9:7.2.0+mvp12+110) jammy; urgency=medium
 
   * tdx qemu 7.2.0 MVP-QEMU-7.2-v1.10

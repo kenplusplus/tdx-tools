@@ -125,9 +125,9 @@ Obsoletes: qemu-kvm-block-iscsi <= %{epoch}:%{version}           \
 Summary: QEMU is a machine emulator and virtualizer
 Name: intel-mvp-tdx-qemu-kvm
 Version: 7.2.0
-%define source_tag MVP-QEMU-7.2-v1.10
-%define downstream_version v1.10
-%define patch_number mvp12
+%define source_tag MVP-QEMU-7.2-v2.5
+%define downstream_version v2.5
+%define patch_number mvp18
 Release: %{downstream_version}.%{patch_number}%{?dist}
 
 Provides: qemu-kvm
