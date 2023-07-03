@@ -1,3 +1,38 @@
+libvirt (8.6.0-v2.6.mvp10) jammy; urgency=medium
+
+  * Support TDX live migration
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 28 Jun 2023 16:03:05 -0700
+
+libvirt (8.6.0-v2.5.mvp9) jammy; urgency=medium
+
+  * Expand vTPM memory
+ -- Jialei Feng <jialei.feng@intel.com>  Sun, 25 Jun 2023 15:33:05 -0700
+
+libvirt (8.6.0-v2.4.mvp8) jammy; urgency=medium
+
+  * Fix vTPM
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 19 Jun 2023 15:41:05 -0700
+
+libvirt (8.6.0-v2.3.mvp7) jammy; urgency=medium
+
+  * Revert UPM 2M
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 15 Jun 2023 15:09:05 -0700
+
+libvirt (8.6.0-v2.2.mvp6) jammy; urgency=medium
+
+  * Fix libvirt-python install error
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 14 Jun 2023 19:03:05 -0700
+
+libvirt (8.6.0-v2.1.mvp5) jammy; urgency=medium
+
+  * Support vTPM
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 13 Jun 2023 16:33:05 -0700
+
+libvirt (8.6.0-2022.11.17.mvp4) jammy; urgency=medium
+
+  * Support UPM 2M
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 8 Jun 2023 13:55:05 -0700
+
 libvirt (8.6.0-2022.11.17.mvp2) jammy; urgency=medium
 
   * Support private-memfd

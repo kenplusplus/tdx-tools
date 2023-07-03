@@ -1,9 +1,0 @@
-tdx-libvirt*
-libvirt
-*.deb
-*.ddeb
-*.build
-*.buildinfo
-*.changes
-
-

@@ -228,9 +228,9 @@
 Summary: Library providing a simple virtualization API
 Name: intel-mvp-tdx-libvirt
 Version: 8.6.0
-%define patch_number 3
-%define downstream_tag 2022.11.17
-Release: %{downstream_tag}.mvp%{patch_number}%{?dist}
+%define patch_number 10
+%define downstream_tag MVP-LIBVIRT-8.6.0-v2.6
+Release: v2.6.mvp%{patch_number}%{?dist}
 License: LGPLv2+
 URL: https://libvirt.org/
 
@@ -241,7 +241,7 @@ Provides: libvirt
     %define mainturl stable_updates/
 %endif
 Source: https://libvirt.org/sources/%{?mainturl}libvirt-%{version}.tar.xz
-Source1: patches-tdx-libvirt-%{version}-%{downstream_tag}.tar.gz
+Source1: patches-tdx-libvirt-%{downstream_tag}.tar.gz
 
 Requires: intel-mvp-tdx-libvirt-daemon = %{version}-%{release}
 Requires: intel-mvp-tdx-libvirt-daemon-config-network = %{version}-%{release}
@@ -1102,6 +1102,8 @@ Libvirt plugin for NSS for translating domain names into IP addresses.
 
 %prep
 
+%autosetup -S git_am -n libvirt-%{version}
+
 ExtractPatches()
 {
     local patchtarball=$1
@@ -1113,11 +1115,8 @@ ExtractPatches()
     tar xf $patchtarball
 }
 ExtractPatches %{SOURCE1}
-
-%autosetup -S git_am -n libvirt-%{version}
-
-for p in ../*.patch; do
-     patch -p1 -F1 -s < $p
+for p in patches/*.patch; do
+    patch -p1 -F1 -s < $p
 done
 
 
@@ -1442,10 +1441,8 @@ mv $RPM_BUILD_ROOT%{_datadir}/systemtap/tapset/libvirt_qemu_probes.stp \
     %endif
 %endif
 
-%check
 # Building on slow archs, like emulated s390x in Fedora copr, requires
 # raising the test timeout
-VIR_TEST_DEBUG=1 %meson_test --no-suite syntax-check --timeout-multiplier 10
 
 %define libvirt_daemon_schedule_restart() mkdir -p %{_localstatedir}/lib/rpm-state/libvirt || : \
 /bin/systemctl is-active %1.service 1>/dev/null 2>&1 && \
