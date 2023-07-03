@@ -28,3 +28,10 @@ packages:
   - golang
   - golang-doc
   - ntp
+
+power_state:
+  delay: now
+  mode: poweroff
+  message: Bye Bye
+  timeout: 1
+  condition: True

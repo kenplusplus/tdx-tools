@@ -198,8 +198,8 @@ EOT
     ok "Complete cloud-init..."
     sleep 1
 
-    virsh destroy tdx-config-cloud-init
-    virsh undefine tdx-config-cloud-init
+    virsh destroy tdx-config-cloud-init || true
+    virsh undefine tdx-config-cloud-init || true
 }
 
 install_tdx_guest_packages() {
