@@ -69,7 +69,7 @@ build_libvirt () {
     touch "$STATUS_DIR"/libvirt.done
     cp libvirt-clients_*.deb libvirt0_*.deb libvirt-daemon_*.deb libvirt-daemon-system_*.deb libvirt-daemon-system-systemd_*.deb \
             libvirt-daemon-driver-qemu_*.deb libvirt-daemon-config-network_*.deb libvirt-daemon-config-nwfilter_*.deb \
-            libvirt-login-shell_*.deb libvirt-daemon-driver-lxc_*.deb ../$HOST_REPO/
+            libvirt-login-shell_*.deb libvirt-daemon-driver-lxc_*.deb libvirt-dev_*.deb ../$HOST_REPO/
     popd
 }
 
