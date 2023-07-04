@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -ex
+set -o pipefail
+
 THIS_DIR=$(dirname "$(readlink -f "$0")")
 GUEST_REPO="guest_repo"
 HOST_REPO="host_repo"
@@ -72,8 +75,6 @@ build_check "$1"
 pushd "$THIS_DIR"
 mkdir -p $GUEST_REPO
 mkdir -p $HOST_REPO
-
-set -ex
 
 build_kernel
 $GUEST_ONLY && build_qemu
