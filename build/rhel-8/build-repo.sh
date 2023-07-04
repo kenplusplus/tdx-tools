@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
 
 THIS_DIR=$(dirname "$(readlink -f "$0")")
 STATUS_DIR="${THIS_DIR}/build-status"

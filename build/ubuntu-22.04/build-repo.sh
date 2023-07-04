@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -ex
+set -o pipefail
 
 THIS_DIR=$(dirname "$(readlink -f "$0")")
 GUEST_REPO="guest_repo"
