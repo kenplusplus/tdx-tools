@@ -48,3 +48,12 @@ Download is performed unsandboxed as root as file as file ... couldn't be access
 
 You can also install packages for TDX guest using similar steps after copying the
 whole guest packages into TDX guest VM.
+
+Another way, which supports configuring a local apt repository. Take `host_repo` as an example:
+
+```
+cp host_repo /tmp/ -fr
+cat > /etc/apt/sources.list.d/tdx-local.list << EOL
+deb [trusted=yes] file:///tmp/host_repo ./
+EOL
+```
