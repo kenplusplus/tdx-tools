@@ -40,8 +40,8 @@ def test_vm_docker_tf_infer_mobilenetv1_bf16(vm_factory, vm_type, vm_ssh_pubkey,
 
     command = '''
     docker run --rm -e DNNL_MAX_CPU_ISA=AVX512_CORE_AMX -e OMP_NUM_THREADS=16
-    -e KMP_AFFINITY=granularity=fine,verbose,compact -v/root:/root -w /root/models-2.5.0
-    intel/tf-nightly:2.8.0  python3 ./benchmarks/launch_benchmark.py
+    -e KMP_AFFINITY=granularity=fine,verbose,compact -v/root:/root -w /root/models
+    intel/intel-optimized-tensorflow-avx512:2.8.0  python3 ./benchmarks/launch_benchmark.py
     --benchmark-only --framework tensorflow --model-name mobilenet_v1
     --mode inference --precision bfloat16 --batch-size 1
     --in-graph /root/mobilenet_v1_1.0_224_frozen.pb

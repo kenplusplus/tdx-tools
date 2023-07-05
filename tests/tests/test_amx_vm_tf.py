@@ -43,7 +43,7 @@ def test_vm_tf_infer_dien_bf16(vm_factory, vm_type, vm_ssh_pubkey, vm_ssh_key):
     LOG.info("====== The test running may take up to 30 minutes! ======")
 
     command = '''
-    cd /root/models-2.5.0 && DNNL_MAX_CPU_ISA=AVX512_CORE_AMX OMP_NUM_THREADS=16 KMP_AFFINITY=granularity=fine,verbose,compact python3 ./benchmarks/launch_benchmark.py
+    cd /root/models && DNNL_MAX_CPU_ISA=AVX512_CORE_AMX OMP_NUM_THREADS=16 KMP_AFFINITY=granularity=fine,verbose,compact python3 ./benchmarks/launch_benchmark.py
     --model-name dien  --mode inference  --precision bfloat16
     --framework tensorflow --data-location /root/dien
     --exact-max-length=100 --num-inter-threads 1  --num-intra-threads 16

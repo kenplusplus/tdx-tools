@@ -103,22 +103,27 @@ Please check prerequisite of each test and take corresponding action as followin
     3. For workload tests, make sure the latest docker image is in guest image
        test_workload_nginx - it needs docker image nginx:latest
        test_workload_redis - it needs docker image redis:latest
-    4. Make sure docker image intel/tf-nightly:2.8.0 is in guest image
+    4. Make sure docker image intel/intel-optimized-tensorflow-avx512:2.8.0 is in guest image
     5. Install intel-tensorflow-avx512 in guest image. Download DIEN_bf16 model and put it under /root in guest image.
        For ubuntu guest image
        
        ```
+       cd /root/
        pip3 install intel-tensorflow-avx512==2.11.0
        wget https://storage.googleapis.com/intel-optimized-tensorflow/models/v2_5_0/dien_bf16_pretrained_opt_model.pb
+       wget https://storage.googleapis.com/intel-optimized-tensorflow/models/v2_5_0/dien_fp32_static_rnn_graph.pb
+       mkdir dien
+       pushd dien
+         # Download the datasets following steps in https://github.com/IntelAI/models/blob/master/benchmarks/recommendation/tensorflow/dien/inference/README.md#Datasets
+       popd
+       git clone https://github.com/IntelAI/models.git
+       pushd models
+       git checkout v2.5.0
+       popd
        ```
        
-       For rhel guest image, please upgrade python to python 3.8 first.
+       For rhel guest image, please upgrade python to python 3.8 first and run the commands above afterwards.
        
-       ```
-
-       pip3 install intel-tensorflow-avx512==2.11.0
-       wget https://storage.googleapis.com/intel-optimized-tensorflow/models/v2_5_0/dien_bf16_pretrained_opt_model.pb
-       ```
 
 ## Run Tests
 
