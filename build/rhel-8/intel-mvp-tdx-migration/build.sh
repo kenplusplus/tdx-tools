@@ -6,7 +6,7 @@ CURR_DIR=$(dirname "$(readlink -f "$0")")
 RPMBUILD_DIR=${CURR_DIR}/rpmbuild
 SPEC_FILE="${CURR_DIR}/tdx-migration.spec"
 GIT_URI="https://github.com/intel/MigTD.git"
-GIT_TAG="2023ww25.3"
+GIT_TAG="v0.2.3"
 PKG_DIR="${CURR_DIR}"/migtd
 
 get_source() {

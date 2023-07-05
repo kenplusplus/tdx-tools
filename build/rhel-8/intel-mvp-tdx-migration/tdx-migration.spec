@@ -3,8 +3,8 @@
 # This spec file began as CentOS's ovmf spec file, then cut down and modified.
 
 Name:       intel-mvp-tdx-migration
-Version:    2023ww25.3
-Release:    mvp6
+Version:    v0.2.3
+Release:    mvp9
 Summary:    Migration for 64-bit virtual machines supporting trusted domains
 Group:      Applications/Emulators
 License:    BSD and OpenSSL and MIT
@@ -52,10 +52,13 @@ cargo install cargo-xbuild
 rustup component add rust-src
 ./sh_script/preparation.sh
 cargo image
+cargo hash --image target/release/migtd.bin > ./migtd.servtd_info_hash
 
 %install
 mkdir -p %{buildroot}/usr/share/td-migration
 cp target/release/migtd.bin %{buildroot}/usr/share/td-migration
+cp migtd.servtd_info_hash %{buildroot}/usr/share/td-migration
 
 %files
 /usr/share/td-migration/migtd.bin
+/usr/share/td-migration/migtd.servtd_info_hash
