@@ -3,8 +3,8 @@
 # This spec file began as CentOS's ovmf spec file, then cut down and modified.
 
 Name:       intel-mvp-ovmf
-Version:    mvp8
-Release:    stable202302
+Version:    mvp13
+Release:    ww27.2
 Summary:    UEFI firmware for 64-bit virtual machines supporting trusted domains
 Group:      Applications/Emulators
 License:    BSD and OpenSSL and MIT
@@ -75,6 +75,20 @@ build -p OvmfPkg/IntelTdx/IntelTdxX64.dsc \
       -D SECURE_BOOT_ENABLE=TRUE \
       -D TDX_ACCEPT_PAGE_SIZE=2M
 
+# vTPM TDVF
+build -p OvmfPkg/OvmfPkgX64.dsc \
+      -a X64 -b DEBUG \
+      -t GCC5 \
+      -D VTPM_ENABLE=TRUE \
+      -D TPM2_ENABLE=TRUE \
+      -D DEBUG_ON_SERIAL_PORT=TRUE
+
+build -p OvmfPkg/OvmfPkgX64.dsc \
+      -a X64 -b RELEASE \
+      -t GCC5 \
+      -D VTPM_ENABLE=TRUE \
+      -D TPM2_ENABLE=TRUE
+
 %install
 mkdir -p %{buildroot}/usr/share/qemu
 cp Build/IntelTdx/DEBUG_GCC*/FV/OVMF.fd %{buildroot}/usr/share/qemu/OVMF.debug.fd
@@ -82,6 +96,14 @@ cp Build/IntelTdx/RELEASE_GCC*/FV/OVMF.fd %{buildroot}/usr/share/qemu/
 cp Build/IntelTdx/DEBUG_GCC*/FV/OVMF_CODE.fd %{buildroot}/usr/share/qemu/OVMF_CODE.debug.fd
 cp Build/IntelTdx/RELEASE_GCC*/FV/OVMF_CODE.fd %{buildroot}/usr/share/qemu/
 cp Build/IntelTdx/RELEASE_GCC*/FV/OVMF_VARS.fd %{buildroot}/usr/share/qemu/
+
+# vTPM TDVF
+mkdir -p %{buildroot}/usr/share/tdx-vtpm
+cp Build/OvmfX64/DEBUG_GCC*/FV/OVMF.fd %{buildroot}/usr/share/tdx-vtpm/OVMF.debug.fd
+cp Build/OvmfX64/RELEASE_GCC*/FV/OVMF.fd %{buildroot}/usr/share/tdx-vtpm/
+cp Build/OvmfX64/DEBUG_GCC*/FV/OVMF_CODE.fd %{buildroot}/usr/share/tdx-vtpm/OVMF_CODE.debug.fd
+cp Build/OvmfX64/RELEASE_GCC*/FV/OVMF_CODE.fd %{buildroot}/usr/share/tdx-vtpm/
+cp Build/OvmfX64/RELEASE_GCC*/FV/OVMF_VARS.fd %{buildroot}/usr/share/tdx-vtpm/
 
 %files
 %license License.txt
@@ -91,3 +113,9 @@ cp Build/IntelTdx/RELEASE_GCC*/FV/OVMF_VARS.fd %{buildroot}/usr/share/qemu/
 /usr/share/qemu/OVMF_CODE.fd
 /usr/share/qemu/OVMF_VARS.fd
 
+# vTPM TDVF
+/usr/share/tdx-vtpm/OVMF.debug.fd
+/usr/share/tdx-vtpm/OVMF.fd
+/usr/share/tdx-vtpm/OVMF_CODE.debug.fd
+/usr/share/tdx-vtpm/OVMF_CODE.fd
+/usr/share/tdx-vtpm/OVMF_VARS.fd

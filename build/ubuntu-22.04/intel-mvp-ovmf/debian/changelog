@@ -1,14 +1,56 @@
+ovmf (2023.07.05-ww27.2.mvp13) jammy; urgency=medium
+
+  * Tag ww27.2
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 5 JuL 2023 10:10:00 +0800
+
+ovmf (2023.06.28-ww26.3.mvp12) jammy; urgency=medium
+
+  * Tag ww26.3
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 28 Jun 2023 13:09:00 +0800
+
+ovmf (2023.06.20-ww23.1.mvp11) jammy; urgency=medium
+
+  * https://github.com/intel-innersource/firmware.security.tdx.vtpm.tdvf.git
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 20 Jun 2023 13:21:00 +0800
+
+ovmf (2023.06.15-stable202305.mvp10) jammy; urgency=medium
+
+  * https://github.com/tianocore/edk2/releases/tag/edk2-stable202305
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 15 Jun 2023 14:38:00 +0800
+
 ovmf (2023.03.07-stable202302.mvp9) jammy; urgency=medium
 
   * https://github.com/tianocore/edk2/releases/tag/edk2-stable202302
 
  -- Jialei Feng <jialei.feng@intel.com>  Tue, 7 Mar 2023 18:28:00 +0800
 
-ovmf (2022.12.14-stable202211.mvp5) jammy; urgency=medium
+ovmf (2023.02.09-stable202211.mvp8) jammy; urgency=medium
+
+  * Use OVMF base config.
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 9 Feb 2023 18:41:00 +0800
+
+ovmf (2022.12.19-stable202211.mvp7) jammy; urgency=medium
+
+  * Fix override address in lazy-accept.
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 19 Dec 2022 11:41:00 +0800
+
+ovmf (2022.12.14-stable202211.mvp6) jammy; urgency=medium
 
   * Build for edk2-stable202211.
 
  -- Jialei Feng <jialei.feng@intel.com>  Wed, 14 Dec 2022 11:04:00 +0800
+
+ovmf (2022.11.21-0be81a4.mvp5) jammy; urgency=medium
+
+  * Link OVMF to /usr/share/qemu/.
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 21 Nov 2022 22:08:00 +0800
 
 ovmf (2022.11.9-0be81a4.mvp4) jammy; urgency=medium
 
