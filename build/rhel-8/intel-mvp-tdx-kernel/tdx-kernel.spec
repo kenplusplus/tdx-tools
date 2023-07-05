@@ -31,8 +31,8 @@ Summary: The Linux kernel
 %global released_kernel 0
 
 %define rcver 0
-%define downstream_tag tdx.v3.6
-%define relver 28
+%define downstream_tag tdx.v3.7
+%define relver 30
 
 %if %{rcver}
 %global distro_build rc%{rcver}.%{downstream_tag}.mvp%{relver}

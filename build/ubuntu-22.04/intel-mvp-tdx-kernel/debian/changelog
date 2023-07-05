@@ -1,3 +1,15 @@
+linux (6.2.16-mvp30v3+7.tdx) jammy; urgency=medium
+
+  * jammy/linux: Default IMA hash SHA256 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 4 Jul 2023 13:49:00 +0800
+
+linux (6.2.16-mvp29v3+7.tdx) jammy; urgency=medium
+
+  * jammy/linux: MVP-KERNEL-6.2.16-v3.7 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 4 Jul 2023 10:43:00 +0800
+
 linux (6.2.16-mvp28v3+6.tdx) jammy; urgency=medium
 
   * jammy/linux: MVP-KERNEL-6.2.16-v3.6 -proposed tracker (LP: #1990000)
