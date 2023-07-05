@@ -1,4 +1,4 @@
-name: Validate Full Build for Ubuntu22.04
+name: Validate Full Build for RHEL-8
 
 on:
   workflow_dispatch:
@@ -20,8 +20,8 @@ on:
 
 jobs:
   build_package:
-    name: Build TDX Stack for Ubuntu 22.04
-    runs-on: self-hosted
+    name: Build TDX Stack for RHEL-8
+    runs-on: [self-hosted,rhel]
     env:
       REMOTE_SERVER: ${{ github.event.inputs.remote_server }}
       REMOTE_USER: ${{ github.event.inputs.remote_user }}
@@ -37,18 +37,11 @@ jobs:
 
       - name: Build the source and binary packages
         run: |
-          cd build/ubuntu-22.04/
-          ./pkg-builder build-repo.sh
-
-      - name: Generate guest image
-        run: |
-          cd build/ubuntu-22.04/guest-image/
-          sudo ./create-ubuntu-image.sh -f -r ../guest_repo
+          cd build/rhel-8/
+          ./build-repo.sh
 
       - name: Publish
         if: env.REMOTE_SERVER != ''
         run: |
-          ssh $REMOTE_USER@$REMOTE_SERVER "mkdir -p $REMOTE_PATH/$BUILD_TAG/ubuntu-22.04"
-          scp -r build/ubuntu-22.04/guest_repo/ $REMOTE_USER@$REMOTE_SERVER:$REMOTE_PATH/$BUILD_TAG/ubuntu-22.04/
-          scp -r build/ubuntu-22.04/host_repo/ $REMOTE_USER@$REMOTE_SERVER:$REMOTE_PATH/$BUILD_TAG/ubuntu-22.04/
-          scp -r /tmp/tdx-guest-ubuntu-22.04.qcow2 $REMOTE_USER@$REMOTE_SERVER:$REMOTE_PATH/$BUILD_TAG/ubuntu-22.04/
+          ssh $REMOTE_USER@$REMOTE_SERVER "mkdir -p $REMOTE_PATH/$BUILD_TAG/rhel-8"
+          scp -r build/repo/ $REMOTE_USER@$REMOTE_SERVER:$REMOTE_PATH/$BUILD_TAG/rhel-8/

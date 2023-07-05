@@ -72,8 +72,7 @@ finalize() {
 # Check whether createrepo tool installed
 if ! command -v "createrepo"
 then
-    echo "Did not find createrepo package, please install it by dnf install createrepo"
-    exit 1
+    sudo dnf install createrepo_c -y
 fi
 
 [[ -d "$LOG_DIR" ]] || mkdir "$LOG_DIR"
