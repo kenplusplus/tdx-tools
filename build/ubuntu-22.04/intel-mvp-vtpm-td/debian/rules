@@ -22,4 +22,4 @@ override_dh_clean:
 
 override_dh_install:
 	mkdir -p $(DEST_DIR)
-	install -m 0664 vtpm-td/target/x86_64-unknown-none/release/vtpmtd.bin $(DEST_DIR)/
+	install -m 0664 target/x86_64-unknown-none/release/vtpmtd.bin $(DEST_DIR)/

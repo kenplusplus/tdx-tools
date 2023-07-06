@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 GIT_URI="https://github.com/intel/vtpm-td.git"
@@ -49,10 +49,9 @@ build() {
     export AR=llvm-ar
     source sh_script/pre-build.sh
     source sh_script/build.sh
-    popd
-
     dpkg-source --before-build .
     debuild -uc -us -b
+    popd
 }
 
 get_source
