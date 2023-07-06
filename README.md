@@ -17,17 +17,19 @@ Virtual Machine Monitor (VMM). Please get more details from _[TDX White Papers a
 
 NOTE: tdx-tools keeps evolving along with kernel version. Please refer to corresponding _[tag](https://github.com/intel/tdx-tools/tags)_
 for different kernel version support. Please make sure to use the corresponding tag aligned with kernel version.
-| Tag | Kernel version | Description |
+| Tag | Kernel version | TDX Version | Descriptions |
 | -- | -- | -- |
-| [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15 |TDX 1.0 |
-| [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19 |TDX 1.0 |
-| [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2 |TDX 1.5 |
-| [2023ww22](https://github.com/intel/tdx-tools/releases/tag/2023ww22) | 5.19.17 |TDX 1.0 update with Full disk encryption(FDE) reference solution, Amber client and IMA support |
+| [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15    | TDX 1.0 | |
+| [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19    | TDX 1.0 | Performance Optimizations |
+| [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2     | TDX 1.5 | Live Migration |
+| [2023ww22](https://github.com/intel/tdx-tools/releases/tag/2023ww22) | 5.19.17 | TDX 1.0 | FDE, Amber Client, IMA |
+| [2023ww27](https://github.com/intel/tdx-tools/releases/tag/2023ww27) | 6.2.16  | TDX 1.5 | vTPM, Live Migration+ |
+
 
 ### 1.2 Hardware Availability
 
 - As of July 2023, Intel TDX is available through custom `4th Gen Intel Xeon Scalable processors` (formerly code-named “Sapphire Rapids”) delivered to certain major Cloud Service Providers, including Alibaba, Azure, Google Cloud and IBM Cloud.  Today, Alibaba and Azure are already in preview, with Google and IBM expected in the coming months.
-- Intel’s Developer Cloud will be equipped with custom TDX-capable `4th Gen Intel Xeon Scalable processors` in the coming months for software testing and solution development. Stay tuned to our GitHub for news on availability.
+- Intel’s Developer Cloud will be equipped with **TDX-capable** `Intel Xeon Scalable processors` in the coming months for software testing and solution development. Stay tuned to our GitHub for news on availability.
 - Intel TDX will be generally available in the upcoming `5th Gen Intel Xeon Scalable processors` (code-named “Emerald Rapids”).
 
 ### 1.3 API and Specifications
