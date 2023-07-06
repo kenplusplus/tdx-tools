@@ -18,7 +18,7 @@ Virtual Machine Monitor (VMM). Please get more details from _[TDX White Papers a
 NOTE: tdx-tools keeps evolving along with kernel version. Please refer to corresponding _[tag](https://github.com/intel/tdx-tools/tags)_
 for different kernel version support. Please make sure to use the corresponding tag aligned with kernel version.
 | Tag | Kernel version | TDX Version | Descriptions |
-| -- | -- | -- |
+| -- | -- | -- | -- |
 | [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15    | TDX 1.0 | |
 | [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19    | TDX 1.0 | Performance Optimizations |
 | [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2     | TDX 1.5 | Live Migration |
