@@ -26,10 +26,9 @@ for different kernel version support. Please make sure to use the corresponding 
 
 ### 1.2 Hardware Availability
 
-- Azure already [launched](https://azure.microsoft.com/en-us/updates/confidential-vms-with-intel-tdx-dcesv5-ecesv5/) the
-  TDX based confidential computing at zone of `DCesv5` and `ECesv5` series.
-- Google published [Intel Trust Domain Extensions (TDX) Security Review](https://services.google.com/fh/files/misc/intel_tdx_-_full_report_041423.pdf)
-- Please contact Intel sales representative for on-premise bare metal server or processor or please refer [What Intel® Xeon Processors Support for Intel® Trust Domain Extensions (Intel® TDX)?](https://www.intel.com/content/www/us/en/support/articles/000091103/processors.html?wapkw=TDX)
+- As of July 2023, Intel TDX is available through custom `4th Gen Intel Xeon Scalable processors` (formerly code-named “Sapphire Rapids”) delivered to certain major Cloud Service Providers, including Alibaba, Azure, Google Cloud and IBM Cloud.  Today, Alibaba and Azure are already in preview, with Google and IBM expected in the coming months.
+- Intel’s Developer Cloud will be equipped with custom TDX-capable `4th Gen Intel Xeon Scalable processors` in the coming months for software testing and solution development. Stay tuned to our GitHub for news on availability.
+- Intel TDX will be generally available in the upcoming `5th Gen Intel Xeon Scalable processors` (code-named “Emerald Rapids”).
 
 ### 1.3 API and Specifications
 
