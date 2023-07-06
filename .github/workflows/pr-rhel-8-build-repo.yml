@@ -44,4 +44,4 @@ jobs:
         if: env.REMOTE_SERVER != ''
         run: |
           ssh $REMOTE_USER@$REMOTE_SERVER "mkdir -p $REMOTE_PATH/$BUILD_TAG/rhel-8"
-          scp -r build/repo/ $REMOTE_USER@$REMOTE_SERVER:$REMOTE_PATH/$BUILD_TAG/rhel-8/
+          scp -r build/rhel-8/repo/ $REMOTE_USER@$REMOTE_SERVER:$REMOTE_PATH/$BUILD_TAG/rhel-8/
