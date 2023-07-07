@@ -26,7 +26,7 @@ Please configure below sections in default inventory file [`config-ansible/hosts
 
 ## Run deployment playbook
 
-_NOTE： if the `repo_typ` is `build_repo`, please copy all pre-built packages into `<tdx-tools>/deploy/tdx_stack/tdx_repo/`._
+_NOTE： if the `repo_type` is `build_repo`, please copy all pre-built packages into `<tdx-tools>/deploy/tdx_stack/tdx_repo/`._
 
 1. Install packages to TDX host nodes
 
