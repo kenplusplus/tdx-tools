@@ -27,3 +27,26 @@
   debug:
     msg: "{{ package_install_result.stdout_lines }}"
   when: ansible_distribution == 'Ubuntu'
+
+- name: check if numa_balancing is configured in the boot command
+  lineinfile:
+    backup: true
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX=".*numa_balancing=disable'
+    state: absent
+  check_mode: true
+  register: grub_cmdline_check
+  changed_when: false
+
+- name: insert numa_balancing if missing
+  lineinfile:
+    backrefs: true
+    path: /etc/default/grub
+    regexp: "^(GRUB_CMDLINE_LINUX=\".*)\"$"
+    line: '\1 numa_balancing=disable"'
+  when: grub_cmdline_check.found == 0
+
+- name: Update grub2 [Ubuntu]
+  shell: |
+    update-grub2
+  when: ansible_distribution == 'Ubuntu'

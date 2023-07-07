@@ -18,3 +18,16 @@
     server_type: host
   roles:
     - setup_tdx_repo
+
+- name: "Reboot Server"
+  hosts: all
+  become: true
+  tasks:
+    - shell: |
+        echo "reboot"
+      register: reboot
+    - reboot:
+        msg: "Reboot to new TDX stack"
+        pre_reboot_delay: 5
+        post_reboot_delay: 60
+      when: reboot.stdout is search("reboot")
