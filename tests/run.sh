@@ -6,7 +6,7 @@ TEST_OUTPUT=${CURR_DIR}/output
 USER=$(whoami)
 REPORT_FILE_DATE=$(date +'report-%F-%H-%M-%S')
 HOST=$(cat /proc/sys/kernel/hostname)
-GUEST=rhel
+GUEST=ubuntu
 SUITE="nosuite"
 KEEP_ISSUE_VM=false
 CASES=()
@@ -17,7 +17,7 @@ Usage: $(basename "$0") [OPTION]...
   -s Run all tests
   -c Multiple options for individual cases file like "-c tests/test_vm_coexist.py"
   -k Keep unhealthy VM
-  -g Set Guest OS type
+  -g Choice Guest OS type from ["rhel", "centosstream", "ubuntu"], default is Ubuntu
   -h Show this
 EOM
     exit 0
@@ -94,11 +94,26 @@ check_root() {
     fi
 }
 
+check_prerequistes() {
+    if [[ ! -f ${CURR_DIR}/artifacts.yaml ]]; then
+        echo "Please create artifacts.yaml from template file ${CURR_DIR}/artifacts.yaml.template first".
+        exit 1
+    fi
+
+    if [[ ! -f ${CURR_DIR}/tests/vm_ssh_test_key ]]; then
+        echo "Generate temporary test key for VM SSH access..."
+        pushd tests || exit
+        ssh-keygen -f vm_ssh_test_key -q -N ""
+        popd || exit
+    fi
+}
+
 process_args "$@"
 
 # shellcheck source=/dev/null
 source "${CURR_DIR}"/setupenv.sh
 
+check_prerequistes
 check_root
 
 if [[ $SUITE != "nosuite" ]]; then
