@@ -12,7 +12,8 @@ URL:        https://github.com/intel/vtpm-td
 
 Source0: vtpm-td.tar.gz
 
-BuildRequires:  llvm clang
+BuildRequires:  llvm < 15
+BuildRequires:  clang < 15
 BuildRequires:  pkgconf
 BuildRequires:  wget
 BuildRequires:  ocaml
