@@ -1,2 +1,25 @@
-- ansible.builtin.fail:
-    msg: "Not support yet"
+
+
+- name: Delete old apt repository file
+  ansible.builtin.file:
+    state: absent
+    path: /etc/apt/sources.list.d/tdx-mvp-stack.list
+
+- name: Add remote repo
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: tdx-mvp-stack
+  with_items: "{{ remote_repo_urls }}"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
+    name: "*"
+  with_items: "{{ ubuntu_packages }}"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install tdx module
+  ansible.builtin.apt:
+    name: tdx-seam-module-production
+  when: install_tdx_module

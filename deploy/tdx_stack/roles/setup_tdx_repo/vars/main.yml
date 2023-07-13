@@ -1,6 +1,14 @@
 ---
 
-# Default value for repo_type is build_repo
+# Value: [build_repo|remote_repo]
+# Default value: build_repo
 repo_type: "{{ repo_types[0] }}"
 
-server_type: " {{ server_types[0] }} "
+# Value: [host|guest]
+# Default value: host
+server_type: "{{ server_types[0] }}"
+
+# TDX repositories
+remote_repo_urls:
+  - "deb [trusted=yes] http://css-devops.sh.intel.com/download/mvp-stacks/1.0/2023ww22/mvp-tdx-stack-host-ubuntu-22.04/jammy/amd64/ ./"
+  - "deb [trusted=yes] http://css-devops.sh.intel.com/download/mvp-stacks/1.0/2023ww22/mvp-tdx-stack-host-ubuntu-22.04/jammy/all/ ./"
