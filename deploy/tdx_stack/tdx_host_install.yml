@@ -22,6 +22,8 @@
 - name: "Reboot Server"
   hosts: all
   become: true
+  vars:
+    reboot_after_complete: false
   tasks:
     - shell: |
         echo "reboot"
@@ -30,4 +32,4 @@
         msg: "Reboot to new TDX stack"
         pre_reboot_delay: 5
         post_reboot_delay: 60
-      when: reboot.stdout is search("reboot")
+      when: (reboot.stdout is search("reboot")) and (reboot_after_complete)

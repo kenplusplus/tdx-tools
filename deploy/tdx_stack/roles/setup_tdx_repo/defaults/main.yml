@@ -6,3 +6,26 @@ repo_types:
 server_types:
   - "host"
   - "guest"
+
+kernel_version: "5.19.17*"
+
+install_tdx_module: true
+
+ubuntu_packages:
+  - linux-image-unsigned-{{ kernel_version }}
+  - linux-headers-{{ kernel_version }}
+  - linux-modules-{{ kernel_version }}
+  - linux-modules-extra-{{ kernel_version }}
+  - qemu-system-x86
+  - qemu-system-common
+  - qemu-system-data
+  - ovmf
+  - libvirt-clients
+  - libvirt-daemon
+  - libvirt-daemon-system-systemd
+  - libvirt-daemon-driver-qemu
+  - libvirt-daemon-config-network
+  - libvirt-daemon-config-nwfilter
+  - libvirt-login-shell
+  - libvirt-daemon-driver-lxc
+  - libvirt-dev

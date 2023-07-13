@@ -3,9 +3,6 @@
 Deploy TDX host or guest packages to managed nodes (TDX guest or host nodes) using an ansible control node.
 The tool builds control node, handles the ansible setup and execution in docker.
 
-Use the host deployment as example, see below picture:
-![](/doc/tdx_host_deployment_ansible.png)
-
 ## Build docker image
 
 As a convenience, use the command to build the docker image defined by Dockerfile.
@@ -26,10 +23,28 @@ Please configure below sections in default inventory file [`config-ansible/hosts
 
 ## Run deployment playbook
 
-_NOTE： if the `repo_type` is `build_repo`, please copy all pre-built packages into `<tdx-tools>/deploy/tdx_stack/tdx_repo/`._
 
-1. Install packages to TDX host nodes
+1. Install packages to TDX host nodes from build repository
+
+![](/doc/tdx_deploy_ansible_from_build_repo.png)
+
+_NOTE： if the `repo_type` is `build_repo`, please copy all pre-built packages into `<tdx-tools>/deploy/tdx_stack/tdx_repo/`._
 
 ```
 ./docker-playbook.sh -i hosts tdx_stack/tdx_host_install.yml -K
+```
+
+if want to reboot system after installation:
+```
+./docker-playbook.sh -i hosts tdx_stack/tdx_host_install.yml -e reboot_after_complete=true -K
+```
+
+2. Install packages from existing remote repositories
+
+![](/doc/tdx_deploy_ansible_from_remote_repo.png)
+
+_NOTE: please replace repositories list for `remote_repo_urls` in below._
+
+```
+./docker-playbook.sh -i hosts tdx_stack/tdx_host_install.yml -e repo_type=remote_repo -e '{"remote_repo_urls": ["deb [trusted=yes] http://css-devops.sh.intel.com/download/mvp-stacks/1.0/2023ww22/mvp-tdx-stack-host-ubuntu-22.04/jammy/amd64/ ./", "deb [trusted=yes] http://css-devops.sh.intel.com/download/mvp-stacks/1.0/2023ww22/mvp-tdx-stack-host-ubuntu-22.04/jammy/all/ ./"] }' -K
 ```
