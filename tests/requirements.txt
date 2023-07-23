@@ -16,3 +16,4 @@ kubernetes
 urllib3>=1.26.5 # Regular Expression Denial of Service (ReDoS) required
 cpuid
 py-libnuma
+py
