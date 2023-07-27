@@ -4,6 +4,7 @@ THIS_DIR=$(dirname "$(readlink -f "$0")")
 GUEST_REPO="guest_repo"
 HOST_REPO="host_repo"
 STATUS_DIR="${THIS_DIR}/build-status"
+GUEST_ONLY=false
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -12,26 +13,9 @@ build_check() {
     if [[ "$1" == clean-build ]]; then
         rm -rf $STATUS_DIR/*
     fi
-}
-
-build_shim () {
-    pushd intel-mvp-tdx-guest-shim
-    [[ -f $STATUS_DIR/shim.done ]] || ./build.sh
-    touch $STATUS_DIR/shim.done
-    cp shim_*_amd64.deb ../$GUEST_REPO/
-    popd
-}
-
-build_grub () {
-    pushd intel-mvp-tdx-guest-grub2
-    sudo apt remove libzfslinux-dev -y || true
-    [[ -f $STATUS_DIR/grub.done ]] || ./build.sh
-    touch $STATUS_DIR/grub.done
-    cp grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb ../$GUEST_REPO/
-    popd
-
-    # Uninstall to avoid confilcts with libnvpair-dev
-    sudo apt remove grub2-build-deps-depends grub2-unsigned-build-deps-depends -y || true
+    if [[ "$1" == guest ]]; then
+        GUEST_ONLY=true
+    fi
 }
 
 build_kernel () {
@@ -87,14 +71,10 @@ mkdir -p $HOST_REPO
 
 set -ex
 
-build_shim
-build_grub
 build_kernel
-build_qemu
-build_tdvf
-build_libvirt
+$GUEST_ONLY && build_qemu
+$GUEST_ONLY && build_tdvf
+$GUEST_ONLY && build_libvirt
 build_amber-cli
 
-# All build pass, remove build status directory
-rm -rf $STATUS_DIR/
 popd
