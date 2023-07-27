@@ -1,3 +1,15 @@
+qemu (9:7.0.50+mvp11+21) jammy; urgency=medium
+
+  * Clear CPUID_HT bit
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 25 Jul 2023 11:38:00 +0800
+
+qemu (9:7.0.50+mvp10+20) jammy; urgency=medium
+
+  * Mark CPUID_TM and CPUID_HT configurable
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 22 Jul 2023 12:57:00 +0800
+
 qemu (9:7.0.50+mvp9+15) jammy; urgency=medium
 
   * fix Coverity scan issue

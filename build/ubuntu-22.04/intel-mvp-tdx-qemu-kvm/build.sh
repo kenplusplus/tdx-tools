@@ -7,7 +7,7 @@ UPSTREAM_VERSION="7.0.50"
 UPSTREAM_GIT_URI="https://github.com/qemu/qemu.git"
 UPSTREAM_TAG="ad4c7f529a279685da84297773b4ec8080153c2d"
 PACKAGE="mvp-tdx-qemu-${UPSTREAM_VERSION}"
-PATCHSET="${CURR_DIR}/../../common/patches-tdx-qemu-MVP-QEMU-7.0-v1.5.tar.gz"
+PATCHSET="${CURR_DIR}/../../common/patches-tdx-qemu-MVP-QEMU-7.0-v2.1.tar.gz"
 
 if [[ $(grep "Ubuntu" /etc/os-release) == "" ]]; then
     echo "Please build the packages in Ubuntu"
