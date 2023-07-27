@@ -1,3 +1,15 @@
+linux (5.19.17-mvp25v4+0.tdx) jammy; urgency=medium
+
+  * jammy/linux: Fix UBSAN in megaraid_sas -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 22 Jul 2023 12:42:00 +0800
+
+linux (5.19.17-mvp24v3+7.tdx) jammy; urgency=medium
+
+  * jammy/linux: v5.19.17 Fix for IMA measurement -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 14 Jul 2023 15:02:00 +0800
+
 linux (5.19.17-mvp23v3+6.tdx) jammy; urgency=medium
 
   * jammy/linux: v5.19.17 switch IMA measurement to RTMR[2] -proposed tracker (LP: #1990000)

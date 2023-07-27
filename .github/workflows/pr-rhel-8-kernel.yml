@@ -3,7 +3,7 @@ name: Validate PR for RHEL8 kernel
 on:
   pull_request:
     paths:
-    - 'build/ubuntu-8/intel-mvp-tdx-kernel/**'
+    - 'build/rhel-8/intel-mvp-tdx-kernel/**'
   workflow_dispatch:
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Cleanup workspace for the job (self hosted only)
         run: |
-          sudo rm -fr *
+          sudo rm -fr * .* || true
       - id: checkout_self
         name: Check out PR
         uses: actions/checkout@v3
