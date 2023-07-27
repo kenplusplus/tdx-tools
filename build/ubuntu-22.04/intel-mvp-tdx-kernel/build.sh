@@ -16,15 +16,13 @@ fi
 
 get_source() {
     echo "Get upstream source code..."
-    cd "${CURR_DIR}"
     if [[ ! -d ${SOURCE_DIR} ]]; then
         git clone  -b ${UPSTREAM_TAG} --single-branch --depth 1 ${UPSTREAM_GIT_URI} "${SOURCE_DIR}"
-        tar xf "${PATCHSET}"
-
         cd "${SOURCE_DIR}"
+        tar xf "${PATCHSET}"
         git config user.name "${USER:-tdx-builder}"
         git config user.email "${USER:-tdx-builder}"@"${HOSTNAME}"
-        for i in ../patches/*; do
+        for i in patches/*; do
             git am "$i"
         done
         git submodule update --init
@@ -50,6 +48,8 @@ build() {
     debuild -uc -us -b
 }
 
+pushd "${CURR_DIR}"
 get_source
 prepare
 build
+popd
