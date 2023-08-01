@@ -38,7 +38,7 @@ prepare() {
     cp "${CURR_DIR}"/linux-6.2.16/* "${SOURCE_DIR}" -fr
 
     sudo apt update
-    sudo apt install pahole=1.22-8 -y
+    sudo apt install pahole=1.22-8 -y --allow-downgrades
     if [[ -f /etc/timezone ]]; then
         sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
     else
