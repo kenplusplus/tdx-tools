@@ -37,6 +37,7 @@ prepare() {
     cp "${CURR_DIR}"/linux-5.19.17/* "${SOURCE_DIR}" -fr
 
     sudo apt update
+    sudo apt install pahole=1.22-8 -y
     sudo DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai apt install tzdata -y
 }
 
