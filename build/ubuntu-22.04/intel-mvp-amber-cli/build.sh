@@ -29,11 +29,11 @@ prepare() {
 
     # tdx_attest library
     if [[ ! -d sgx_debian_local_repo ]]; then
-        wget https://download.01.org/intel-sgx/sgx-dcap/1.16/linux/distro/ubuntu22.04-server/sgx_debian_local_repo.tgz
+        wget https://download.01.org/intel-sgx/sgx-dcap/1.17/linux/distro/ubuntu22.04-server/sgx_debian_local_repo.tgz
         tar xf sgx_debian_local_repo.tgz
     fi
-    sudo apt install ./sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest-dev_1.16.100.2-jammy1_amd64.deb \
-        ./sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest_1.16.100.2-jammy1_amd64.deb -y
+    sudo apt install ./sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest-dev_1.17.100.4-jammy1_amd64.deb \
+        ./sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest_1.17.100.4-jammy1_amd64.deb -y
 }
 
 build() {
@@ -42,6 +42,7 @@ build() {
 
     dpkg-source --before-build .
     sudo mk-build-deps -i -r -t "apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y"
+    export PATH=$PATH:/usr/lib/go-1.20/bin/
     make -C amber-cli-tdx cli
     debuild -uc -us -b
 }

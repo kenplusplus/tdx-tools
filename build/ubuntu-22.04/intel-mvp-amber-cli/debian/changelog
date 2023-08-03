@@ -1,3 +1,15 @@
+amber-cli (2023ww21-mvp5) jammy; urgency=medium
+
+  * Build with dcap 1.17
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 26 Jul 2023 18:17:00 +0800
+
+amber-cli (2023ww21-mvp4) jammy; urgency=medium
+
+  * Go 1.20
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 14 Jul 2023 17:11:00 +0800
+
 amber-cli (2023ww21-mvp3) jammy; urgency=medium
 
   * version naming to align with release tag

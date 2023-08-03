@@ -31,11 +31,11 @@ prepare() {
 
     # tdx_attest library
     if [[ ! -d sgx_rpm_local_repo ]]; then
-        wget https://download.01.org/intel-sgx/sgx-dcap/1.16/linux/distro/rhel8.6-server/sgx_rpm_local_repo.tgz
+        wget https://download.01.org/intel-sgx/sgx-dcap/1.17/linux/distro/rhel8.6-server/sgx_rpm_local_repo.tgz
         tar xf sgx_rpm_local_repo.tgz
     fi
-    sudo dnf install sgx_rpm_local_repo/libtdx-attest-1.16.100.2-1.el8.x86_64.rpm \
-        sgx_rpm_local_repo/libtdx-attest-devel-1.16.100.2-1.el8.x86_64.rpm -y
+    sudo dnf install sgx_rpm_local_repo/libtdx-attest-1.17.100.4-1.el8.x86_64.rpm \
+        sgx_rpm_local_repo/libtdx-attest-devel-1.17.100.4-1.el8.x86_64.rpm -y
 }
 
 build() {

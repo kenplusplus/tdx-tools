@@ -4,7 +4,7 @@
 
 Name:       intel-mvp-amber-cli
 Version:    2023ww21
-Release:    mvp3
+Release:    mvp5
 Summary:    Migration for 64-bit virtual machines supporting trusted domains
 Group:      Applications/Emulators
 License:    BSD
@@ -13,10 +13,10 @@ URL:        https://github.com/intel/amber-client
 Source0: amber-cli.tar.gz
 
 BuildRequires:  golang
-BuildRequires:  libtdx-attest-devel = 1.16.100.2-1.el8
+BuildRequires:  libtdx-attest-devel = 1.17.100.4-1.el8
 
 Requires:  golang
-Requires:  libtdx-attest-devel = 1.16.100.2-1.el8
+Requires:  libtdx-attest-devel = 1.17.100.4-1.el8
 
 %description
 Go TDX CLI for integrating with Intel Project Amber V1 API.
