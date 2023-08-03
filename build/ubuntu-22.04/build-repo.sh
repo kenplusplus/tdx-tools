@@ -62,7 +62,7 @@ build_libvirt () {
 
 build_amber-cli () {
     pushd intel-mvp-amber-cli
-    [[ -f $STATUS_DIR/amber-cli.done ]] || ./build.sh
+    [[ -f $STATUS_DIR/amber-cli.done ]] || ./build.sh 2>&1 | tee "$LOG_DIR"/amber-cli.log
     touch $STATUS_DIR/amber-cli.done
     cp sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest-dev_*_amd64.deb \
             sgx_debian_local_repo/pool/main/libt/libtdx-attest/libtdx-attest_*_amd64.deb \
