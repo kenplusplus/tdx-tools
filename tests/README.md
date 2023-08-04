@@ -42,8 +42,11 @@ Please make sure your Linux host has TDX enabled.
 
 ### Create Guest Image
 
-Please refer to [Setup TDX Guest Image](/doc/create_guest_image.md) to create guest image, which will be used in tests
-running. It uses `RHEL` as an example distro.
+A customized guest image is needed for tests.
+
+For Ubuntu 22.04 guest image, please refer to [Ubuntu Guest Image](/build/ubuntu-22.04/guest-image/README.md).
+
+For RHEL 8.x guest image, please refer to [RHEL8 Guest Image](/build/rhel-8/guest-image/README.md).
 
 ### Prepare Environment
 
@@ -80,7 +83,27 @@ running. It uses `RHEL` as an example distro.
 - Generate artifacts.yaml
 
     Please refer to tdx-tools/tests/artifacts.yaml.template and generate tdx-tools/tests/artifacts.yaml. Update `source`
-    and `sha256sum` to indicate the location of guest image and guest kernel.
+    and `sha256sum` to indicate the location of guest image and guest kernel. 
+
+    Example of using local files in artifacts.yaml
+
+    ```
+    latest-guest-image-ubuntu:
+      source: file:///<file-path>/td-guest-ubuntu-22.04-test.qcow2
+    latest-guest-kernel-ubuntu:
+      source: file:///<file-path>/vmlinuz-jammy    
+    ```
+
+    Example of using remote files in artifacts.yaml
+
+    ```
+    latest-guest-image-ubuntu:
+      source: http://<path>/td-guest-ubuntu-22.04-test.qcow2.tar.xz
+      sha256sum: http://<path>/td-guest-ubuntu-22.04-test.qcow2.tar.xz.sha256sum 
+    latest-guest-kernel-ubuntu:
+      source: http://<path>/vmlinuz-jammy  
+      sha256sum: http://<path>/vmlinuz-jammy.sha256sum 
+    ```
 
 - Generate keys
 
@@ -127,6 +150,13 @@ Please check prerequisite of each test and take corresponding action as followin
 
 ## Run Tests
 
+- User can specify guest image OS with `-g`. Currently it supports `ubuntu` and `rhel`. Ubuntu guest image is used by default if `-g` is not specified.
+If you want to use RHEL guest image, please use below command.
+
+    ```
+    sudo ./run.sh -g rhel -s all
+    ```
+
 - Run all tests:
 
   ```
@@ -148,9 +178,3 @@ Please check prerequisite of each test and take corresponding action as followin
   ```
   ./run.sh -c tests/test_tdvm_lifecycle.py -c tests/test_vm_coexist.py
   ```
-
-- User can specify guest image OS with `-g`. Currently it supports `rhel`, and `ubuntu`. RHEL guest image is used by default if `-g` is not specified:
-
-    ```
-    sudo ./run.sh -g ubuntu -s all
-    ```
