@@ -225,6 +225,10 @@ class VMMLibvirt(VMMBase):
         elif self.vminst.vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
             xmlobj.loader = BIOS_OVMF
 
+            # If TD has hugepage_path, set it to xml
+            if self.vminst.hugepage_path is not None:
+                xmlobj.set_hugepage_path(self.vminst.hugepage_path)
+
             param_cpu = ""
             if DUT.get_cpu_base_freq() < 1000000:
                 param_cpu = "host,-shstk,-kvm-steal-time,pmu=off,tsc-freq=1000000000"
