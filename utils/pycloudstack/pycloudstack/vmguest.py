@@ -14,10 +14,10 @@ from .cmdrunner import SSHCmdRunner, NativeCmdRunner
 from .dut import DUT
 from .vmimg import VMImage
 from .vmm import VMMLibvirt
-from .vmparam import VM_TYPE_TD, VM_TYPE_SGX, BOOT_TYPE_DIRECT,\
-BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, KernelCmdline, VMSpec, \
-VTPM_PATH, VM_STATE_SHUTDOWN, VM_STATE_RUNNING, VM_STATE_PAUSE, \
-VM_STATE_SHUTDOWN_IN_PROGRESS
+from .vmparam import VM_TYPE_TD, VM_TYPE_TD_PERF, VM_TYPE_SGX, \
+BOOT_TYPE_DIRECT, BOOT_TYPE_GRUB, HUGEPAGES_2M, BOOT_TIMEOUT, \
+KernelCmdline, VMSpec, VTPM_PATH, VM_STATE_SHUTDOWN, VM_STATE_RUNNING, \
+VM_STATE_PAUSE, VM_STATE_SHUTDOWN_IN_PROGRESS
 
 __author__ = 'cpio'
 
@@ -57,7 +57,7 @@ class VMGuest:
                  io_mode=None, cache=None, diskfile_path=None,
                  migtd_pid=None, mig_hash=None, incoming_port=None,
                  tsx=None, tsc=None, mwait=None,
-                 has_vtpm=False, vtpm_path=None, vtpm_log=None):
+                 has_vtpm=False, vtpm_path=None, vtpm_log=None,hugepage_path=None):
 
         self.vmid = vmid
         self.name = name
@@ -87,6 +87,7 @@ class VMGuest:
         self.has_vtpm = has_vtpm
         self.vtpm_path = vtpm_path
         self.vtpm_log = vtpm_log
+        self.hugepage_path = hugepage_path
 
         # Update rootfs in kernel command line depending on distro
         rootfs_ubuntu = "root=/dev/vda1"
@@ -408,13 +409,17 @@ class VMGuestFactory:
                vsock=False, vsock_cid=3, io_mode=None, cache=None,
                diskfile_path=None, cpu_ids=None, migtd_pid=None, mig_hash=None,
                incoming_port=None, tsx=None, tsc=None, mwait=None,
-               has_vtpm=False, vtpm_path=None, vtpm_log=None):
+               has_vtpm=False, vtpm_path=None, vtpm_log=None,hugepage_path=None):
         """
-        Creat a VM.
+        Create a VM.
         """
 
         if hugepage_size is None:
             hugepage_size = HUGEPAGES_2M
+
+        # UPM 2M hugepage requires hugepage_path for TD
+        if hugepages is True and vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
+            assert hugepage_path is not None, "Please set hugepage_path"
 
         # default io mode is native
         if io_mode is None:
@@ -458,7 +463,7 @@ class VMGuestFactory:
                        diskfile_path=diskfile_path, cpu_ids=cpu_ids,
                        migtd_pid=migtd_pid, mig_hash=mig_hash, incoming_port=incoming_port,
                        tsx=tsx, tsc=tsc, mwait=mwait, has_vtpm=has_vtpm,
-                       vtpm_path=vtpm_path, vtpm_log=vtpm_log)
+                       vtpm_path=vtpm_path, vtpm_log=vtpm_log,hugepage_path=hugepage_path)
 
         self.vms[vm_name] = inst
 

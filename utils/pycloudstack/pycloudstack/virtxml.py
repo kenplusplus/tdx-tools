@@ -658,12 +658,14 @@ class VirtXml:
         """
         bind available cpuids
         """
+        assert len(cpu_ids) > 1, "Incorrect cpu_ids for cpu binding"
+
         # set iothread
         self._add_new_element(["cputune", "iothreadpin"],
-                              {"iothread": "1", "cpuset": f"{cpu_ids.pop(0)}"}, True)
+                              {"iothread": "1", "cpuset": f"{cpu_ids[0]}"}, True)
         vcpu_id = 0
         # bind specific vcpus for vm
-        for cpu_id in cpu_ids:
+        for cpu_id in cpu_ids[1:]:
             self._add_new_element(["cputune", "vcpupin"],
                                   {"vcpu": f"{vcpu_id}", "cpuset": f"{cpu_id}"}, True)
             vcpu_id += 1
@@ -737,6 +739,15 @@ class VirtXml:
             f"{self._cache}", "iothread": "2"})
         self._add_new_element_by_parent(new_disk_leaf, ["source"], {"file": f"{diskfile_path}"})
         self._add_new_element_by_parent(new_disk_leaf, ["target"], {"dev": "vdb", "bus": "virtio"})
+        self.save()
+
+    def set_hugepage_path(self, hugepage_path):
+        """
+        Set hugepage path for UPM hugepage usage
+        """
+        self._add_new_element(["memoryBacking", "path"])
+        self._set_single_element_value(["memoryBacking", "path"], f"{hugepage_path}")
+
         self.save()
 
     def set_vtpm_param(self, vtpm_path, vtpm_log):
