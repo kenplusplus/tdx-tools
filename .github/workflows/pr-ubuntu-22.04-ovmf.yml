@@ -9,7 +9,7 @@ on:
 jobs:
   build_package:
     name: Build OVMF for Ubuntu 22.04
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - id: checkout_self
         name: Check out PR
@@ -17,8 +17,5 @@ jobs:
       - id: build_ubuntu
         name: Build the source and binary packages
         run: |
-          sudo apt update
-          sudo apt install --no-install-recommends --yes build-essential \
-            fakeroot devscripts wget git equivs liblz4-tool sudo python-is-python3 pkg-config unzip
-          cd build/ubuntu-22.04/intel-mvp-ovmf/
-          ./build.sh
+          cd build/ubuntu-22.04/
+          ./pkg-builder intel-mvp-ovmf/build.sh

@@ -10,21 +10,18 @@ RPMBUILD_DIR="${CURR_DIR}/rpmbuild"
 
 get_origin() {
     echo "**** Download origin package ****"
-    if [[ ! -f ${CURR_DIR}/edk2.tar.gz ]]; then
+    if [[ ! -f ${RPMBUILD_DIR}/edk2.tar.gz ]]; then
         git clone --branch ${UPSTREAM_TAG} ${UPSTREAM_GIT_URI}
         pushd edk2
-        git submodule init
-        git submodule sync
-        git submodule update
-        rm -rf .git/
+	git submodule update --init --recursive
+        git apply ../0001*.patch
         popd
-        tar czf edk2.tar.gz edk2
+        tar --exclude=.git -czf "${RPMBUILD_DIR}"/SOURCES/edk2.tar.gz edk2
     fi
 }
 
 prepare() {
     echo "**** Prepare ****"
-    cp "${CURR_DIR}/edk2.tar.gz" "${RPMBUILD_DIR}/SOURCES/"
 }
 
 build() {
