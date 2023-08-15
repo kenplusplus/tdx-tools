@@ -1,3 +1,27 @@
+linux (5.19.17-mvp29v4+4.tdx) jammy; urgency=medium
+
+  * jammy/linux: Update to v4.4 -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 14 Aug 2023 20:00:00 +0800
+
+linux (5.19.17-mvp28v4+3.tdx) jammy; urgency=medium
+
+  * jammy/linux: Fix potential compile issue -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 12 Aug 2023 11:26:00 +0800
+
+linux (5.19.17-mvp27v4+2.tdx) jammy; urgency=medium
+
+  * jammy/linux: Fix for passthrough -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 11 Aug 2023 12:17:00 +0800
+
+linux (5.19.17-mvp26v4+1.tdx) jammy; urgency=medium
+
+  * jammy/linux: Fix for RTMR eventlog -proposed tracker (LP: #1990000)
+
+ -- Xiaocheng Dong <xiaocheng.dong@intel.com>  Thu, 3 Aug 2023 13:19:00 +0800
+
 linux (5.19.17-mvp25v4+0.tdx) jammy; urgency=medium
 
   * jammy/linux: Fix UBSAN in megaraid_sas -proposed tracker (LP: #1990000)

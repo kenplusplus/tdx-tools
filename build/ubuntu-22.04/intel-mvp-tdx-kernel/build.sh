@@ -7,7 +7,7 @@ UPSTREAM_TAG="v5.19.17"
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 SOURCE_DIR=${CURR_DIR}/"mvp-tdx-kernel-${UPSTREAM_TAG}"
-PATCHSET="${CURR_DIR}/../../common/patches-tdx-kernel-MVP-KERNEL-5.19.17-v4.0.tar.gz"
+PATCHSET="${CURR_DIR}/../../common/patches-tdx-kernel-MVP-KERNEL-5.19.17-v4.4.tar.gz"
 
 if [[ $(grep "Ubuntu" /etc/os-release) == "" ]]; then
     echo "Please build the packages in Ubuntu"
