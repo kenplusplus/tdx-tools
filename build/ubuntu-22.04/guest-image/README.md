@@ -4,23 +4,16 @@ Customize Ubuntu 22.04 cloud image and install TDX guest kernel.
 
 ## Prerequisites
 
-- Install qemu-img and virt-customize via `sudo apt install -y qemu-utils libguestfs-tools` .
+- The script will install TDX guest packages from `../guest_repo/`. If not present, please build the guest repo in the upper build directory:
+
+`./pkg-builder build-repo.sh guest`
+
+- Install qemu-img and virt-customize. For Ubuntu:
+
+`sudo apt install -y qemu-utils libguestfs-tools`
 
 ## Steps
 
-- Run the script to generate `td-guest-ubuntu-22.04.qcow2` .
+- Run the script to generate `td-guest-ubuntu-22.04.qcow2`. The login credential for the guest is `root/123456`.
 
 `./tdx-guest-stack.sh`
-
-## (Optional) Install grub and shim for boot measurement in TD guest
-
-```
-apt remove --allow-remove-essential shim-signed -y
-apt remove grub-pc -y
-dpkg -r --force-all grub-efi-amd64-signed
-cd /srv/guest-repo/
-dpkg -i shim_*_amd64.deb
-dpkg -i grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb
-grub-install --target=x86_64-efi --modules "tpm"
-reboot
-```

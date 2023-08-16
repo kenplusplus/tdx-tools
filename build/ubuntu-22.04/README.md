@@ -24,7 +24,6 @@ Run it in docker container using `pkg-builder`.
 
 ```
 cd tdx-tools/build/ubuntu-22.04
-
 ./pkg-builder build-repo.sh
 ```
 
