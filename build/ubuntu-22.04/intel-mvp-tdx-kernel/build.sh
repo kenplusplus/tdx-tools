@@ -38,7 +38,11 @@ prepare() {
 
     sudo apt update
     sudo apt install pahole=1.22-8 -y --allow-downgrades
-    sudo DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai apt install tzdata -y
+    if [[ -f /etc/timezone ]]; then
+        sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
+    else
+        sudo DEBIAN_FRONTEND=noninteractive TZ=America/New_York apt install tzdata -y
+    fi
 }
 
 build() {
