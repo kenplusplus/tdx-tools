@@ -76,7 +76,7 @@ class VMGuest:
         vsock_cid=0,
         vmm_class=None,
         cpu_ids=None,
-        mem_numa=True,
+        mem_numa=None,
         io_mode=None,
         cache=None,
         diskfile_path=None,
@@ -498,7 +498,8 @@ class VMGuestFactory:
         vtpm_path=None,
         vtpm_log=None,
         hugepage_path=None,
-        driver=None
+        driver=None,
+        mem_numa=None
     ):
         """
         Create a VM.
@@ -574,7 +575,8 @@ class VMGuestFactory:
             vtpm_path=vtpm_path,
             vtpm_log=vtpm_log,
             hugepage_path=hugepage_path,
-            driver=driver
+            driver=driver,
+            mem_numa=mem_numa
         )
 
         self.vms[vm_name] = inst

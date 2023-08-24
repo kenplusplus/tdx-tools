@@ -176,6 +176,8 @@ class VMMLibvirt(VMMBase):
 
         if self.vminst.cpu_ids:
             xmlobj.bind_cpuids(self.vminst.cpu_ids)
+
+        if self.vminst.mem_numa is not None:
             xmlobj.set_mem_numa(self.vminst.mem_numa)
 
         if self.vminst.hugepages:
