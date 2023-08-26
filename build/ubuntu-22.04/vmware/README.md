@@ -7,7 +7,7 @@
 1. Build all packages for ESXi TD guest
 
 ```
-cd tdx-tools/build/ubuntu-22.04/vmware
+cd tdx-tools/build/ubuntu-22.04
 
 ./build-vmware-td.sh
 ```
