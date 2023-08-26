@@ -12,6 +12,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 VMWARE_GUEST_DEFAULT_PKG=" \
 shim_*_amd64.deb \
+grub-efi-amd64_*_amd64.deb grub-efi-amd64-bin_*_amd64.deb \
 "
 
 build_check() {
@@ -58,6 +59,18 @@ build_shim () {
     popd
 }
 
+build_grub () {
+    pushd intel-mvp-tdx-guest-grub2
+    sudo apt remove libzfslinux-dev -y || true
+    [[ -f $STATUS_DIR/grub.done ]] || ./build.sh 2>&1 | tee "$LOG_DIR"/grub2.log
+    touch "$STATUS_DIR"/grub.done
+    cp grub-efi-*_amd64.deb  ../$VMWARE_GUEST_REPO/more/
+    popd
+
+    # Uninstall to avoid confilcts with libnvpair-dev
+    sudo apt remove grub2-build-deps-depends grub2-unsigned-build-deps-depends -y || true
+}
+
 build_repo () {
     # move necessary packages to repo root directory.
     # so the local file installation keeps same as before.
@@ -75,6 +88,7 @@ pushd "$THIS_DIR"
 mkdir -p $VMWARE_GUEST_REPO/more
 
 build_shim
+build_grub
 build_repo
 
 popd
