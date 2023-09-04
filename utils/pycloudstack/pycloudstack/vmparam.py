@@ -31,11 +31,8 @@ BIOS_BINARY_LEGACY_UBUNTU = "/usr/share/seabios/bios.bin"
 # Installed from the package of intel-mvp-qemu-kvm
 BIOS_OVMF = "/usr/share/qemu/OVMF.fd"
 
-# OVMF for vTPM
-BIOS_OVMF_VTPM = "/usr/share/tdx-vtpm/OVMF.fd"
-
 # vTPM TD binary file
-VTPM_PATH = "/usr/share/tdx-vtpm/final.bin"
+VTPM_PATH = "/usr/share/tdx-vtpm/vtpmtd.bin"
 
 VM_STATE_RUNNING = "running"
 VM_STATE_PAUSE = "paused"

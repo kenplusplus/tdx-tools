@@ -39,7 +39,6 @@ from .vmparam import (
     VM_TYPE_TD_PERF,
     VM_TYPE_EFI_PERF,
     VM_TYPE_LEGACY_PERF,
-    BIOS_OVMF_VTPM,
 )
 
 __author__ = "cpio"
@@ -215,7 +214,6 @@ class VMMLibvirt(VMMBase):
         """
         if self.vminst.vmtype in [VM_TYPE_TD, VM_TYPE_TD_PERF]:
             xmlobj.set_vtpm_param(self.vminst.vtpm_path, self.vminst.vtpm_log)
-            xmlobj.loader = BIOS_OVMF_VTPM
 
     def _set_cpu_params_xml(self, xmlobj):
         """
