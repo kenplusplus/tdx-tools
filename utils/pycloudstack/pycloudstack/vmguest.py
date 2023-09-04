@@ -13,7 +13,7 @@ import libvirt
 from .cmdrunner import SSHCmdRunner, NativeCmdRunner
 from .dut import DUT
 from .vmimg import VMImage
-from .vmm import VMMLibvirt, VMMKubeVirt
+from .vmm import VMMLibvirt
 from .vmparam import (
     VM_TYPE_TD,
     VM_TYPE_TD_PERF,
@@ -126,9 +126,6 @@ class VMGuest:
         self.hugepage_path = hugepage_path
         self.driver = driver
 
-        self.vmm = vmm_class(self)
-        if isinstance(self.vmm, VMMKubeVirt):
-            return
         # Update rootfs in kernel command line depending on distro
         rootfs_ubuntu = "root=/dev/vda1"
         rootfs_centos = "root=/dev/vda3"
@@ -144,6 +141,8 @@ class VMGuest:
             assert self.kernel is not None
             assert os.path.exists(self.kernel)
             self.kernel = os.path.realpath(self.kernel)
+
+        self.vmm = vmm_class(self)
 
     def ssh_run(self, cmdarr, ssh_id_key, no_wait=False):
         """
