@@ -11,7 +11,7 @@ This project provides the modified components to setup TDX stacks and additional
 components/tools/services for optimized/full-capabilities Intel&reg; TDX based
 confidential computing solutions.
 
-_NOTE:_
+_**NOTE**_:
 
 1. Please refer the white paper: [Linux*Stacks for Intel® Trust Domain
 Extension 1.0](https://www.intel.com/content/www/us/en/content-details/787041/whitepaper-linux-stacks-for-intel-trust-domain-extension-1-0.html) (only cover TDX 1.0)
@@ -23,7 +23,8 @@ patches are for reference only.
 install from the corresponding OS distribution.
 4. The components, tools, services are not only for function evaluation, but also
 are full optimized for performance, please see [`Performance Considerations of Intel® Trust Domain Extensions on 4th Generation Intel® Xeon® Scalable Processors`](https://www.intel.com/content/www/us/en/developer/articles/technical/trust-domain-extensions-on-4th-gen-xeon-processors.html)
-5. The kernel is keeping to evolving. Please refer to corresponding _[tags](https://github.com/intel/tdx-tools/tags)_ for different kernel version used.
+5. The use case based services/solutions strictly follows the [Kernel Hardening Strategy](https://intel.github.io/ccc-linux-guest-hardening-docs/tdx-guest-hardening.html) without compromising security.
+6. The kernel is keeping to evolving. Please refer to corresponding _[tags](https://github.com/intel/tdx-tools/tags)_ for different kernel version used.
 
 | Tag | Kernel version | TDX Version | Descriptions |
 | -- | -- | -- | -- |
@@ -59,12 +60,9 @@ Please see details at [here](https://github.com/intel/tdx-tools/wiki/API-&-Speci
 
 ## 2. Stacks and Solutions for Intel&reg; TDX
 
-Linux Stack for Intel&reg; TDX is an end-to-end hypervisor cloud stack including the Infrastructure as a Service (IaaS) and
-Platform as a Service (PaaS) components.
-
 ### 2.1 Use Cases
 
-It produce the following minimal use cases:
+It produces the following minimal use cases:
 
 - Launch Intel® TDX guest VM to run general computing workloads
 - Do launch-time measurement within the Intel® TDX guest VM
