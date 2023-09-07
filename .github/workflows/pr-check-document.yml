@@ -17,7 +17,6 @@ jobs:
           sudo apt-get install -y aspell
       - name: Scan documents
         run: |
-          set -ex
           for f in $(find -type f -name "*.md"); do
             OUTPUT=$(cat $f | aspell -l en --mode markdown --personal $PWD/.github/workflows/.aspell.en.pws list)
             if [[ ! -z $OUTPUT ]]; then

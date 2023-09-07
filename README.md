@@ -1,4 +1,4 @@
-# Linux Stack for Intel&reg; TDX (Trust Domain Extensions)
+# Stacks and Solutions for Intel&reg; TDX (Trust Domain Extensions)
 
 ![CI Check Shell](https://github.com/intel/tdx-tools/actions/workflows/pr-check-shell.yml/badge.svg)
 ![CI Check Python](https://github.com/intel/tdx-tools/actions/workflows/pr-check-python.yml/badge.svg)
@@ -7,6 +7,32 @@
 
 ## 1. Overview
 
+This project provides the modified components to setup TDX stacks and additional
+components/tools/services for optimized/full-capabilities Intel&reg; TDX based
+confidential computing solutions.
+
+_NOTE:_
+
+1. Please refer the white paper: [Linux*Stacks for Intel® Trust Domain
+Extension 1.0](https://www.intel.com/content/www/us/en/content-details/787041/whitepaper-linux-stacks-for-intel-trust-domain-extension-1-0.html) (only cover TDX 1.0)
+and [wiki](https://github.com/intel/tdx-tools/wiki)
+for additional informational about TDX 1.5 or developer specific information.
+2. The modified components like Kernel, Qemu, Libvirt etc includes pre-upstream
+patches are for reference only.
+3. The modified components like Grub, Shim's were already upstream-ed. Please
+install from the corresponding OS distribution.
+4. The components, tools, services are not only for function evaluation, but also
+are full optimized for performance, please see [`Performance Considerations of Intel® Trust Domain Extensions on 4th Generation Intel® Xeon® Scalable Processors`](https://www.intel.com/content/www/us/en/developer/articles/technical/trust-domain-extensions-on-4th-gen-xeon-processors.html)
+5. The kernel is keeping to evolving. Please refer to corresponding _[tags](https://github.com/intel/tdx-tools/tags)_ for different kernel version used.
+
+| Tag | Kernel version | TDX Version | Descriptions |
+| -- | -- | -- | -- |
+| [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15    | TDX 1.0 | Launch TD VM |
+| [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19    | TDX 1.0 | Performance Optimizations |
+| [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2     | TDX 1.5 | Live Migration |
+| [2023ww22](https://github.com/intel/tdx-tools/releases/tag/2023ww22) | 5.19.17 | TDX 1.0 | FDE, Amber Client, IMA |
+| [2023ww27](https://github.com/intel/tdx-tools/releases/tag/2023ww27) | 6.2.16  | TDX 1.5 | vTPM, Live Migration+ |
+
 ### 1.1 Intel&reg; Trust Domain Extensions(TDX)
 Intel&reg; Trust Domain Extensions(TDX) refers to an Intel technology that
 extends Virtual Machine Extensions(VMX) and Multi-Key Total Memory
@@ -14,17 +40,6 @@ Encryption(MK-TME) with a new kind of virtual machine guest called a Trust
 Domain(TD). A TD runs in a CPU mode that protects the confidentiality of its
 memory contents and its CPU state from any other software, including the hosting
 Virtual Machine Monitor (VMM). Please get more details from _[TDX White Papers and Specifications](https://github.com/intel/tdx-tools/wiki/API-&-Specifications)_
-
-NOTE: tdx-tools keeps evolving along with kernel version. Please refer to corresponding _[tag](https://github.com/intel/tdx-tools/tags)_
-for different kernel version support. Please make sure to use the corresponding tag aligned with kernel version.
-| Tag | Kernel version | TDX Version | Descriptions |
-| -- | -- | -- | -- |
-| [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15    | TDX 1.0 | |
-| [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19    | TDX 1.0 | Performance Optimizations |
-| [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2     | TDX 1.5 | Live Migration |
-| [2023ww22](https://github.com/intel/tdx-tools/releases/tag/2023ww22) | 5.19.17 | TDX 1.0 | FDE, Amber Client, IMA |
-| [2023ww27](https://github.com/intel/tdx-tools/releases/tag/2023ww27) | 6.2.16  | TDX 1.5 | vTPM, Live Migration+ |
-
 
 ### 1.2 Hardware Availability
 
@@ -42,7 +57,7 @@ Please see details at [here](https://github.com/intel/tdx-tools/wiki/API-&-Speci
 
 ![](./doc/tdx_specifcations.png)
 
-## 2. Linux Stack for Intel TDX
+## 2. Stacks and Solutions for Intel&reg; TDX
 
 Linux Stack for Intel&reg; TDX is an end-to-end hypervisor cloud stack including the Infrastructure as a Service (IaaS) and
 Platform as a Service (PaaS) components.
@@ -85,11 +100,7 @@ Linux Stack for Intel&reg; TDX includes the components in below diagram:
 | [TDX Grub2](https://github.com/intel/grub-tdx) | Guest | The modified grub for guest VM to support TDX measurement |
 | [TDX shim](https://github.com/intel/shim-tdx) | Guest | The modified shim for guest VM to support TDX measurement |
 
-## 3. How to Use
-
-Please refer the white paper: [Linux*Stacks for Intel® Trust Domain
-Extension 1.0](https://www.intel.com/content/www/us/en/content-details/787041/whitepaper-linux-stacks-for-intel-trust-domain-extension-1-0.html) (only cover TDX 1.0)
-and [wiki](https://github.com/intel/tdx-tools/wiki) for additional informational about TDX 1.5 or developer specific.
+## 3. Further Reading
 
 | Type | Content |
 | ---- | ------- |
@@ -99,3 +110,4 @@ and [wiki](https://github.com/intel/tdx-tools/wiki) for additional informational
 | Developer  | [Off TD GDB Debug](https://github.com/intel/tdx-tools/wiki/Developer:-Off-TD-GDB-Debug) |
 | 1.5  | [TD Migration](https://github.com/intel/tdx-tools/wiki/TDX-1.5:-TD-Migration) |
 | 1.5  | [vTPM](https://github.com/intel/tdx-tools/wiki/TDX-1.5:-vTPM)
+| Cloud | [Confidential Cloud Native Primitives](https://github.com/intel/confidential-cloud-native-primitives) |
