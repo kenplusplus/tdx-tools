@@ -21,10 +21,12 @@ for additional informational about TDX 1.5 or developer specific information.
 patches are for reference only.
 3. The modified components like Grub, Shim's were already upstream-ed. Please
 install from the corresponding OS distribution.
-4. The components, tools, services are not only for function evaluation, but also
+4. The component TDVF uses the configuration of [`IntelTdxX64.dsc`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/IntelTdx/IntelTdxX64.dsc) from edk2 upstream.
+5. The component DCAP refers to [`SGXDataCenterAttestationPrimitives`](https://github.com/intel/SGXDataCenterAttestationPrimitives)
+6. The components, tools, services are not only for function evaluation, but also
 are full optimized for performance, please see [`Performance Considerations of Intel® Trust Domain Extensions on 4th Generation Intel® Xeon® Scalable Processors`](https://www.intel.com/content/www/us/en/developer/articles/technical/trust-domain-extensions-on-4th-gen-xeon-processors.html)
-5. The use case based services/solutions strictly follows the [Kernel Hardening Strategy](https://intel.github.io/ccc-linux-guest-hardening-docs/tdx-guest-hardening.html) without compromising security.
-6. The kernel is keeping to evolving. Please refer to corresponding _[tags](https://github.com/intel/tdx-tools/tags)_ for different kernel version used.
+7. The use case based services/solutions strictly follows the [`Kernel Hardening Strategy`](https://intel.github.io/ccc-linux-guest-hardening-docs/tdx-guest-hardening.html) without compromising security.
+8. The kernel is keeping to evolving. Please refer to corresponding _[tags](https://github.com/intel/tdx-tools/tags)_ for different kernel version used.
 
 | Tag | Kernel version | TDX Version | Descriptions |
 | -- | -- | -- | -- |
