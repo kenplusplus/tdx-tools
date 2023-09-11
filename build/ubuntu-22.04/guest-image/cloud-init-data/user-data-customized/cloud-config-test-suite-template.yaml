@@ -12,6 +12,8 @@ packages:
   - cpuid
   - qemu-guest-agent
   - python3-pip
+  - redis-tools
+  - golang-1.20
 
 apt:
   preserve_sources_list: true
@@ -19,4 +21,5 @@ apt:
 runcmd:
   - apt --fix-broken install
   - systemctl mask pollinate.service
+  - echo "export PATH=$PATH:/usr/lib/go-1.20/bin" >> /etc/profile
 
