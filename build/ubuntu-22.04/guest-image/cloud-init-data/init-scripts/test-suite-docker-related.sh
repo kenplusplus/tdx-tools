@@ -58,7 +58,6 @@ if [ -z $(cat /usr/lib/systemd/system/docker.service | grep NO_PROXY)]; then
 fi
 
 echo "============Pull container images"
-# restart dockerd
 systemctl daemon-reload
 systemctl restart docker
 
@@ -66,3 +65,7 @@ systemctl restart docker
 docker pull nginx:latest
 docker pull redis:latest
 docker pull intel/intel-optimized-tensorflow-avx512:2.8.0
+
+echo "============Install container images deps"
+GOPATH=/usr/lib/go-1.20 GOCACHE=/root/.cache/go-build \
+  /usr/lib/go-1.20/bin/go install github.com/codesenberg/bombardier@latest
