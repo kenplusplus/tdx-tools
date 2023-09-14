@@ -1,11 +1,12 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 GIT_URI="https://github.com/intel/MigTD.git"
 GIT_TAG="v0.2.3"
 PKG_DIR="${CURR_DIR}"/migtd
+CARGO_LOCK="${CURR_DIR}"/../../common/Cargo.lock
 
 get_source() {
     echo "Get upstream source code..."
@@ -46,6 +47,7 @@ build() {
     echo "Build..."
     cd "${PKG_DIR}"
     ./sh_script/preparation.sh
+    cp "$CARGO_LOCK" deps/td-shim/
     cargo image
     cargo hash --image target/release/migtd.bin > ./migtd.servtd_info_hash
     dpkg-source --before-build .

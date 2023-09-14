@@ -8,6 +8,7 @@ SPEC_FILE="${CURR_DIR}/tdx-migration.spec"
 GIT_URI="https://github.com/intel/MigTD.git"
 GIT_TAG="v0.2.3"
 PKG_DIR="${CURR_DIR}"/migtd
+CARGO_LOCK="${CURR_DIR}"/../../common/Cargo.lock
 
 get_source() {
     echo "Get upstream source code..."
@@ -17,6 +18,7 @@ get_source() {
         git clone --single-branch --branch ${GIT_TAG} ${GIT_URI} "${PKG_DIR}"
         pushd "${PKG_DIR}"
         git submodule update --init --recursive
+	cp "$CARGO_LOCK" deps/td-shim/
         popd
     fi
 

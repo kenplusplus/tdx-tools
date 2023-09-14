@@ -6,6 +6,7 @@ CURR_DIR=$(dirname "$(readlink -f "$0")")
 GIT_URI="https://github.com/intel/vtpm-td.git"
 GIT_TAG="v0.1.1"
 PKG_DIR="${CURR_DIR}"/vtpm-td
+CARGO_LOCK="${CURR_DIR}"/../../common/Cargo.lock
 
 get_source() {
     echo "Get upstream source code..."
@@ -45,6 +46,7 @@ prepare() {
 build() {
     echo "Build..."
     pushd "${PKG_DIR}"
+    cp "$CARGO_LOCK" deps/td-shim/
     export CC=clang
     export AR=llvm-ar
     source sh_script/pre-build.sh

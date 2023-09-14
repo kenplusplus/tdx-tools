@@ -8,6 +8,7 @@ SPEC_FILE="${CURR_DIR}/vtpm-td.spec"
 GIT_URI="https://github.com/intel/vtpm-td.git"
 GIT_TAG="v0.1.1"
 PKG_DIR=vtpm-td
+CARGO_LOCK="${CURR_DIR}"/../../common/Cargo.lock
 
 get_source() {
     echo "Get upstream source code..."
@@ -17,6 +18,7 @@ get_source() {
         git clone --single-branch --branch ${GIT_TAG} ${GIT_URI} ${PKG_DIR}
         pushd "${PKG_DIR}"
         git submodule update --init --recursive
+	cp "$CARGO_LOCK" deps/td-shim/
         popd
     fi
 
