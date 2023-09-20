@@ -10,8 +10,7 @@ export PYTHON3_ENABLE=TRUE
 export PYTHON_COMMAND=python3
 
 PACKAGE := ovmf
-DEST_DIR := debian/$(PACKAGE)/usr/share/tdvf
-DEST_DIR_VTPM := debian/$(PACKAGE)/usr/share/tdx-vtpm
+DEST_DIR := debian/$(PACKAGE)/usr/share/qemu
 EDK2_BUILD_ARCH=X64
 
 COMMON_FLAGS  = -DNETWORK_HTTP_BOOT_ENABLE=TRUE
@@ -47,32 +46,12 @@ override_dh_auto_build:
 	      -a X64 -b DEBUG \
 	      -t GCC5 \
 	      -D DEBUG_ON_SERIAL_PORT=TRUE \
-	      -D TDX_MEM_PARTIAL_ACCEPT=512 \
-	      -D TDX_EMULATION_ENABLE=FALSE \
-	      -D SECURE_BOOT_ENABLE=TRUE \
-	      -D TDX_ACCEPT_PAGE_SIZE=2M 
-	source ./edksetup.sh && \
+	      -D SECURE_BOOT_ENABLE=TRUE && \
 	build -p OvmfPkg/IntelTdx/IntelTdxX64.dsc \
 	      -a X64 -b RELEASE \
 	      -t GCC5 \
 	      -D DEBUG_ON_SERIAL_PORT=FALSE \
-	      -D TDX_MEM_PARTIAL_ACCEPT=512 \
-	      -D TDX_EMULATION_ENABLE=FALSE \
-	      -D SECURE_BOOT_ENABLE=TRUE \
-	      -D TDX_ACCEPT_PAGE_SIZE=2M
-	source ./edksetup.sh && \
-	build -p OvmfPkg/OvmfPkgX64.dsc \
-	      -a X64 -b DEBUG \
-	      -t GCC5 \
-	      -D VTPM_ENABLE=TRUE \
-	      -D TPM2_ENABLE=TRUE \
-	      -D DEBUG_ON_SERIAL_PORT=TRUE
-	source ./edksetup.sh && \
-	build -p OvmfPkg/OvmfPkgX64.dsc \
-	      -a X64 -b RELEASE \
-	      -t GCC5 \
-	      -D VTPM_ENABLE=TRUE \
-	      -D TPM2_ENABLE=TRUE
+	      -D SECURE_BOOT_ENABLE=TRUE
 
 override_dh_install:
 	mkdir -p $(DEST_DIR)
@@ -81,9 +60,3 @@ override_dh_install:
 	cp Build/IntelTdx/DEBUG_GCC*/FV/OVMF_CODE.fd $(DEST_DIR)/OVMF_CODE.debug.fd
 	cp Build/IntelTdx/RELEASE_GCC*/FV/OVMF_CODE.fd $(DEST_DIR)/
 	cp Build/IntelTdx/RELEASE_GCC*/FV/OVMF_VARS.fd $(DEST_DIR)/
-	mkdir -p $(DEST_DIR_VTPM)
-	cp Build/OvmfX64/DEBUG_GCC*/FV/OVMF.fd $(DEST_DIR_VTPM)/OVMF.debug.fd
-	cp Build/OvmfX64/RELEASE_GCC*/FV/OVMF.fd $(DEST_DIR_VTPM)/
-	cp Build/OvmfX64/DEBUG_GCC*/FV/OVMF_CODE.fd $(DEST_DIR_VTPM)/OVMF_CODE.debug.fd
-	cp Build/OvmfX64/RELEASE_GCC*/FV/OVMF_CODE.fd $(DEST_DIR_VTPM)/
-	cp Build/OvmfX64/RELEASE_GCC*/FV/OVMF_VARS.fd $(DEST_DIR_VTPM)/

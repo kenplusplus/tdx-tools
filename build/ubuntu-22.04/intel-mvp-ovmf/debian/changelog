@@ -1,8 +1,20 @@
+ovmf (2023.09.05-ww36.2.mvp15) jammy; urgency=medium
+
+  * https://github.com/tianocore/edk2-staging/releases/tag/2023-tdvf-ww36.2
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 5 Sep 2023 16:43:00 +0800
+
+ovmf (2023.08.29-ww35.2.mvp14) jammy; urgency=medium
+
+  * Tag ww35.2
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 29 Aug 2023 18:13:00 +0800
+
 ovmf (2023.07.05-ww27.2.mvp13) jammy; urgency=medium
 
   * Tag ww27.2
 
- -- Jialei Feng <jialei.feng@intel.com>  Wed, 5 JuL 2023 10:10:00 +0800
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 5 Jul 2023 10:10:00 +0800
 
 ovmf (2023.06.28-ww26.3.mvp12) jammy; urgency=medium
 

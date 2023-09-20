@@ -1,3 +1,0 @@
-usr/share/tdvf/OVMF_CODE.fd usr/share/qemu/OVMF_CODE.fd
-usr/share/tdvf/OVMF_VARS.fd usr/share/qemu/OVMF_VARS.fd
-usr/share/tdvf/OVMF.fd usr/share/qemu/OVMF.fd
