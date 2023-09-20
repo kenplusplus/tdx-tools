@@ -4,7 +4,7 @@ set -ex
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 GIT_URI="https://github.com/intel/vtpm-td.git"
-GIT_TAG="v0.1.1"
+GIT_TAG="v0.2.1"
 PKG_DIR="${CURR_DIR}"/vtpm-td
 
 get_source() {
@@ -29,11 +29,11 @@ prepare() {
         export HOME=/root
     fi
 
-    if [[ $($HOME/.cargo/bin/cargo --version) =~ 1.67.0-nightly ]]; then
-        echo "Found Cargo 1.67.0-nightly in $HOME/.cargo/"
+    if [[ $($HOME/.cargo/bin/cargo --version) =~ 1.74.0-nightly ]]; then
+        echo "Found Cargo 1.74.0-nightly in $HOME/.cargo/"
     else
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup-init.sh
-        chmod +x rustup-init.sh;./rustup-init.sh -y --profile minimal --default-toolchain nightly-2022-11-15
+        chmod +x rustup-init.sh;./rustup-init.sh -y --profile minimal --default-toolchain nightly-2023-08-28
     fi
     # shellcheck source=/dev/null
     source $HOME/.cargo/env
