@@ -1,3 +1,52 @@
+linux (6.2.16-v4.8.mvp38.tdx) jammy; urgency=medium
+
+  * Bump new version
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 19 Sep 2023 20:12:00 +0800
+
+linux (6.2.16-mvp37.v4.8.tdx) jammy; urgency=medium
+
+  * CVE, MLC nic passthrough
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 19 Sep 2023 12:54:00 +0800
+
+linux (6.2.16-mvp36.v4.6.tdx) jammy; urgency=medium
+
+  * Boot time optimization, TD-Migration fix
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 15 Sep 2023 14:43:00 +0800
+
+linux (6.2.16-mvp35.v4.5.tdx) jammy; urgency=medium
+
+  * Sign kernel
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 31 Aug 2023 13:27:00 +0800
+
+linux (6.2.16-mvp34.v4.5.tdx) jammy; urgency=medium
+
+  * v4.4: CVE-2023-34255
+  * v4.5: Default TD memory attribute to private
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 31 Aug 2023 13:27:00 +0800
+
+linux (6.2.16-mvp33v4+3.tdx) jammy; urgency=medium
+
+  * jammy/linux: Fix for IMA and NVMe passthrough -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 21 Aug 2023 12:50:00 +0800
+
+linux (6.2.16-mvp32v4+1.tdx) jammy; urgency=medium
+
+  * jammy/linux: UPM 2M -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 21 Jul 2023 17:08:00 +0800
+
+linux (6.2.16-mvp31v4+0.tdx) jammy; urgency=medium
+
+  * jammy/linux: Fix TD-Migration -proposed tracker (LP: #1990000)
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 18 Jul 2023 18:14:00 +0800
+
 linux (6.2.16-mvp30v3+7.tdx) jammy; urgency=medium
 
   * jammy/linux: Default IMA hash SHA256 -proposed tracker (LP: #1990000)
