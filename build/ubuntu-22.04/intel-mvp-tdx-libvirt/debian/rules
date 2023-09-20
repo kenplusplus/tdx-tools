@@ -206,7 +206,6 @@ SRV_MONOLITHIC = libvirt-guests virtlogd virtlockd libvirtd libvirtd-tcp libvirt
 override_dh_auto_configure:
 	dh_auto_configure -- $(DEB_CONFIGURE_EXTRA_ARGS)
 
-# Skip test
 # The default timeout for tests in Meson is 30s, which is not enough
 # for architectures with slow buildds: make the timeout 10 times
 # larger (5m) to account for those

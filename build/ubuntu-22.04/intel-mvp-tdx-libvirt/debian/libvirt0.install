@@ -47,6 +47,7 @@ usr/share/libvirt/cpu_map/x86_Icelake-Client-noTSX.xml
 usr/share/libvirt/cpu_map/x86_Icelake-Client.xml
 usr/share/libvirt/cpu_map/x86_Icelake-Server-noTSX.xml
 usr/share/libvirt/cpu_map/x86_Icelake-Server.xml
+usr/share/libvirt/cpu_map/x86_SapphireRapids.xml
 usr/share/libvirt/cpu_map/x86_IvyBridge-IBRS.xml
 usr/share/libvirt/cpu_map/x86_IvyBridge.xml
 usr/share/libvirt/cpu_map/x86_Nehalem-IBRS.xml

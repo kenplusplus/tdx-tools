@@ -5,8 +5,8 @@ set -ex
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 UPSTREAM_URI="https://libvirt.org/sources/libvirt-8.6.0.tar.xz"
 UPTRREAM_FILE="${UPSTREAM_URI##*/}"
-PACKAGE="mvp-tdx-libvirt-v2.6"
-PATCHSET="${CURR_DIR}/../../common/patches-tdx-libvirt-MVP-LIBVIRT-8.6.0-v2.6.tar.gz"
+PACKAGE="mvp-tdx-libvirt-v3.6"
+PATCHSET="${CURR_DIR}/../../common/patches-tdx-libvirt-MVP-LIBVIRT-8.6.0-v3.6.tar.gz"
 
 if [[ $(grep "Ubuntu" /etc/os-release) == "" ]]; then
     echo "Please build the packages in Ubuntu"

@@ -1,3 +1,34 @@
+libvirt (8.6.0-v3.6.mvp16) jammy; urgency=medium
+
+  * Fix CVE-2023-2700
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 19 Sep 2023 11:33:05 -0700
+
+libvirt (8.6.0-v3.5.mvp15) jammy; urgency=medium
+
+  * Remove shmemdev for non-hugepage VM
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 11 Sep 2023 13:37:05 -0700
+
+libvirt (8.6.0-v3.4.mvp14) jammy; urgency=medium
+
+  * Remove fzrm,fsrs,fsrc from SapphireRapids CPU model
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 2 Aug 2023 17:02:05 -0700
+
+libvirt (8.6.0-v3.3.mvp13) jammy; urgency=medium
+
+  * Add CPU feature amx
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 1 Aug 2023 15:14:05 -0700
+
+libvirt (8.6.0-v3.2.mvp12) jammy; urgency=medium
+
+  * Support for new UPM 2M
+  * Support for SapphireRapids CPU model
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 26 Jul 2023 15:26:05 -0700
+
+libvirt (8.6.0-v2.7.mvp11) jammy; urgency=medium
+
+  * Support UPM 2M
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 24 Jul 2023 16:18:05 -0700
+
 libvirt (8.6.0-v2.6.mvp10) jammy; urgency=medium
 
   * Support TDX live migration
