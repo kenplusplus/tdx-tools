@@ -1,3 +1,51 @@
+qemu (9:7.2.0-v3.8.mvp26) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.8: Fix 5 CVEs
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 18 Sep 2023 15:15:00 +0800
+
+qemu (9:7.2.0+mvp25+37) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.7: TDX migration & boot time optimization
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 15 Sep 2023 13:56:00 +0800
+
+qemu (9:7.2.0+mvp24+36) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.6: Fix TDX migration
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 12 Sep 2023 16:11:00 +0800
+
+qemu (9:7.2.0+mvp23+35) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.5: Fix TDX migration
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 9 Sep 2023 11:25:00 +0800
+
+qemu (9:7.2.0+mvp22+34) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.4: Fix VM crash in TDX migration Mulit-stream mode
+
+ -- Jialei Feng <jialei.feng@intel.com>  Thu, 7 Sep 2023 17:25:00 +0800
+
+qemu (9:7.2.0+mvp21+33) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.3: Default TD memory attribute to private
+
+ -- Jialei Feng <jialei.feng@intel.com>  Wed, 30 Aug 2023 15:00:00 +0800
+
+qemu (9:7.2.0+mvp20+32) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.2
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 25 Jul 2023 18:26:00 +0800
+
+qemu (9:7.2.0+mvp19+30) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.0
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 21 Jul 2023 18:21:00 +0800
+
 qemu (9:7.2.0+mvp18+25) jammy; urgency=medium
 
   * MVP-QEMU-7.2-v2.5
