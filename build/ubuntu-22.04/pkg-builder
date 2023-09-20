@@ -4,6 +4,35 @@ THIS_DIR=$(readlink -f "$(dirname "$0")")
 BUILD_DIR="${THIS_DIR}/.."
 BUILDER=pkg-builder-ubuntu-22.04
 
+INTERACTIVE=false
+COMMAND=""
+
+usage() {
+    cat << EOM
+Usage: $(basename "$0") [OPTION]...
+  -i                        Open interactive pseudo-terminal of the container
+  -c                        Command to run in the container
+  -h                        Show this help
+EOM
+}
+
+process_args() {
+    while getopts ":c:ih" option; do
+        case "$option" in
+            c) COMMAND=$OPTARG;;
+            i) INTERACTIVE=true;;
+            h) usage
+               exit 0
+               ;;
+            *)
+               echo "Invalid option '-$OPTARG'"
+               usage
+               exit 1
+               ;;
+        esac
+    done
+}
+
 check_docker_cmd() {
     if ! command -v docker &> /dev/null; then
         echo "Please install docker first."
@@ -24,19 +53,31 @@ build_docker_image() {
 }
 
 run_in_docker() {
-    docker run \
+    MOUNT_POINT="/root/build/"
+    DOCKER_ARGS=" \
         -e http_proxy -e https_proxy -e no_proxy \
-        -e rust_mirror \
-        -e rustup_update_server \
-        -e rustup_dist_server \
-        -v "${BUILD_DIR}":/root/build \
-        -i --entrypoint "/root/build/ubuntu-22.04/$1" \
-        "${BUILDER}"
+        -v ${BUILD_DIR}:${MOUNT_POINT} \
+        -w ${MOUNT_POINT}/ubuntu-22.04 \
+	--rm \
+    "
+
+    if [[ $INTERACTIVE == "true" ]]; then
+        docker run ${DOCKER_ARGS} \
+            -it \
+            "${BUILDER}" bash
+    else
+        docker run ${DOCKER_ARGS} \
+            -i \
+            "${BUILDER}" $@
+    fi  
+    
 }
+
+process_args "$@"
 
 check_docker_cmd
 check_user_in_docker
 build_docker_image
 
 # Run build script within docker
-run_in_docker "$1"
+run_in_docker $COMMAND

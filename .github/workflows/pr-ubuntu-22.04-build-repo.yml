@@ -38,7 +38,7 @@ jobs:
       - name: Build the source and binary packages
         run: |
           cd build/ubuntu-22.04/
-          ./pkg-builder build-repo.sh
+          ./pkg-builder -c "./build-repo.sh"
 
       - name: Generate guest image
         run: |
