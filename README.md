@@ -30,11 +30,7 @@ are full optimized for performance, please see [`Performance Considerations of I
 
 | Tag | Kernel version | TDX Version | Descriptions |
 | -- | -- | -- | -- |
-| [2022ww44](https://github.com/intel/tdx-tools/releases/tag/2022ww44) | 5.15    | TDX 1.0 | Launch TD VM |
-| [2023ww01](https://github.com/intel/tdx-tools/releases/tag/2023ww01) | 5.19    | TDX 1.0 | Performance Optimizations |
-| [2023ww15](https://github.com/intel/tdx-tools/releases/tag/2023ww15) | 6.2     | TDX 1.5 | Live Migration |
-| [2023ww22](https://github.com/intel/tdx-tools/releases/tag/2023ww22) | 5.19.17 | TDX 1.0 | FDE, Amber Client, IMA |
-| [2023ww27](https://github.com/intel/tdx-tools/releases/tag/2023ww27) | 6.2.16  | TDX 1.5 | vTPM, Live Migration+ |
+| [2023ww38](https://github.com/intel/tdx-tools/releases/tag/2023ww38) | 6.2.16  | TDX 1.5 | vTPM, Live Migration+, latest CVE |
 
 ### 1.1 Intel&reg; Trust Domain Extensions(TDX)
 Intel&reg; Trust Domain Extensions(TDX) refers to an Intel technology that
