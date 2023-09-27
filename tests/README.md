@@ -55,13 +55,13 @@ For RHEL 8.x guest image, please refer to [RHEL8 Guest Image](/build/rhel-8/gues
   If your host distro is RHEL 8:
 
     ```
-    sudo dnf install python3-virtualenv python3-libvirt libguestfs-devel libvirt-devel python3-devel gcc gcc-c++
+    sudo dnf install python3-virtualenv python3-libvirt libguestfs-devel libvirt-devel python3-devel gcc gcc-c++ net-tools
     ```
 
   If your host distro is Ubuntu 22.04:
 
     ```
-    sudo apt install python3-virtualenv python3-libvirt libguestfs-dev libvirt-dev python3-dev
+    sudo apt install python3-virtualenv python3-libvirt libguestfs-dev libvirt-dev python3-dev net-tools
     ```
 
 - Make sure libvirt service is started. If not, start libvirt service.
