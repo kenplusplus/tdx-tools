@@ -1,3 +1,15 @@
+qemu (9:7.2.0-v4.0.mvp28) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v4.0: FIO polling mode enhancement
+
+ -- Jialei Feng <jialei.feng@intel.com>  Sat, 07 Oct 2023 10:19:00 +0800
+
+qemu (9:7.2.0-v3.9.mvp27) jammy; urgency=medium
+
+  * MVP-QEMU-7.2-v3.9: Runtime support for vtpm
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 22 Sep 2023 13:49:00 +0800
+
 qemu (9:7.2.0-v3.8.mvp26) jammy; urgency=medium
 
   * MVP-QEMU-7.2-v3.8: Fix 5 CVEs
