@@ -2,8 +2,7 @@
 
 include /usr/share/dpkg/default.mk
 
-version := 0.2.3-mvp9
-PACKAGE := td-migration
+PACKAGE := mig-td
 INSTALL_DIR=/usr/share/td-migration/
 DEST_DIR := debian/$(PACKAGE)$(INSTALL_DIR)
 
@@ -24,3 +23,5 @@ override_dh_install:
 	mkdir -p $(DEST_DIR)
 	install -m 0664 target/release/migtd.bin $(DEST_DIR)/
 	install -m 0664 ./migtd.servtd_info_hash $(DEST_DIR)/
+	install -m 0664 target/release/migtd-serial.bin $(DEST_DIR)/
+	install -m 0664 ./migtd-serial.servtd_info_hash $(DEST_DIR)/

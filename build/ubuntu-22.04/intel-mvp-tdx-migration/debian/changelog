@@ -1,3 +1,21 @@
+mig-td (0.3.1-mvp12) jammy; urgency=medium
+
+  * https://github.com/intel/MigTD/releases/tag/v0.3.1
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 26 Sep 2023 13:32:00 +0800
+
+mig-td (0.3.0-mvp11) jammy; urgency=medium
+
+  * Add migtd-serial.bin
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 19 Sep 2023 13:38:00 +0800
+
+mig-td (0.3.0-mvp10) jammy; urgency=medium
+
+  * https://github.com/intel/MigTD/releases/tag/v0.3.0
+
+ -- Jialei Feng <jialei.feng@intel.com>  Mon, 4 Sep 2023 15:45:00 +0800
+
 td-migration (0.2.3-mvp9) jammy; urgency=medium
 
   * https://github.com/intel/MigTD/releases/tag/v0.2.3

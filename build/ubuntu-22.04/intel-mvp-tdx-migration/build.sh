@@ -4,7 +4,7 @@ set -e
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 GIT_URI="https://github.com/intel/MigTD.git"
-GIT_TAG="v0.3.0"
+GIT_TAG="v0.3.1"
 PKG_DIR="${CURR_DIR}"/migtd
 
 get_source() {
@@ -59,7 +59,9 @@ build() {
     cd "${PKG_DIR}"
     ./sh_script/preparation.sh
     cargo image
+    cargo image --no-default-features --features remote-attestation,stack-guard,virtio-serial -o target/release/migtd-serial.bin
     cargo hash --image target/release/migtd.bin > ./migtd.servtd_info_hash
+    cargo hash --image target/release/migtd-serial.bin > ./migtd-serial.servtd_info_hash
     dpkg-source --before-build .
     debuild -uc -us -b
 }
