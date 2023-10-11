@@ -4,7 +4,7 @@ set -ex
 
 CURR_DIR=$(dirname "$(readlink -f "$0")")
 GIT_URI="https://github.com/intel/vtpm-td.git"
-GIT_TAG="v0.2.1"
+GIT_TAG="v0.3.0"
 PKG_DIR="${CURR_DIR}"/vtpm-td
 
 get_source() {
