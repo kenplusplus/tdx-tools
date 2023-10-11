@@ -1,3 +1,15 @@
+linux (6.2.16-v5.0.mvp40.tdx) jammy; urgency=medium
+
+  * Fix for stress-ng and TD-Preserving
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 10 Oct 2023 10:56:00 +0800
+
+linux (6.2.16-v4.9.mvp39.tdx) jammy; urgency=medium
+
+  * Runtime support for vtpm
+
+ -- Jialei Feng <jialei.feng@intel.com>  Fri, 22 Sep 2023 13:46:00 +0800
+
 linux (6.2.16-v4.8.mvp38.tdx) jammy; urgency=medium
 
   * Bump new version
