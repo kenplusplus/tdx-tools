@@ -1,3 +1,9 @@
+ovmf (2023.09-ww36.2.mvp16) jammy; urgency=medium
+
+  * Shorten version length
+
+ -- Jialei Feng <jialei.feng@intel.com>  Tue, 26 Sep 2023 14:35:00 +0800
+
 ovmf (2023.09.05-ww36.2.mvp15) jammy; urgency=medium
 
   * https://github.com/tianocore/edk2-staging/releases/tag/2023-tdvf-ww36.2
