@@ -46,13 +46,12 @@ A customized guest image is needed for tests.
 
 For Ubuntu 22.04 guest image, please refer to [Ubuntu Guest Image](/build/ubuntu-22.04/guest-image/README.md).
 
-For RHEL 8.x guest image, please refer to [RHEL8 Guest Image](/build/rhel-8/guest-image/README.md).
 
 ### Prepare Environment
 
 - Install required packages:
 
-  If your host distro is RHEL 8:
+  If your host distro is RHEL 9:
 
     ```
     sudo dnf install python3-virtualenv python3-libvirt libguestfs-devel libvirt-devel python3-devel gcc gcc-c++

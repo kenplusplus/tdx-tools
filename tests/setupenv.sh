@@ -3,9 +3,8 @@
 CURR_DIR=$(pwd)
 
 REQUIRED_PACKAGES_CENTOS=(
-  python3-libvirt
   libvirt-devel
-  python36-devel
+  python3-devel
   python3-pip
 )
 
