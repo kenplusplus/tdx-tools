@@ -1,0 +1,27 @@
+name: Validate PR for RHEL9 vtpm-td
+
+on:
+  pull_request:
+    paths:
+    - 'build/rhel-9/intel-mvp-vtpm-td/**'
+  workflow_dispatch:
+
+jobs:
+  build_package:
+    name: Build vtpm-td for RHEL9
+    runs-on: [self-hosted, ubuntu]
+    steps:
+      - name: Cleanup workspace for the job (self hosted only)
+        run: |
+          sudo rm -fr * .* || true
+      - id: checkout_self
+        name: Check out PR
+        uses: actions/checkout@v3
+      - id: copy_builder
+        name: Check out builder
+        run: cp -r /home/cpio/pkg-builder/ ./
+      - id: build
+        name: Build the source and binary packages
+        uses: ./pkg-builder/rhel-9
+        with:
+          entrypoint: ./build/rhel-9/intel-mvp-vtpm-td/build.sh
