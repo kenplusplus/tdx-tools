@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-This feature is to meet the CSP who may want to relocate/migrate an executing Trust Domain (TD) from a source Trust Domain Extension (TDX) platform to a destination TDX platform in the cloud environment. Currently, td-migration only works on **TDX 1.5 (kernel-v6.2/tag 2023ww15 and 2023ww27)**. TDX 1.0 releases do not support this feature. It also requires `MigTD` which can be built via build tool in tdx-tools. Please make sure TDX migration package is installed before running migration. The default installation path of `migtd.bin` is `/usr/share/td-migration/migtd.bin`.
+This feature is to meet the CSP who may want to relocate/migrate an executing Trust Domain (TD) from a source Trust Domain Extension (TDX) platform to a destination TDX platform in the cloud environment. Currently, td-migration only works on **TDX 1.5 (kernel-v6.2/tag 2023ww15 and 2023ww27)**. TDX 1.0 releases do not support this feature. It also requires `MigTD` which can be built via build tool in tdx-tools. Please make sure TDX migration package is installed before running migration. The default installation path of `migtd.bin` is `/usr/share/td-migration/migtd.bin`. The default installation path of `migtd-serial.bin` is `/usr/share/td-migration/migtd-serial.bin`. `migtd-serial` supports virtio-serial feature of `MigTD`.
 
 In this doc, the TD being migrated is called the source TD, and the TD created as a result of the migration is called the destination TD.
 
