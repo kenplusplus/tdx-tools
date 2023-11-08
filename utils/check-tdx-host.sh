@@ -182,7 +182,14 @@ check_bios_memory_map() {
 }
 
 #
-# Check whether the bit 11 for MSR 0x1401, 1 means MK-TME is enabled in BIOS.
+# Check the bit 1 of MSR 0x982. 1 means MK-TME is enabled in BIOS.
+# SDM:
+#   Vol. 4 Model Specific Registers (MSRs)
+#     Table 2-2. IA-32 Architectural MSRs (Contd.)
+#       Register Address: 982H
+#       Architectural MSR Name: IA32_TME_ACTIVATE
+#       Bit Fields: 1
+#       Bit Description: Hardware Encryption Enable. This bit also enables TME-MK.
 #
 check_bios_enabling_mktme() {
     local action="Check BIOS: TME = Enabled (required)"
@@ -223,6 +230,13 @@ check_bios_tme_bypass() {
 
 #
 # Check TME-MT/TME-MK setting in BIOS
+# SDM:
+#   Vol. 4 Model Specific Registers (MSRs)
+#     Table 2-2. IA-32 Architectural MSRs (Contd.)
+#       Register Address: 982H
+#       Architectural MSR Name: IA32_TME_ACTIVATE
+#       Bit Fields: 1
+#       Bit Description: Hardware Encryption Enable.
 #
 check_bios_tme_mt() {
     local action="Check BIOS: TME-MT/TME-MK (required & manually)"
