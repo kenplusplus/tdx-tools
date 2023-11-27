@@ -1,6 +1,0 @@
-[Allow group libvirt management permissions]
-Identity=unix-group:libvirt
-Action=org.libvirt.unix.manage
-ResultAny=yes
-ResultInactive=yes
-ResultActive=yes
