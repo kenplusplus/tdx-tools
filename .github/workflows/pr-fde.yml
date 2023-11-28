@@ -3,7 +3,7 @@ name: Validate PR for Full Disk Encryption (FDE)
 on:
   pull_request:
     paths:
-    - 'attestation/full-disk-encryption/**'
+    - 'solution/full-disk-encryption/**'
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
           sudo apt update && yes | DEBIAN_FRONTEND=noninteractive sudo apt install -y libtdx-attest libtdx-attest-dev libcryptsetup-dev
       - name: Run cargo check
         run: |
-          cd attestation/full-disk-encryption/
+          cd solution/full-disk-encryption/
           cargo check
           cargo fmt -- --check
           cargo clippy
