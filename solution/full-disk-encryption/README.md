@@ -24,14 +24,12 @@ The `key` to encrypt the image disk is distributed by the KBS, besides, which wi
 
 The fde-agent is placed in the `FDE_DIR=attestaion/full-disk-encryption`. 
 
-The fde-agent is responsible for decrypting a guest image and mounting it as the rootfs. The fde-agent depends on dynamic libraries `libtdx-attest` and `libtdx-attest-dev` in `DCAP 1.16`. The `DCAP 1.16` can be downloaded from [official website](https://download.01.org/intel-sgx/sgx-dcap/1.16/). Install the libraries and build the fde-agent by the command.
+The fde-agent is responsible for decrypting a guest image and mounting it as the rootfs. The fde-agent depends on dynamic libraries `libtdx-attest` and `libtdx-attest-dev` in `DCAP`. The `DCAP` can be downloaded from [official website](https://download.01.org/intel-sgx/sgx-dcap/). Please get the correct version of DCAP and install the libraries. Then build the fde-agent by the following commands.
 
 ```
-make clean -C ${FDE_DIR}/attestation/full-disk-encryption
-make -C ${FDE_DIR}/attestation/full-disk-encryption
+make clean -C ../full-disk-encryption
+make -C ../full-disk-encryption
 ```
-
-*Note*: More detail of the fde-agent are described in [README.md](../attestation/full-disk-encryption/README.md) in `FDE_DIR`.
 
 ### 3. Create FDE image
 
@@ -42,11 +40,11 @@ cd ${FDE_DIR}/attestation/full-disk-enryption/tools/image
 ./fde-image.sh -k $KEY -i $KEY_ID -d ${TDX_REPO_LOCAL}
 ```
 
-The `KEY=key` and `KEY_ID=keyid` are retrieved in step 1. The `TDX_REPO_LOCAL` is built from `tdx-tools`. If you are not familiar with the FDE image, we show a step-by-step guide to help create one in [README.md](../attestation/full-disk-encryption/README.md) in `FDE_DIR`.
+The `KEY=key` and `KEY_ID=keyid` are retrieved in step 1. The `TDX_REPO_LOCAL` is built from `tdx-tools`. 
 
 ### 4. Enroll variables to OVMF
 
-Install ovmfkeyenroll tool, refer https://github.com/intel/tdx-tools/tree/main/utils/ovmfkeyenroll
+Install ovmfkeyenroll tool.
 
 ```
 pip3 install ovmfkeyenroll
@@ -81,7 +79,7 @@ DATA="userdata.txt"
 python3 tools/image/enroll_vars.py -i OVMF_FDE.fd -o OVMF_FDE.fd -n $NAME -g $GUID -d $DATA
 ```
 
-It is recommended to use a json structure to save the userdata, at least including the `keyid` item retrieved in step 1. You can customize the enrolled data, detail in `${FDE_DIR}/src/ovmf_var.rs`
+It is recommended to use a json structure to save the userdata, at least including the `keyid` item retrieved in step 1. You can customize the enrolled data, detail in `src/ovmf_var.rs`
 
 ```
 # cat userdata.txt
