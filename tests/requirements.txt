@@ -10,9 +10,10 @@ pytest-repeat==0.9.1
 py-cpuinfo==7.0.0
 timeout-decorator==0.5.0
 pytest-benchmark==3.2.3
-pyyaml==5.4.1
+pyyaml~=6.0
 libvirt-python
 kubernetes
 urllib3>=1.26.5 # Regular Expression Denial of Service (ReDoS) required
 cpuid
 py-libnuma
+py

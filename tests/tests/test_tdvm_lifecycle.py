@@ -62,10 +62,10 @@ def test_tdvm_lifecycle_virsh_start_shutdown(vm_factory):
 
     LOG.info("Shutdown TD guest")
     inst.shutdown()
-    ret = inst.wait_for_state(VM_STATE_SHUTDOWN)
+    ret = inst.wait_for_state(VM_STATE_SHUTDOWN, timeout=30)
     assert ret, "Fail to shutdown instance"
 
     LOG.info("Start TD guest")
     inst.start()
-    ret = inst.wait_for_state(VM_STATE_RUNNING)
+    ret = inst.wait_for_state(VM_STATE_RUNNING, timeout=30)
     assert ret, "Fail to start instance"

@@ -215,9 +215,9 @@ class VMMLibvirt(VMMBase):
 
             param_cpu = ""
             if DUT.get_cpu_base_freq() < 1000000:
-                param_cpu = "host,-shstk,-kvm-steal-time,pmu=off,tsc-freq=1000000000"
+                param_cpu = "host,-kvm-steal-time,pmu=off,tsc-freq=1000000000"
             else:
-                param_cpu = "host,-shstk,-kvm-steal-time,pmu=off"
+                param_cpu = "host,-kvm-steal-time,pmu=off"
 
             if self.vminst.tsx is False:
                 param_cpu += ",-hle,-rtm"

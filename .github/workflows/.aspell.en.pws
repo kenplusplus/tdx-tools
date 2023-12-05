@@ -125,6 +125,7 @@ efibootmgr
 fd
 ffc
 frontpage
+github
 gz
 handoff
 icx
@@ -166,6 +167,7 @@ pkgs
 pre
 prebuilt
 pts
+py
 PV
 qcnl
 qemu
