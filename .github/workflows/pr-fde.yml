@@ -1,4 +1,5 @@
 name: Validate PR for Full Disk Encryption (FDE)
+permissions: read-all
 
 on:
   pull_request:

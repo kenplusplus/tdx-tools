@@ -1,4 +1,5 @@
 name: Publish pycloudstack package to Pypi
+permissions: read-all
 
 on:
   workflow_dispatch:
