@@ -24,9 +24,14 @@ Virtual Machine Monitor (VMM). Please see details at [here](https://www.intel.co
 
 ### 1.3 Software Availability
 
-_**NOTE**_: The project "Linux TDX SW Stack" is end of life. This branch only sustains tools for mid-stream.
+_**NOTE**_: The project "Linux TDX SW Stack" is end of life. This branch only sustains tools for TDX early preview.
 
-Please refer to Red Hat blog [Enabling hardware-backed confidential computing with a CentOS SIG](https://www.redhat.com/en/blog/enabling-hardware-backed-confidential-computing-centos-sig) or Ubuntu blog [Intel® TDX 1.0 technology preview available on Ubuntu 23.10](https://ubuntu.com/blog/intel-tdx-1-0-preview-on-ubuntu-23-10) for TDX enablement.
+Please refer to Red Hat blog [Enabling hardware-backed confidential computing with a CentOS SIG](https://www.redhat.com/en/blog/enabling-hardware-backed-confidential-computing-centos-sig) or Ubuntu blog [Intel® TDX 1.0 technology preview available on Ubuntu 23.10](https://ubuntu.com/blog/intel-tdx-1-0-preview-on-ubuntu-23-10) or SUSE blog [Intel® TDX Support Coming to SUSE Linux Enterprise Server](https://www.suse.com/c/intel-tdx-support-coming-to-suse-linux-enterprise-server/) for more information of TDX Early Preview.
+
+The corresponding git repositories are as below.
+- [Cent OS](https://gitlab.com/CentOS/virt/docs/-/tree/main/docs/tdx)
+- [Ubuntu](https://github.com/canonical/tdx)
+- [SUSE](https://github.com/SUSE/tdx-demo/blob/main/INSTALL-SLES-15-SP5.md)
 
 ## 2. How to launch TD
 
