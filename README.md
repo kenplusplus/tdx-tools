@@ -5,7 +5,7 @@
 ![CI Check License](https://github.com/intel/tdx-tools/actions/workflows/pr-check-license.yml/badge.svg)
 ![CI Check Document](https://github.com/intel/tdx-tools/actions/workflows/pr-check-document.yml/badge.svg)
 
-_**NOTE**_: The project "Linux TDX 1.5 SW Stack" is end of life. Please refer to Red Hat blog [Enabling hardware-backed confidential computing with a CentOS SIG](https://www.redhat.com/en/blog/enabling-hardware-backed-confidential-computing-centos-sig) or Ubuntu blog [Intel® TDX 1.0 technology preview available on Ubuntu 23.10](https://ubuntu.com/blog/intel-tdx-1-0-preview-on-ubuntu-23-10) for TDX enablement. The default branch [mid-stream](https://github.com/intel/tdx-tools/tree/tdx-mid-stream) is used to sustain tools for mid-stream distro mentioned previously.
+_**NOTE**_: The project "Linux TDX 1.5 SW Stack" is end of life. Please refer to Red Hat blog [Enabling hardware-backed confidential computing with a CentOS SIG](https://www.redhat.com/en/blog/enabling-hardware-backed-confidential-computing-centos-sig) or Ubuntu blog [Intel® TDX 1.0 technology preview available on Ubuntu 23.10](https://ubuntu.com/blog/intel-tdx-1-0-preview-on-ubuntu-23-10) or SUSE blog [Intel® TDX Support Coming to SUSE Linux Enterprise Server](https://www.suse.com/c/intel-tdx-support-coming-to-suse-linux-enterprise-server/) for more information of TDX Early Preview. The default branch [mid-stream](https://github.com/intel/tdx-tools/tree/tdx-mid-stream) is used to sustain tools for TDX Early Preview.
 
 ## 1. Overview
 
