@@ -5,6 +5,8 @@
 ![CI Check License](https://github.com/intel/tdx-tools/actions/workflows/pr-check-license.yml/badge.svg)
 ![CI Check Document](https://github.com/intel/tdx-tools/actions/workflows/pr-check-document.yml/badge.svg)
 
+**NOTE**: The project is end of life. See more information of TDX Early Preview in [Software Availability](https://github.com/intel/tdx-tools?tab=readme-ov-file#13-software-availability).
+
 ## 1. Overview
 
 ### 1.1 Intel&reg; Trust Domain Extensions(TDX)
