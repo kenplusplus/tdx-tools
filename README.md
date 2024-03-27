@@ -7,6 +7,8 @@
 
 **NOTE**: The project is end of life. See more information of TDX Early Preview in [Software Availability](https://github.com/intel/tdx-tools?tab=readme-ov-file#13-software-availability).
 
+For solutions of Intel TDX Full Disk Encryption and building Trusted Chain for Cloud Native in Confidential Computing Envrionment, please see [Unified API for Trusted Execution Environment](https://github.com/cc-api).
+
 ## 1. Overview
 
 ### 1.1 Intel&reg; Trust Domain Extensions(TDX)
